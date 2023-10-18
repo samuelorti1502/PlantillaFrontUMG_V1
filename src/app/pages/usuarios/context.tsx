@@ -13,7 +13,7 @@ export const ContentProvider: FC<Props> = ({children}) => {
   const [oneData, setOneData] = useState<any>([])
 
   const all = async () => {
-    const response = await GetRoute('rol/listar')
+    const response = await GetRoute('usuario/listar')
     setAllData(response.length > 0 ? response : [])
   }
 

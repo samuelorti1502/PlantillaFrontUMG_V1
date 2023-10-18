@@ -19,8 +19,10 @@ const loginSchema = Yup.object().shape({
 })
 
 const initialValues = {
-  username: 'aadministrador',
-  password: 'secreto123+',
+  id: 1,
+  username: 'ElvisC',
+  password: 'abc123',
+  rol: ''
 }
 
 /*
@@ -39,7 +41,9 @@ export function Login() {
     onSubmit: async (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       try {
-        const {data: auth}: any = await login(values.username, values.password)
+        console.log(values.id, values.username, values.password, values.rol)
+        const {data: auth}: any = await login(values.id, values.username, values.password, values.rol)
+        console.log(auth)
         saveAuth(auth)
         setCurrentUser(auth)
       } catch (error) {

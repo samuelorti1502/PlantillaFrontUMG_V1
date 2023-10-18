@@ -8,11 +8,12 @@ import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import Rol from '../pages/rol/'
+import Usuarios from '../pages/usuarios/'
 
 const PrivateRoutes = () => {
   // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
   // const WizardsPage = lazy(() => import('../modules/wizards/WizardsPage'))
-  // const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
+   const AccountPage = lazy(() => import('../modules/accounts/AccountPage'))
   // const WidgetsPage = lazy(() => import('../modules/widgets/WidgetsPage'))
   // const ChatPage = lazy(() => import('../modules/apps/chat/ChatPage'))
   // const UsersPage = lazy(() => import('../modules/apps/user-management/UsersPage'))
@@ -26,6 +27,15 @@ const PrivateRoutes = () => {
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='/rol' element={<Rol />} />
+         {/* Lazy Modules */}
+         <Route
+          path='administracion/usuarios/*'
+          element={
+            <SuspensedView>
+              <Usuarios />
+            </SuspensedView>
+          }
+        />
         {/* Page Not Found */}
         <Route path='*' element={<Navigate to='/error/404' />} />
       </Route>

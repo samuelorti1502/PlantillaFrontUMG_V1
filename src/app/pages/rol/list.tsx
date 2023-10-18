@@ -22,8 +22,8 @@ const Index = () => {
               {allData.map((item: any, index: number) => (
                 <tr key={index}>
                   <td>{item.id}</td>
-                  <td>{item.nombre}</td>
-                  <td>{item.codigo}</td>
+                  <td>{item.rol}</td>
+                  <td>{item.descripcion}</td>
                   <td>{item.estado}</td>
                   <td>
                     <Button
