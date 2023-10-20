@@ -20,8 +20,8 @@ const loginSchema = Yup.object().shape({
 
 const initialValues = {
   id: 1,
-  username: 'ElvisC',
-  password: 'abc123',
+  username: '',
+  password: '',
   rol: ''
 }
 
@@ -90,7 +90,7 @@ export function Login() {
         <label className='form-label fs-6 fw-bolder text-dark'>Usuario</label>
         <input
           placeholder='Usuario'
-          {...formik.getFieldProps('text')}
+          {...formik.getFieldProps('username')}
           className={clsx(
             'form-control bg-transparent',
             {'is-invalid': formik.touched.username && formik.errors.username},
@@ -99,7 +99,7 @@ export function Login() {
             }
           )}
           type='email'
-          name='email'
+          name='username'
           autoComplete='off'
         />
         {formik.touched.username && formik.errors.username && (

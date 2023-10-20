@@ -3,62 +3,165 @@ import { Row, Col, Table, Button } from 'react-bootstrap'
 import { ContentContext } from './context'
 import DataTable from 'react-data-table-component';
 
-const columns = [
-  {
-    name: '#',
-    selector: (row: { id: any; }) => row.id,
-  }/*,
-  {
-    name: 'Nombres',
-    selector: (row: { nombres: any; }) => row.nombres,
-  },
-  {
-    name: 'Apellidos',
-    selector: (row: { apellidos: any; }) => row.apellidos,
-  },
-  {
-    name: 'Apellidos',
-    selector: 'email'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'usuario'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'password'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'rol'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'estatus'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'token'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'confirmado'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'usuario_creacion'
-  },*/
-];
 const Index = () => {
-  const { allData, one, state } = useContext(ContentContext);
+  const { allData, one, state, eliminar } = useContext(ContentContext);
+
+  const handleDelete = (usuario: any) => {
+    //console.log(id);
+    eliminar(usuario); // Llama a la función 'eliminar' pasando el ID del elemento a eliminar
+    allData(); 
+  };
+  
+  const columns = [
+    {
+      name: '#',
+      selector: (row: any) => row.id,
+    },
+    {
+      name: 'Nombres',
+      selector: (row: any) => row.nombres,
+      //selector: (row: { nombres: any; }) => row.nombres,
+    },
+    {
+      name: 'Apellidos',
+      selector: (row: any) => row.apellidos,
+    },
+    {
+      name: 'Usuario',
+      selector: (row: any) => row.usuario,
+    },
+    /*{
+      name: 'Email',
+      selector: (row: any) => row.email,
+    },*/
+    {
+      name: 'Rol',
+      selector: (row: any) => row.rol,
+    },
+    {
+      name: 'Estatus',
+      selector: (row: any) => row.estatus,
+    },
+    {
+      name: 'Confirmado',
+      selector: (row: any) => row.confirmado,
+    },
+    {
+      name: 'Acciones',
+      cell: (row: any) => (
+        <div>
+          <Button
+            variant={'danger'}
+            className='btn-sm btn-icon'
+            onClick={() => handleDelete(row.usuario)}
+          >
+            <i className='bi bi-trash' />
+          </Button>
+          <Button
+            variant='warning'
+            className='ms-3 btn-sm btn-icon'
+          //onClick={() => one(item)}
+          >
+            <i className='bi bi-pencil' />
+          </Button>
+        </div>)
+    },
+    {
+      button: true,
+      cell: () => (
+        <div className="App">
+          <div className="openbtn text-center">
+            <button
+              type="button"
+              className="btn btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#myModal"
+            >
+              Open modal
+            </button>
+            <div className="modal" id="myModal">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title">Modal title</h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <p>Modal body text goes here.</p>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" className="btn btn-primary">
+                      Save changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  ];
+
+  const customStyles = {
+    headRow: {
+      style: {
+        display: 'flex',
+        justifyContent: 'center',
+      },
+    },
+  };
+  const tableCustomStyles = {
+    table: {
+      style: {
+        //color: theme.text.primary,
+        //justifyContent: 'center',
+        backgroundColor: '#FFA500',
+      },
+    },
+    tableWrapper: {
+      style: {
+        display: 'table',
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: '15px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        //justifyContent: 'center',
+        justifyTitle: 'center',
+        backgroundColor: '#FFA500'
+      },
+    },
+  }
+
   return (
-    <DataTable
-      title="Tabla de Datos"
-      columns={columns}
-      data={allData}
-    />
+    <div>
+      <DataTable className='form w-100'
+        title="Usuarios"
+        columns={columns}
+        data={allData}
+        pagination
+        customStyles={tableCustomStyles}
+      />
+    </div>
   )
 };
+
+
 
 export default Index
 
