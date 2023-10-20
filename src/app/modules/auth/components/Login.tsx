@@ -41,14 +41,19 @@ export function Login() {
     onSubmit: async (values, {setStatus, setSubmitting}) => {
       setLoading(true)
       try {
-        console.log(values.id, values.username, values.password, values.rol)
-        const {data: auth}: any = await login(values.id, values.username, values.password, values.rol)
-        console.log(auth)
-        saveAuth(auth)
-        setCurrentUser(auth)
-      } catch (error) {
+        const {data: auth}: any = await login(values.username, values.password)
+        if(auth.success) {
+          saveAuth(auth)
+          setCurrentUser(auth)
+        } else {
+          saveAuth(undefined)
+          setStatus(auth.mensaje)
+          setSubmitting(false)
+          setLoading(false)
+        }
+      } catch (error: any) {
         saveAuth(undefined)
-        setStatus('Usuario o contraseña incorrectos')
+        setStatus(error.error.mensaje)
         setSubmitting(false)
         setLoading(false)
       }
