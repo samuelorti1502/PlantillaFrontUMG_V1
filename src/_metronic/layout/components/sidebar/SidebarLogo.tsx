@@ -17,7 +17,7 @@ const SidebarLogo = () => {
   const toggleState = appSidebarDefaultMinimizeDesktopEnabled ? 'active' : ''
   const appSidebarDefaultMinimizeDefault = config.app?.sidebar?.default?.minimize?.desktop?.default
   return (
-    <div className='app-sidebar-logo px-100' id='kt_app_sidebar_logo'>
+    <div className='app-sidebar-logo px-6' id='kt_app_sidebar_logo'>
       <Link to='/dashboard'>
         {config.layoutType === 'dark-sidebar' ? (
           <img
@@ -25,6 +25,7 @@ const SidebarLogo = () => {
             src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
             className='h-100px app-sidebar-logo-default'
           />
+        
         ) : (
           <>
             <img
@@ -46,7 +47,7 @@ const SidebarLogo = () => {
           className='h-75px app-sidebar-logo-minimize'
         />
       </Link>
-
+    
       {(appSidebarDefaultMinimizeDesktopEnabled || appSidebarDefaultCollapseDesktopEnabled) && (
         <div
           id='kt_app_sidebar_toggle'
@@ -62,6 +63,8 @@ const SidebarLogo = () => {
           <KTSVG path='/media/icons/duotune/arrows/svg-icon-2' className='svg-icon-2 rotate-180' />
         </div>
       )}
+  <p className='m-1 ' >FRESH AND TASTY</p>
+     
     </div>
   )
 }
