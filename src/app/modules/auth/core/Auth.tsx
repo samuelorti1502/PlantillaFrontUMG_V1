@@ -32,15 +32,14 @@ const initAuthContextPropsState = {
 const AuthContext = createContext<AuthContextProps>(initAuthContextPropsState)
 
 const useAuth = () => {
-  console.log(initAuthContextPropsState)
   return useContext(AuthContext)
 }
 
 const AuthProvider: FC<WithChildren> = ({children}) => {
   // const serviceFour =  || "";
-  const [auth, setAuth] = useState<AuthModel | undefined>(authHelper.getAuth())
+  const [auth, setAuth] = useState<any | undefined>(authHelper.getAuth())
   const [currentUser, setCurrentUser] = useState<any | undefined>()
-  const saveAuth = (auth: AuthModel | undefined) => {
+  const saveAuth = (auth: any | undefined) => {
     setAuth(auth)
     if (auth) {
       authHelper.setAuth(auth)

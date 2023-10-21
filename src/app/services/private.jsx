@@ -43,6 +43,24 @@ export async function PostRoute(url, form) {
   return await response
 }
 
+export async function DeleteRoute(url, id) {
+  const response = await fetch(`${RouteBase}/${url}/${id}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).token}`,
+    },
+  })
+    .then((data) => data.json())
+    .catch(() => []);
+
+  return response;
+}
+
+
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   GetRoute,

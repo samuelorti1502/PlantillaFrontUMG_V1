@@ -9,25 +9,14 @@ export const REGISTER_URL = `${API_URL}/register`
 export const REQUEST_PASSWORD_URL = `${API_URL}/forgot_password`
 
 // Server should return AuthModel
-export function login(id: number, usuario: string, password: string, rol: string) {
-  return axios.post<AuthModel>(LOGIN_URL, {
-    id,
-    usuario,
+export function login(usuario: string, password: string) {
+  console.log(usuario)
+  return axios.post<any>(LOGIN_URL, {
+    usuario: usuario,
     password,
-    rol,
-  })/*.then(function (response){
-    console.log(response.data);
-    console.log(response.data._token);
-    console.log("No hay error")
-    return response.data;
-  }).catch(function (error){
-    console.log('Error: ' + error);
-    if (error.response && error.response.data && error.response.data.message) {
-      throw new Error(error.response.data.message); // Lanzar el mensaje de error del servidor
-    } else {
-      throw new Error('Error en la solicitud de inicio de sesión'); // Mensaje de error genérico
-    }
-  });*/
+    id: 1,
+    rol: ''
+  })
 }
 
 // Server should return AuthModel

@@ -1,5 +1,5 @@
 import {createContext, FC, ReactNode, useState, useEffect} from 'react'
-import {GetRoute, PostRoute} from '../../services/private'
+import {GetRoute, PostRoute, DeleteRoute} from '../../services/private'
 type Props = {
   children?: ReactNode
 }
@@ -27,6 +27,14 @@ export const ContentProvider: FC<Props> = ({children}) => {
     console.log(response.message)
   }
 
+  const eliminar = async (data: any) => {
+    //console.log(data);
+    const response = await DeleteRoute(`usuario`, data)
+    setOneData(response.length > 0 ? response[0] : [])
+    all()
+    handleShow()
+  }
+
   const one = async (data: any) => {
     const response = await PostRoute(`rol/one`, data)
     setOneData(response.length > 0 ? response[0] : [])
@@ -34,10 +42,13 @@ export const ContentProvider: FC<Props> = ({children}) => {
   }
 
   const state = async (data: any) => {
-    const response = await PostRoute(`rol/${data?.estado === 1 ? 'destroy' : 'active'}`, data)
+    const response = await PostRoute(`usuario/${data?.estado === 1 ? 'destroy' : 'active'}`, data)
     console.log(response.message)
     all()
   }
+
+
+
   const value = {
     show,
     texto,
@@ -48,6 +59,7 @@ export const ContentProvider: FC<Props> = ({children}) => {
     handleShow,
     state,
     one,
+    eliminar
   }
 
   useEffect(() => {

@@ -1,122 +1,130 @@
-import { useContext } from 'react'
-import { Row, Col, Table, Button } from 'react-bootstrap'
-import { ContentContext } from './context'
-import DataTable from 'react-data-table-component';
+import {useContext} from 'react'
+import {Button, Modal, Row, Col} from 'react-bootstrap'
+import {ContentContext} from './context'
+import DataTable from 'react-data-table-component'
+import { useAuth } from '../../modules/auth'
 
-const columns = [
-  {
-    name: '#',
-    selector: (row: { id: any; }) => row.id,
-  }/*,
-  {
-    name: 'Nombres',
-    selector: (row: { nombres: any; }) => row.nombres,
-  },
-  {
-    name: 'Apellidos',
-    selector: (row: { apellidos: any; }) => row.apellidos,
-  },
-  {
-    name: 'Apellidos',
-    selector: 'email'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'usuario'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'password'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'rol'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'estatus'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'token'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'confirmado'
-  },
-  {
-    name: 'Apellidos',
-    selector: 'usuario_creacion'
-  },*/
-];
 const Index = () => {
-  const { allData, one, state } = useContext(ContentContext);
-  return (
-    <DataTable
-      title="Tabla de Datos"
-      columns={columns}
-      data={allData}
-    />
-  )
-};
+  const {allData, eliminar, show, handleShow, handleClose} = useContext(ContentContext)
+  const {currentUser} = useAuth()
 
-export default Index
+  const handleDelete = (usuario: any) => {
+    eliminar(usuario)
+    allData()
+  }
 
-/*const Index = () => {
-  const {allData, one, state} = useContext(ContentContext)
+  const columns = [
+    {
+      name: '#',
+      selector: (row: any) => row.id,
+    },
+    {
+      name: 'Nombres',
+      selector: (row: any) => row.nombres,
+      //selector: (row: { nombres: any; }) => row.nombres,
+    },
+    {
+      name: 'Apellidos',
+      selector: (row: any) => row.apellidos,
+    },
+    {
+      name: 'Usuario',
+      selector: (row: any) => row.usuario,
+    },
+    /*{
+      name: 'Email',
+      selector: (row: any) => row.email,
+    },*/
+    {
+      name: 'Rol',
+      selector: (row: any) => row.rol,
+    },
+    {
+      name: 'Estatus',
+      selector: (row: any) => row.estatus,
+    },
+    {
+      name: 'Confirmado',
+      selector: (row: any) => row.confirmado,
+    },
+    {
+      name: 'Acciones',
+      cell: (row: any) => (
+        <div>
+          <Button
+            variant={'danger'}
+            className='btn-sm btn-icon'
+            onClick={() => handleDelete(row.usuario)}
+          >
+            <i className='bi bi-trash' />
+          </Button>
+          <Button variant='warning' className='ms-3 btn-sm btn-icon' onClick={handleShow}>
+            <i className='bi bi-pencil' />
+          </Button>
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Editar Usuario</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Row>
+                <Col>
+                {currentUser?.usuario || ''}
+                </Col>
+              </Row>
+            </Modal.Body>
+            <Modal.Footer className='d-flex justify-content-between'>
+              <Button variant='secondary' onClick={handleClose}>
+                Cerrar
+              </Button>
+              <Button variant='primary' onClick={handleClose}>
+                Guardar Cambios
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
+      ),
+    },
+  ]
+
+  const tableCustomStyles = {
+    table: {
+      style: {
+        //color: theme.text.primary,
+        //justifyContent: 'center',
+        backgroundColor: '#FFA500',
+      },
+    },
+    tableWrapper: {
+      style: {
+        display: 'table',
+      },
+    },
+    headCells: {
+      style: {
+        fontSize: '15px',
+        fontWeight: 'bold',
+        paddingLeft: '0 8px',
+        //justifyContent: 'center',
+        justifyTitle: 'center',
+        backgroundColor: '#FFA500',
+      },
+    },
+  }
+  
+  //console.log( currentUser)
   return (
-    <>
-      <Row>
-        <Col>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th className='fw-bolder'>#</th>
-                <th className='fw-bolder'>Nombres</th>
-                <th className='fw-bolder'>Apellidos</th>
-                <th className='fw-bolder'>Usuario</th>
-                <th className='fw-bolder'>Rol</th>
-                <th className='fw-bolder'>Estatus</th>
-                <th className='fw-bolder'>Estado</th>
-                <th className='fw-bolder'>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {allData.map((item: any, index: number) => (
-                <tr key={index}>
-                  <td>{item.id}</td>
-                  <td>{item.nombres}</td>
-                  <td>{item.apellidos}</td>
-                  <td>{item.usuario}</td>
-                  <td>{item.rol}</td>
-                  <td>{item.estatus}</td>
-                  <td>
-                    <Button
-                      variant={item.estado === 0 ? 'success' : 'danger'}
-                      className='btn-sm btn-icon'
-                      onClick={() => state(item)}
-                    >
-                      {item.estado === 1 ? (
-                        <i className='bi bi-trash' />
-                      ) : (
-                        <i className='bi bi-check' />
-                      )}
-                    </Button>
-                    <Button
-                      variant='warning'
-                      className='ms-3 btn-sm btn-icon'
-                      onClick={() => one(item)}
-                    >
-                      <i className='bi bi-pencil' />
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-    </>
+
+    <div>
+      <DataTable
+        className='form w-100'
+        title='Usuarios'
+        columns={columns}
+        data={allData}
+        pagination
+        customStyles={tableCustomStyles}
+      />
+    </div>
   )
 }
-export default Index*/
+
+export default Index
