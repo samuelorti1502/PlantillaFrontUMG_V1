@@ -17,24 +17,24 @@ const SidebarLogo = () => {
   const toggleState = appSidebarDefaultMinimizeDesktopEnabled ? 'active' : ''
   const appSidebarDefaultMinimizeDefault = config.app?.sidebar?.default?.minimize?.desktop?.default
   return (
-    <div className='app-sidebar-logo px-6' id='kt_app_sidebar_logo'>
+    <div className='app-sidebar-logo px-100' id='kt_app_sidebar_logo'>
       <Link to='/dashboard'>
         {config.layoutType === 'dark-sidebar' ? (
           <img
             alt='Logo'
-            src={toAbsoluteUrl('/media/logos/default-dark.svg')}
-            className='h-25px app-sidebar-logo-default'
+            src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
+            className='h-100px app-sidebar-logo-default'
           />
         ) : (
           <>
             <img
               alt='Logo'
-              src={toAbsoluteUrl('/media/logos/default.svg')}
-              className='h-25px app-sidebar-logo-default theme-light-show'
+              src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
+              className='h-100px app-sidebar-logo-default theme-light-show'
             />
             <img
               alt='Logo'
-              src={toAbsoluteUrl('/media/logos/default-dark.svg')}
+              src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
               className='h-25px app-sidebar-logo-default theme-dark-show'
             />
           </>
@@ -42,8 +42,8 @@ const SidebarLogo = () => {
 
         <img
           alt='Logo'
-          src={toAbsoluteUrl('/media/logos/default-small.svg')}
-          className='h-20px app-sidebar-logo-minimize'
+          src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
+          className='h-75px app-sidebar-logo-minimize'
         />
       </Link>
 
@@ -59,7 +59,7 @@ const SidebarLogo = () => {
           data-kt-toggle-target='body'
           data-kt-toggle-name={`app-sidebar-${toggleType}`}
         >
-          <KTSVG path='/media/icons/duotune/arrows/arr079.svg' className='svg-icon-2 rotate-180' />
+          <KTSVG path='/media/icons/duotune/arrows/svg-icon-2' className='svg-icon-2 rotate-180' />
         </div>
       )}
     </div>
