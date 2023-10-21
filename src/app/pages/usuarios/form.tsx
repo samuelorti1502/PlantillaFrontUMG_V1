@@ -1,17 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {Button, Modal} from 'react-bootstrap';
+import { ContentContext } from './context';
 //import Modal from 'react-bootstrap/Modal';
 
 function Example() {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const {show, handleShow, handleClose} = useContext(ContentContext)
 
   return (
     <>
       <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
+        Nuevo Usuario
       </Button>
 
       <Modal show={show} onHide={handleClose}>
