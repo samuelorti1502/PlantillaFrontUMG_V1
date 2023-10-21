@@ -9,12 +9,12 @@ import {useAuth} from '../core/Auth'
 
 const loginSchema = Yup.object().shape({
   username: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
+    .min(3, 'Mínimo 3 símbolos')
+    .max(50, 'Mínimo 50 símbolos')
     .required('El nombre  de usuario es requerido'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
+    .min(3, 'Mínimo 3 símbolos')
+    .max(50, 'Mínimo 50 símbolos')
     .required('La contraseña es requerida'),
 })
 
@@ -115,6 +115,7 @@ export function Login() {
         <label className='form-label fw-bolder text-dark fs-6 mb-0'>Contraseña</label>
         <input
           type='password'
+          placeholder='password'
           autoComplete='off'
           {...formik.getFieldProps('password')}
           className={clsx(
@@ -143,7 +144,7 @@ export function Login() {
 
         {/* begin::Link */}
         <Link to='/auth/forgot-password' className='link-primary'>
-          Forgot Password ?
+        ¿Olvidaste tu contraseña?
         </Link>
         {/* end::Link */}
       </div>
@@ -154,13 +155,14 @@ export function Login() {
         <button
           type='submit'
           id='kt_sign_in_submit'
-          className='btn btn-primary'
+          className='btn'
+          style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)',color: 'white'}}
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {!loading && <span className='indicator-label'>Continuar</span>}
+          {!loading && <span className='indicator-label'>Iinisiar Sesión</span>}
           {loading && (
             <span className='indicator-progress' style={{display: 'block'}}>
-              Please wait...
+             Espere por favor...
               <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
             </span>
           )}
@@ -169,9 +171,9 @@ export function Login() {
       {/* end::Action */}
 
       <div className='text-gray-500 text-center fw-semibold fs-6'>
-        Not a Member yet?{' '}
+      ¿No tienes una cuenta?{' '}
         <Link to='/auth/registration' className='link-primary'>
-          Sign up
+        Regístrate
         </Link>
       </div>
     </form>
