@@ -34,16 +34,16 @@ const registrationSchema = Yup.object().shape({
     .max(50, 'Maximum 50 symbols')
     .required('Last name is required'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Password is required'),
+    .min(3, 'Minimo 3 simbolos')
+    .max(50, 'Maximo 50 simbolos')
+    .required('Se requiere contraseña'),
   changepassword: Yup.string()
-    .required('Password confirmation is required')
+    .required('Confirmar Contraseña es requerido')
     .when('password', {
       is: (val: string) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf([Yup.ref('password')], "Password and Confirm Password didn't match"),
+      then: Yup.string().oneOf([Yup.ref('password')], "Las contraseñas no coinciden"),
     }),
-  acceptTerms: Yup.bool().required('You must accept the terms and conditions'),
+  acceptTerms: Yup.bool().required('Debe aceptar los Términos y Condiciones'),
 })
 
 export function Registration() {

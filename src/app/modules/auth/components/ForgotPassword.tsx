@@ -11,10 +11,10 @@ const initialValues = {
 
 const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string()
-    .email('Wrong email format')
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Email is required'),
+    .email('Formato de correo electrónico incorrecto')
+    .min(3, 'Minimo 3 simolos')
+    .max(50, 'Maximo 50 simbolos')
+    .required('Correo es requerido'),
 })
 
 export function ForgotPassword() {
@@ -36,7 +36,7 @@ export function ForgotPassword() {
             setHasErrors(true)
             setLoading(false)
             setSubmitting(false)
-            setStatus('The login detail is incorrect')
+            setStatus('El detalle de inicio de sesión es incorrecto')
           })
       }, 1000)
     },

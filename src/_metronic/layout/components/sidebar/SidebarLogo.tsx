@@ -33,10 +33,11 @@ const SidebarLogo = () => {
               src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
               className='h-100px app-sidebar-logo-default theme-light-show'
             />
+            
             <img
               alt='Logo'
               src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
-              className='h-25px app-sidebar-logo-default theme-dark-show'
+              className='h-100px app-sidebar-logo-default theme-dark-show'
             />
           </>
         )}
@@ -60,10 +61,10 @@ const SidebarLogo = () => {
           data-kt-toggle-target='body'
           data-kt-toggle-name={`app-sidebar-${toggleType}`}
         >
-          <KTSVG path='/media/icons/duotune/arrows/svg-icon-2' className='svg-icon-2 rotate-180' />
+          <KTSVG path='/media/logos/LogoPizza.png' className='svg-icon-2 rotate-180' />
         </div>
       )}
-  <p className='m-1 ' >FRESH AND TASTY</p>
+  <p className='m-1 '>FRESH AND TASTY</p>
      
     </div>
   )
