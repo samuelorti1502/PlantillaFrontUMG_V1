@@ -64,13 +64,21 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
   //const {show} = useContext(ContentContext)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [show, setShow] = useState(false)
-  const handleClose = () => setShow(false)
+  
   const handleShow = () => setShow(true)
   const [loading, setLoading] = useState(false)
   const {saveAuth, setCurrentUser} = useAuth()
   const {allRoles} = useContext(ContentContext)
   const [rol, setRol] = useState('');
   const storedUsername = localStorage.getItem('User');
+  const handleClose = () => {
+    // Restablecer el formulario
+    formik.resetForm();
+    setHasErrors(undefined);
+    setShow(false);
+    Mensaje ='' // Cerrar la ventana modal
+  };
+
 
   if (storedUsername) {
     // El nombre de usuario se encontró en el Local Storage
@@ -110,13 +118,8 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
         console.log(auth.mensaje)
           if(auth.mensaje ==='El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.')
           { 
-            Mensaje = auth.mensaje  
-          
-        
+            Mensaje = auth.mensaje     
             resetForm();
-
-
-
         }else{
           setHasErrors(true)
           Mensaje = auth.mensaje
@@ -394,10 +397,9 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
         <Modal.Footer className='d-flex justify-content-between'>
           <Button
             variant='primary'
-            onClick={() => {
-              console.log(roles)
-            }}
+            onClick={handleClose} 
             style={{background: 'linear-gradient(to right, #260101, #FF5733)', color: 'white'}}
+         
           >
             Cerrar
           </Button>
