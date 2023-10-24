@@ -12,6 +12,9 @@ export const REQUEST_GET_TOKEN = `${API_URL}/correo/confirmar-password`
 export const REGISTER_URL = `${API_URL}/usuario`
 
 
+
+
+
 console.log(REQUEST_GET_TOKEN)
 // Server should return AuthModel
 export function login(usuario: string, password: string) {
@@ -61,12 +64,18 @@ export function getUserByToken(token: string) {
 }
 export function getTokenURL(token: string, password:string) {
 
-  return axios.put(REQUEST_GET_TOKEN, {
-      token: token,
-      contraseña :password,
-      idUsuario : 0,
-      correoUsuario: 'dd',
-      dato: 'dd'
+console.log('token: '+token)
+console.log('contraseña: '+password)
+
+  return axios.post<any>(REQUEST_GET_TOKEN, {
+
+
+
+    idUsuario:0,
+    correoUsuario: 'f',
+    token: token,
+    contraseña :password,
+    dato: 'f'
   })
 
 }

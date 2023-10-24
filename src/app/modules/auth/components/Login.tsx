@@ -169,13 +169,6 @@ export function Login() {
         </button>
       </div>
       {/* end::Action */}
-
-      <div className='text-gray-500 text-center fw-semibold fs-6'>
-      ¿No tienes una cuenta?{' '}
-        <Link to='/auth/registration' className='link-primary'>
-        Regístrate
-        </Link>
-      </div>
     </form>
   )
 }

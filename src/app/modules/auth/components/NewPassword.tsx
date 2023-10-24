@@ -46,8 +46,9 @@ export function NewPassword() {
   // Verifica si `_token` tiene un valor válido
 
 
+  const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
 
-    const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const {saveAuth, setCurrentUser} = useAuth()
   const formik = useFormik({
     initialValues,
@@ -58,16 +59,22 @@ export function NewPassword() {
 
             if (token) {
                 console.log('Token recibido:', token);
-          const {data: auth}: any = await getTokenURL('%7Btoken%7D',values.password)
-          console.log(auth)
-          if(auth.success) {
-            saveAuth(auth)
-            setCurrentUser(auth)
-          } else {
-            saveAuth(undefined)
-            setStatus('No se envió ')
-            setSubmitting(false)
+          const {data: auth}: any = await getTokenURL(token,values.password)
+          console.log('mensaje: ' +auth)
+          if(auth === 'Contraseña actualizada con éxito!!') {
+            setStatus(auth)
+            setHasErrors(false)
             setLoading(false)
+
+          } else {
+            console.log(auth)
+
+            setHasErrors(true)
+            setLoading(false)
+            setSubmitting(false)
+            setStatus('No se envió ')
+            saveAuth(undefined)
+
           }
 
           // Resto de tu lógica
@@ -75,9 +82,12 @@ export function NewPassword() {
           console.error('No se encontró un token en la URL.');
         }
 
-
          
         } catch (error: any) {
+            setHasErrors(true)
+            setLoading(false)
+            setSubmitting(false)
+            setStatus('No se envió ')
           saveAuth(undefined)
           setStatus(error.error)
           setSubmitting(false)
@@ -106,6 +116,27 @@ export function NewPassword() {
         <h1 className='text-dark fw-bolder '>Configurar nueva contraseña</h1>
         {/* end::Title */}
       </div>
+
+      {hasErrors === true && (
+        <div className='mb-lg-15 alert alert-danger'>
+          <div className='alert-text font-weight-bold'>
+          Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.
+          </div>
+        </div>
+      )}
+
+      {hasErrors === false && (
+        <div className='mb-10 bg-light-info p-8 rounded'>
+          <div className='text-info text-center'>
+          Contraseña actualizada con éxito!! </div>
+        </div>
+      )}
+
+
+
+
+
+
 
 
       <div className='text-center  fv-row mb-10      mt-4'>
