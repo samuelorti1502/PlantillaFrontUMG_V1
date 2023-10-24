@@ -10,7 +10,7 @@ const Index = () => {
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)
-    allData()
+    //allData()
   }
 
   const columns = [

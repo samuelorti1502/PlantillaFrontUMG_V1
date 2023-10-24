@@ -11,6 +11,7 @@ export const ContentProvider: FC<Props> = ({children}) => {
   const [show, setShow] = useState(false)
   const [allData, setAllData] = useState<any>([])
   const [oneData, setOneData] = useState<any>([])
+  const [allRoles, setAllRoles] = useState<any>([])
 
   const all = async () => {
     const response = await GetRoute('usuario/listar')
@@ -41,25 +42,34 @@ export const ContentProvider: FC<Props> = ({children}) => {
     handleShow()
   }
 
+  const roles =async (data: any) => {
+    /*console.log("hola")
+    const response = await GetRoute('rol/listar')
+    console.log(response.message)*/
+    //setAllRoles(response.length > 0 ? response : [])
+    setAllRoles("hola")
+    handleShow()
+  }
+
   const state = async (data: any) => {
     const response = await PostRoute(`usuario/${data?.estado === 1 ? 'destroy' : 'active'}`, data)
     console.log(response.message)
     all()
   }
 
-
-
   const value = {
     show,
     texto,
     allData,
     oneData,
+    allRoles,
     handleClose,
     creaetUpdate,
     handleShow,
     state,
     one,
-    eliminar
+    eliminar,
+    roles
   }
 
   useEffect(() => {

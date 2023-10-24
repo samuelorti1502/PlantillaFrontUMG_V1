@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {AuthModel, UserModel} from './_models'
+import {UserModel} from './_models'
 
 
 
@@ -7,9 +7,14 @@ const API_URL = process.env.REACT_APP_API_URL
 
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`
 export const LOGIN_URL = `${API_URL}/usr/login`
+<<<<<<< HEAD
 export const REGISTER_URL = `${API_URL}/register`
 export const REQUEST_PASSWORD_URL = `${API_URL}/correo`
 export const REQUEST_GET_TOKEN = `${API_URL}/correo/confirmar-password`
+=======
+export const REGISTER_URL = `${API_URL}/usuario`
+export const REQUEST_PASSWORD_URL = `${API_URL}/forgot_password`
+>>>>>>> 4ac3d6fdc60cd3e624efccaf6ebc643455bd37db
 
 console.log(REQUEST_GET_TOKEN)
 // Server should return AuthModel
@@ -19,24 +24,32 @@ export function login(usuario: string, password: string) {
     usuario: usuario,
     password,
     id: 1,
-    rol: ''
+    rol: '',
   })
 }
 
 // Server should return AuthModel
 export function register(
+  nombres: string,
+  apellidos: string,
   email: string,
-  firstname: string,
-  lastname: string,
+  usuario: string,
   password: string,
-  password_confirmation: string
+  rol: string,
+  usuario_creacion: string
 ) {
   return axios.post(REGISTER_URL, {
+    id: 1,
+    nombres,
+    apellidos,
     email,
-    first_name: firstname,
-    last_name: lastname,
+    usuario,
     password,
-    password_confirmation,
+    rol,
+    estatus: 'Activo',
+    token: '',
+    confirmado: 0,
+    usuario_creacion,
   })
 }
 
