@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react'
 import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import {getUserByToken, register,getTokenURL} from '../core/_requests'
+import {getUserByToken, register,New_Password} from '../core/_requests'
 import {Link} from 'react-router-dom'
 import {toAbsoluteUrl} from '../../../../_metronic/helpers'
 import {PasswordMeterComponent} from '../../../../_metronic/assets/ts/components'
@@ -37,8 +37,6 @@ const NewPasswordSchema = Yup.object().shape({
 })
 
 
-
-
 export function NewPassword() { 
    
     const { token } = useParams();
@@ -59,7 +57,7 @@ export function NewPassword() {
 
             if (token) {
                 console.log('Token recibido:', token);
-          const {data: auth}: any = await getTokenURL(token,values.password)
+          const {data: auth}: any = await New_Password(token,values.password)
           console.log('mensaje: ' +auth)
           if(auth === 'Contraseña actualizada con éxito!!') {
             setStatus(auth)
@@ -96,8 +94,7 @@ export function NewPassword() {
     },
   })
     
-   
-  
+
 
   useEffect(() => {
     PasswordMeterComponent.bootstrap()

@@ -10,6 +10,7 @@ import {ContentContext} from './context'
 import axios from 'axios'
 //import Modal from 'react-bootstrap/Modal';
 
+
 type FormProps = {
   modalTitle: string // Prop para el título del modal
 }
@@ -58,24 +59,41 @@ const registrationSchema = Yup.object().shape({
       then: Yup.string().oneOf([Yup.ref('password')], "Las contraseñas no coinciden"),
     }),
 })
-
+let Mensaje = ''
 const Example: React.FC<FormProps> = ({modalTitle}) => {
   //const {show} = useContext(ContentContext)
-
+  const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [show, setShow] = useState(false)
-
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-
   const [loading, setLoading] = useState(false)
   const {saveAuth, setCurrentUser} = useAuth()
-
   const {allRoles} = useContext(ContentContext)
+  const [rol, setRol] = useState('');
+  const storedUsername = localStorage.getItem('User');
+
+  if (storedUsername) {
+    // El nombre de usuario se encontró en el Local Storage
+    initialValues.usuario_creacion = storedUsername
+  } else {
+    // El nombre de usuario no se encontró en el Local Storage
+
+  }
+
+  useEffect(() => {
+    initialValues.rol = rol
+    console.log('Valor seleccionado en el ComboBox (rol):',  initialValues.rol );
+    console.log('Usuario Creación:',  initialValues.usuario_creacion);
+    console.log('Usuario Creación:',  initialValues.usuario_creacion);
+  }, [rol]);
+  
+
+
 
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: async (values, {setStatus, setSubmitting}) => {
+    onSubmit: async (values, {setStatus, setSubmitting,resetForm}) => {
       setLoading(true)
       try {
         const {data: auth} = await register(
@@ -84,19 +102,39 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
           values.email,
           values.usuario,
           values.password,
-          values.rol,
-          values.usuario_creacion
+          initialValues.rol,
+          initialValues.usuario_creacion
         )
-        saveAuth(auth)
+    
         //const {data: user} = await getUserByToken(auth.api_token)
-        console.log(auth)
+        console.log(auth.mensaje)
+          if(auth.mensaje ==='El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.')
+          { 
+            Mensaje = auth.mensaje  
+          
+        
+            resetForm();
+
+
+
+        }else{
+          setHasErrors(true)
+          Mensaje = auth.mensaje
+        }
+        setStatus(auth.mensaje)
+        saveAuth(undefined)
+        setHasErrors(false)
+        setLoading(false)
         //setCurrentUser(user)
       } catch (error) {
         console.error(error)
+        setHasErrors(true)
+        Mensaje = 'Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.'
         saveAuth(undefined)
-        setStatus('The registration details is incorrect')
+        setStatus('Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.')
         setSubmitting(false)
         setLoading(false)
+        setHasErrors(true)
       }
     },
   })
@@ -136,6 +174,22 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
           <Modal.Title>{modalTitle}</Modal.Title> {/* Utiliza el título pasado como prop */}
         </Modal.Header>
         <Modal.Body>
+
+        {hasErrors === true && (
+        <div className='mb-lg-15 alert alert-danger'>
+          <div className='alert-text font-weight-bold'>
+          {Mensaje}
+          </div>
+        </div>
+      )}
+
+      {hasErrors === false && (
+        <div className='mb-10 bg-light-info p-8 rounded'>
+          <div className='text-info text-center'>
+         {Mensaje} </div>
+        </div>
+      )}
+
           <div className='fv-row mb-8'>
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{flex: 1}}>
@@ -322,15 +376,20 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
           <div className='fv-row mb-8'>
             <Form.Group controlId='exampleForm.SelectCustom'>
               <Form.Label>Rol</Form.Label>
-              <Form.Select value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
-                {roles.map((role: {id: number; rol: string}) => (
-                  <option key={role.id} value={role.id}>
-                    {role.rol}{' '}
-                  </option>
-                ))}
-              </Form.Select>
+              <Form.Select value={rol} onChange={(e) => setRol(e.target.value)}>
+  {roles.map((role: { id: number; rol: string }) => (
+    <option key={role.id} value={role.rol}>
+      {role.rol}
+    </option>
+  ))}
+</Form.Select>
+
+
             </Form.Group>
           </div>
+
+
+
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-between'>
           <Button

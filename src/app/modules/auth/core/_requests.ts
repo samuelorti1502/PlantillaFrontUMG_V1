@@ -8,14 +8,15 @@ const API_URL = process.env.REACT_APP_API_URL
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`
 export const LOGIN_URL = `${API_URL}/usr/login`
 export const REQUEST_PASSWORD_URL = `${API_URL}/correo`
-export const REQUEST_GET_TOKEN = `${API_URL}/correo/confirmar-password`
+export const REQUEST_NEW_PASSWORD = `${API_URL}/correo/confirmar-password`
+export const REQUEST_CONFIRMAR_CUENTA = `${API_URL}/correo/confirmar-cuenta`
 export const REGISTER_URL = `${API_URL}/usuario`
 
 
 
 
 
-console.log(REQUEST_GET_TOKEN)
+
 // Server should return AuthModel
 export function login(usuario: string, password: string) {
   console.log(usuario)
@@ -37,18 +38,20 @@ export function register(
   rol: string,
   usuario_creacion: string
 ) {
+
+
   return axios.post(REGISTER_URL, {
     id: 1,
-    nombres,
-    apellidos,
-    email,
-    usuario,
-    password,
-    rol,
+    nombres: nombres,
+    apellidos : apellidos,
+    email : email,
+    usuario: usuario,
+    password: password,
+    rol : rol,
     estatus: 'Activo',
-    token: '',
+    token: 'nullXD',
     confirmado: 0,
-    usuario_creacion,
+    usuario_creacion: usuario_creacion,
   })
 }
 
@@ -62,20 +65,25 @@ export function getUserByToken(token: string) {
     api_token: token,
   })
 }
-export function getTokenURL(token: string, password:string) {
 
-console.log('token: '+token)
-console.log('contraseña: '+password)
-
-  return axios.post<any>(REQUEST_GET_TOKEN, {
-
-
-
+export function New_Password(token: string, password:string) {
+  return axios.post<any>(REQUEST_NEW_PASSWORD, {
     idUsuario:0,
-    correoUsuario: 'f',
+    correoUsuario: 'null',
     token: token,
     contraseña :password,
-    dato: 'f'
+    dato: 'null'
+  })
+
+}
+
+export function Confirmar_Cuenta(token: string) {
+  return axios.post<any>(REQUEST_CONFIRMAR_CUENTA, {
+    idUsuario:0,
+    correoUsuario: 'null',
+    token: token,
+    contraseña :'null',
+    dato: 'null'
   })
 
 }

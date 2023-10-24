@@ -2,7 +2,7 @@ import {useContext, useEffect} from 'react'
 import {Button, Modal, Row, Col, Form} from 'react-bootstrap'
 import {ContentContext} from './context'
 import {useForm} from 'react-hook-form'
-
+console.log('es aquí entonces')
 type Inputs = {
   nombre: string
 }

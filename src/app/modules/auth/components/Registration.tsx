@@ -19,6 +19,9 @@ const initialValues = {
   acceptTerms: false,
 }
 
+console.log('es aquí')
+
+
 const registrationSchema = Yup.object().shape({
   firstname: Yup.string()
     .min(3, 'Minimum 3 symbols')
