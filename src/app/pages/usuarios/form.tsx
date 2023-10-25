@@ -4,7 +4,7 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {useAuth} from '../../modules/auth/core/Auth'
-import {getUserByToken, register} from '../../modules/auth/core/_requests'
+import {getUserByToken, register,CorreoConfirmarCuenta} from '../../modules/auth/core/_requests'
 import {PasswordMeterComponent} from '../../../_metronic/assets/ts/components'
 import {ContentContext} from './context'
 import axios from 'axios'
@@ -118,7 +118,9 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
         console.log(auth.mensaje)
           if(auth.mensaje ==='El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.')
           { 
-            Mensaje = auth.mensaje     
+            Mensaje = auth.mensaje  
+           console.log(CorreoConfirmarCuenta(values.email))
+              
             resetForm();
         }else{
           setHasErrors(true)

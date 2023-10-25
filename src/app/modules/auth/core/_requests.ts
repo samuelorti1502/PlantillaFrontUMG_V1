@@ -8,6 +8,7 @@ const API_URL = process.env.REACT_APP_API_URL
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`
 export const LOGIN_URL = `${API_URL}/usr/login`
 export const REQUEST_PASSWORD_URL = `${API_URL}/correo`
+export const CORREO_COMNFIRMAR_CUENTA = `${API_URL}/correo/confirmar`
 export const REQUEST_NEW_PASSWORD = `${API_URL}/correo/confirmar-password`
 export const REQUEST_CONFIRMAR_CUENTA = `${API_URL}/correo/confirmar-cuenta`
 export const REGISTER_URL = `${API_URL}/usuario`
@@ -27,6 +28,13 @@ export function login(usuario: string, password: string) {
     rol: '',
   })
 }
+
+export function CorreoConfirmarCuenta(email: string) {
+  axios.get<{result: boolean}>(CORREO_COMNFIRMAR_CUENTA+`/${email}`)
+}
+
+
+
 
 // Server should return AuthModel
 export function register(
@@ -53,9 +61,16 @@ export function register(
     confirmado: 0,
     usuario_creacion: usuario_creacion,
   })
+
+ 
+
 }
 
 // Server should return object => { result: boolean } (Is Email in DB)
+
+
+
+
 export function requestPassword(email: string) {
   return axios.get<{result: boolean}>(REQUEST_PASSWORD_URL+`/${email}`)
 }

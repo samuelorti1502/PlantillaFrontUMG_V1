@@ -24,7 +24,7 @@ console.log(initialValues.token)
 export function ConfirmarCuenta() { 
     const { token } = useParams();
   // Verifica si `_token` tiene un valor válido
-
+  let Mensaje = ''
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
 
   const [loading, setLoading] = useState(false)
@@ -38,12 +38,14 @@ export function ConfirmarCuenta() {
             if (token) {
                 console.log('Token recibido:', token);
           const {data: auth}: any = await Confirmar_Cuenta(token)
-          console.log('mensaje: ' +auth)
-          if(auth === 'Contraseña actualizada con éxito!!') {
+          Mensaje = auth
+
+          console.log('mensaje: ' +Mensaje)
+          if(Mensaje === 'Cuenta confirmada con éxito!!') {
             setStatus(auth)
             setHasErrors(false)
             setLoading(false)
-
+            
           } else {
             console.log(auth)
             setHasErrors(true)
@@ -92,7 +94,7 @@ export function ConfirmarCuenta() {
       {hasErrors === true && (
         <div className='mb-lg-15 alert alert-danger'>
           <div className='alert-text font-weight-bold'>
-          Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.
+          Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo
           </div>
         </div>
       )}
@@ -100,7 +102,7 @@ export function ConfirmarCuenta() {
       {hasErrors === false && (
         <div className='mb-10 bg-light-info p-8 rounded'>
           <div className='text-info text-center'>
-          Contraseña actualizada con éxito!! </div>
+          Cuenta confirmada con éxito!!  </div>
         </div>
       )}
 
@@ -138,7 +140,6 @@ export function ConfirmarCuenta() {
           id='kt_sign_up_submit'
           className='btn btn-lg  w-100 mb-5'
           style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)',color: 'white'}}
-          disabled={formik.isSubmitting || !formik.isValid || !formik.values.acceptTerms}
         >
           {!loading && <span className='indicator-label'>Enviar</span>}
           {loading && (
