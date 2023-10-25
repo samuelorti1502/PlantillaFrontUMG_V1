@@ -12,7 +12,7 @@ import {ErrorsPage} from '../modules/errors/ErrorsPage'
 import {Logout, AuthPage, useAuth} from '../modules/auth'
 import {App} from '../App'
 import Usuarios from '../pages/usuarios'
-
+import ComerRestaurante from '../pages/dashboard/ComerRestaurane'
 /**
  * Base URL of the website.
  *
@@ -38,6 +38,7 @@ const AppRoutes: FC = () => {
             <>
               <Route path='auth/*' element={<AuthPage />} />
               <Route path='*' element={<Navigate to='/auth' />} />
+        
             </>
           )}
         </Route>

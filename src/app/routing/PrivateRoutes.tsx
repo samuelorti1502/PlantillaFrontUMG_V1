@@ -7,6 +7,7 @@ import {MenuTestPage} from '../pages/MenuTestPage'
 import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
+import ComerRestaurante from '../pages/dashboard/ComerRestaurane'
 import Rol from '../pages/rol/'
 import Usuarios from '../pages/usuarios/'
 
@@ -20,12 +21,16 @@ const PrivateRoutes = () => {
 
   return (
     <Routes>
+
       <Route element={<MasterLayout />}>
+
+
         {/* Redirect to Dashboard after success login/registartion */}
         <Route path='auth/*' element={<Navigate to='/dashboard' />} />
         {/* Pages */}
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
+        <Route path='comer-restaurante' element={<ComerRestaurante />} />
         <Route path='/rol' element={<Rol />} />
          {/* Lazy Modules */}
          <Route
@@ -40,6 +45,8 @@ const PrivateRoutes = () => {
         <Route path='*' element={<Navigate to='/error/404' />} />
       </Route>
     </Routes>
+
+
   )
 }
 

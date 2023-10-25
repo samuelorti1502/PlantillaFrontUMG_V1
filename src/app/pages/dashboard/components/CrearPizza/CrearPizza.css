@@ -1,0 +1,154 @@
+.styles_modal-container__7ya2m {
+    width: 100%; /* Cambia el ancho máximo al 80% del ancho de la pantalla */
+    position: fixed;
+    right: 0; /* Alineación a la derecha de la pantalla */
+    top: 0; /* Alineación en la parte superior de la pantalla */
+    height: 100%; /* Ocupa toda la altura */
+    transform: translateX(0); /* Anima la entrada desde el lado derecho */
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+
+  .bg-modal {
+    background: rgba(0,0,0,0.4);
+}
+
+.modal {
+    background: #fff;
+    padding: 20px;
+}
+  
+  /* Estilos para la sombra del fondo */
+  .styles_backdrop__2z0l5 {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .style_title {
+    text-align: center;
+    display: grid;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .styles_step-container__gtWD0 p {
+    display: inline;
+    display: grid;
+  }
+
+  .styles_description__tAUzm {
+    text-align: center;
+  }
+
+  .styles_disclaimer__rimWB {
+    text-align: center;
+  }
+  
+  /* Estilos para el botón de cierre del modal */
+  .styles_close-button__t0ku+ {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Estilos para el ícono de cierre */
+  .styles_icon-close__dqGRT {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  /* Estilos para el contenedor de los pasos */
+  .steps-pizza {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+
+.steps-pizza-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  text-align: center;
+}
+
+  .steps-pizza img {
+    max-width: 50px;
+}
+
+  
+  /* Estilos para cada paso */
+  .styles_step-container__gtWD0 {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  /* Estilos para el separador entre pasos */
+  .styles_divider__QZ3Tp {
+    width: 1px;
+    background-color: #ccc;
+    height: 80px;
+    margin: 0 20px;
+  }
+  
+  /* Estilos para la descripción */
+  .styles_description__tAUzm {
+    font-size: 14px;
+    color: #777;
+    margin: 10px 0;
+  }
+  
+  /* Estilos para el descargo de responsabilidad */
+  .styles_disclaimer__rimWB {
+    font-size: 12px;
+    color: #999;
+  }
+
+  .añadir-al-pedido-container{
+    display: inline;
+    display: grid;
+  }
+
+
+
+.styles_price__+vYaY {
+  color: white; /* Color blanco para el precio */
+  font-weight: bold; /* Texto en negrita */
+  text-align: right; /* Alineación a la derecha */
+}
+
+.hidde-scroll {
+  overflow: hidden;
+}
+
+.section-scroll {
+  overflow: auto;
+  padding: 0 20px;
+}
+
+.container-next {
+  display: grid;
+  grid-template-columns: 1fr;
+  height: 100px;
+  margin-top: auto;
+  padding: 20px;
+}
+
+.button-next {
+  background-color:#f28a2e;;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: center;
+}
+.padding-fase {
+  padding: 0 20px;
+}
+
