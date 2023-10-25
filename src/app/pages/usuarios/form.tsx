@@ -22,7 +22,7 @@ const initialValues = {
   email: '',
   usuario: '',
   password: '',
-  rol: '',
+  rol: 'Mesero',
   estatus: '',
   token: '',
   confirmado: '',
@@ -70,7 +70,23 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
   const {saveAuth, setCurrentUser} = useAuth()
   const {allRoles} = useContext(ContentContext)
   const [rol, setRol] = useState('');
-  const storedUsername = localStorage.getItem('User');
+
+
+  const storedData = localStorage.getItem('kt-auth-react-v');
+
+if (storedData !== null) {
+  const userData = JSON.parse(storedData);
+  const username = userData.usuario;
+  initialValues.usuario_creacion = username
+  // Ahora puedes usar "username" con seguridad
+} else {
+  // El valor no se encontró en el Local Storage
+  // Puedes manejar este caso como desees
+}
+
+
+
+
   const handleClose = () => {
     // Restablecer el formulario
     formik.resetForm();
@@ -80,13 +96,7 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
   };
 
 
-  if (storedUsername) {
-    // El nombre de usuario se encontró en el Local Storage
-    initialValues.usuario_creacion = storedUsername
-  } else {
-    // El nombre de usuario no se encontró en el Local Storage
 
-  }
 
   useEffect(() => {
     initialValues.rol = rol
