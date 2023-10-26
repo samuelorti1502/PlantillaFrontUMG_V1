@@ -59,36 +59,36 @@ export default function ArmaPizza(props) {
     const [vegetalesCatalogo, setVegetalesCatalogo] = useState([]);
     const [carnesCatalogo, setCarnesCatalogo] = useState([]);
     const [salsasCatalogo, setSalsasCatalogo] = useState([]);
-  
+
     const consumirCatalogos = (nombreCatalogo, funcionSet) => {
-      fetch(CATALOGO_URL + nombreCatalogo)
-        .then((response) => response.json())
-        .then((data) => {
-          const catalogoReducido = data.map((item) => ({
-            nombre: item.nombre,
-            precio: item.precio,
-          }));
-          funcionSet(catalogoReducido);
-        })
-        .catch((error) => {
-          console.error('Error al cargar el catálogo: ' + nombreCatalogo, error);
-        });
+        fetch(CATALOGO_URL + nombreCatalogo)
+            .then((response) => response.json())
+            .then((data) => {
+                const catalogoReducido = data.map((item) => ({
+                    nombre: item.nombre,
+                    precio: item.precio,
+                }));
+                funcionSet(catalogoReducido);
+            })
+            .catch((error) => {
+                console.error('Error al cargar el catálogo: ' + nombreCatalogo, error);
+            });
     };
-  
+
     const cargarCatalogos = () => {
-      consumirCatalogos('Masas', setMasasCatalogo);
-      consumirCatalogos('Quesos', setQuesosCatalogo);
-      consumirCatalogos('Vegetales', setVegetalesCatalogo);
-      consumirCatalogos('Salsas', setSalsasCatalogo);
-      consumirCatalogos('Carnes', setCarnesCatalogo);
-      consumirCatalogos('Tamanios', setTamaniosCatalogo);
+        consumirCatalogos('Masas', setMasasCatalogo);
+        consumirCatalogos('Quesos', setQuesosCatalogo);
+        consumirCatalogos('Vegetales', setVegetalesCatalogo);
+        consumirCatalogos('Salsas', setSalsasCatalogo);
+        consumirCatalogos('Carnes', setCarnesCatalogo);
+        consumirCatalogos('Tamanios', setTamaniosCatalogo);
     };
-    
-    
+
+
 
     const { stateModalArmaPizza, setStateModalArmaPizza, hideScrollBodyArmaPizza } = props;
     const [precioTotal, setPrecioTotal] = useState(0);
-    const [ pizza, setPizza ] = useState({
+    const [pizza, setPizza] = useState({
         tamanio: '',
         masa: '',
         salsa: '',
@@ -111,7 +111,7 @@ export default function ArmaPizza(props) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        setPizza({ ...pizza, [name] : value, precio : precioTotal})
+        setPizza({ ...pizza, [name]: value, precio: precioTotal })
         calcularPrecioTotal()
     };
 
@@ -131,7 +131,7 @@ export default function ArmaPizza(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setPizza({ ...pizza, precio: precioTotal });
-    
+
         console.log('Pizza:', pizza);
         props.enviarPizza(pizza);
 
@@ -150,7 +150,7 @@ export default function ArmaPizza(props) {
 
     const calcularPrecioTotal = () => {
 
-        let [ precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes ] = [0,0,0,0,0,0]
+        let [precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes] = [0, 0, 0, 0, 0, 0]
 
         if (pizza.tamanio !== '') {
             precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizza.tamanio)
@@ -182,21 +182,21 @@ export default function ArmaPizza(props) {
 
         switch (catalogo) {
             case 'TAMANIOSCATALOGO':
-              return getValue(tamaniosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+                return getValue(tamaniosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
             case 'TIPOMASACATALOGO':
-              return getValue(masasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+                return getValue(masasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
             case 'TIPOQUESOCATALOGO':
-              return getValue(quesosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+                return getValue(quesosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
             case 'TIPOVEGETALESCATALOGO':
-              return getValue(vegetalesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+                return getValue(vegetalesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
             case 'TIPOCARNECATALOGO':
-              return getValue(carnesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+                return getValue(carnesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
             case 'TIPOSSALSACATALOGO':
-              return getValue(salsasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+                return getValue(salsasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
             default:
-              return 'NA';
-          }
-          
+                return 'NA';
+        }
+
     }
 
     const getValue = (value) => {
@@ -205,7 +205,7 @@ export default function ArmaPizza(props) {
 
 
     return (
-        
+
         <div className="modal-armar-pizza">
             <button onClick={cargarCatalogos}>Cargar Catálogos</button>
             <div className="bg-modal-armar-pizza" onClick={changeStateModal}></div>
@@ -223,7 +223,7 @@ export default function ArmaPizza(props) {
                                 <span>Requerido</span>
                             </div>
                             {tamaniosCatalogo.map((tamanio, index) => (
-                                <label htmlFor={'tamanio' + index} key={index} className="section-pizza-item" id={'div-tamanio'+ index}>
+                                <label htmlFor={'tamanio' + index} key={index} className="section-pizza-item" id={'div-tamanio' + index}>
                                     <h5>{tamanio.nombre}</h5>
                                     <div className='div-radio'>
                                         <span>{tamanio.precio != null ? `+Q${tamanio.precio}` : ''}</span>
@@ -240,7 +240,7 @@ export default function ArmaPizza(props) {
                                             required={true}
                                         />
                                     </div>
-                                    
+
                                 </label>
                             ))}
                         </div>
@@ -267,7 +267,7 @@ export default function ArmaPizza(props) {
                                             required={true}
                                         />
                                     </div>
-                                    
+
                                 </label>
                             ))}
                         </div>
@@ -283,16 +283,16 @@ export default function ArmaPizza(props) {
                                         <span>{salsa.nombre}</span>
                                         <span>{salsa.precio > 0 ? `+Q${salsa.precio}` : ''}</span>
                                         <input
-                                                type="radio"
-                                                name="salsa"
-                                                id={'salsa' + index}
-                                                value={salsa.nombre}
-                                                onChange={(e) => {
-                                                    handleInputChange(e)
-                                                    agregarSeleccionBotones(e, 'salsa')
-                                                }}
-                                                required={true}
-                                            />
+                                            type="radio"
+                                            name="salsa"
+                                            id={'salsa' + index}
+                                            value={salsa.nombre}
+                                            onChange={(e) => {
+                                                handleInputChange(e)
+                                                agregarSeleccionBotones(e, 'salsa')
+                                            }}
+                                            required={true}
+                                        />
                                     </label>
                                 ))}
                             </div>
@@ -309,16 +309,16 @@ export default function ArmaPizza(props) {
                                         <span>{queso.nombre}</span>
                                         <span>{queso.precio > 0 ? `+Q${queso.precio}` : ''}</span>
                                         <input
-                                                type="radio"
-                                                name="queso"
-                                                id={'queso' + index}
-                                                value={queso.nombre}
-                                                onChange={(e) => {
-                                                    handleInputChange(e)
-                                                    agregarSeleccionBotones(e, 'queso')
-                                                }}
-                                                required={true}
-                                            />
+                                            type="radio"
+                                            name="queso"
+                                            id={'queso' + index}
+                                            value={queso.nombre}
+                                            onChange={(e) => {
+                                                handleInputChange(e)
+                                                agregarSeleccionBotones(e, 'queso')
+                                            }}
+                                            required={true}
+                                        />
                                     </label>
                                 ))}
                             </div>
@@ -335,15 +335,15 @@ export default function ArmaPizza(props) {
                                         <span>{vegetal.nombre}</span>
                                         <span>{vegetal.precio != null ? `+Q${vegetal.precio}` : ''}</span>
                                         <input
-                                                type="checkbox"
-                                                name="vegetales"
-                                                id={'vegetales' + index}
-                                                value={vegetal.nombre}
-                                                onChange={(e) => {
-                                                    handleMultipleInputChange(e)
-                                                    agregarSeleccionBotones(e, 'vegetales')
-                                                }}
-                                            />
+                                            type="checkbox"
+                                            name="vegetales"
+                                            id={'vegetales' + index}
+                                            value={vegetal.nombre}
+                                            onChange={(e) => {
+                                                handleMultipleInputChange(e)
+                                                agregarSeleccionBotones(e, 'vegetales')
+                                            }}
+                                        />
                                     </label>
                                 ))}
                             </div>
@@ -360,15 +360,15 @@ export default function ArmaPizza(props) {
                                         <span>{carne.nombre}</span>
                                         <span>{carne.precio != null ? `+Q${carne.precio}` : ''}</span>
                                         <input
-                                                type="checkbox"
-                                                name="carnes"
-                                                id={'carnes' + index}
-                                                value={carne.nombre}
-                                                onChange={(e) => {
-                                                    handleMultipleInputChange(e)
-                                                    agregarSeleccionBotones(e, 'carnes')
-                                                }}
-                                            />
+                                            type="checkbox"
+                                            name="carnes"
+                                            id={'carnes' + index}
+                                            value={carne.nombre}
+                                            onChange={(e) => {
+                                                handleMultipleInputChange(e)
+                                                agregarSeleccionBotones(e, 'carnes')
+                                            }}
+                                        />
                                     </label>
                                 ))}
                             </div>

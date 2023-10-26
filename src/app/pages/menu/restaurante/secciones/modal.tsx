@@ -1,9 +1,8 @@
 import clsx from 'clsx'
 import {useEffect} from 'react'
-import {ILayout, useLayout} from '../../core'
-import {SidebarMenu} from './sidebar-menu/SidebarMenu'
-import {SidebarFooter} from './SidebarFooter'
-import {SidebarLogo} from './SidebarLogo'
+import {ILayout, useLayout} from '../../../../../_metronic/layout/core'
+import {SidebarMenu} from '../../../../../_metronic/layout/components/sidebar/sidebar-menu/SidebarMenu'
+import {Arma} from '../secciones/arma'
 
 const Sidebar = () => {
   const {config} = useLayout()
@@ -17,17 +16,21 @@ const Sidebar = () => {
   }
 
   return (
-    <div id='kt_app_sidebar' className={clsx('app-sidebar', config.app?.sidebar?.default?.class)}>
-      <SidebarLogo />
-      <SidebarMenu />
-      {/* <SidebarFooter /> */}
-    </div>
+    //<div id='kt_app_sidebar' className={clsx('app-sidebar', config.app?.sidebar?.default?.class)}>
+      <Arma />
+    //</div>
   )
 }
 
 const updateDOM = (config: ILayout) => {
 
   const isMenuRoute = window.location.pathname.includes('menu'); // Verificar si la ruta actual es "menu"
+
+  if (isMenuRoute) {
+    document.body.setAttribute('data-kt-app-sidebar-minimize', 'on'); // Colapsar el sidebar si la ruta es "menu"
+  }else{
+    document.body.setAttribute('data-kt-app-sidebar-minimize', 'off');
+  }
 
   if (config.app?.sidebar?.default?.minimize?.desktop?.enabled) {
     if (config.app?.sidebar?.default?.minimize?.desktop?.default) {

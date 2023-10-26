@@ -4,12 +4,11 @@ import {useFormik} from 'formik'
 import * as Yup from 'yup'
 import clsx from 'clsx'
 import {useAuth} from '../../modules/auth/core/Auth'
-import {getUserByToken, register,CorreoConfirmarCuenta} from '../../modules/auth/core/_requests'
+import {getUserByToken, register, CorreoConfirmarCuenta} from '../../modules/auth/core/_requests'
 import {PasswordMeterComponent} from '../../../_metronic/assets/ts/components'
 import {ContentContext} from './context'
 import axios from 'axios'
 //import Modal from 'react-bootstrap/Modal';
-
 
 type FormProps = {
   modalTitle: string // Prop para el título del modal
@@ -56,7 +55,7 @@ const registrationSchema = Yup.object().shape({
     .required('Confirmación de contraseña es reaquerida')
     .when('password', {
       is: (val: string) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf([Yup.ref('password')], "Las contraseñas no coinciden"),
+      then: Yup.string().oneOf([Yup.ref('password')], 'Las contraseñas no coinciden'),
     }),
 })
 let Mensaje = ''
@@ -64,54 +63,44 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
   //const {show} = useContext(ContentContext)
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [show, setShow] = useState(false)
-  
+
   const handleShow = () => setShow(true)
   const [loading, setLoading] = useState(false)
   const {saveAuth, setCurrentUser} = useAuth()
   const {allRoles} = useContext(ContentContext)
-  const [rol, setRol] = useState('');
+  const [rol, setRol] = useState('')
 
+  const storedData = localStorage.getItem('kt-auth-react-v')
 
-  const storedData = localStorage.getItem('kt-auth-react-v');
-
-if (storedData !== null) {
-  const userData = JSON.parse(storedData);
-  const username = userData.usuario;
-  initialValues.usuario_creacion = username
-  // Ahora puedes usar "username" con seguridad
-} else {
-  // El valor no se encontró en el Local Storage
-  // Puedes manejar este caso como desees
-}
-
-
-
+  if (storedData !== null) {
+    const userData = JSON.parse(storedData)
+    const username = userData.usuario
+    initialValues.usuario_creacion = username
+    // Ahora puedes usar "username" con seguridad
+  } else {
+    // El valor no se encontró en el Local Storage
+    // Puedes manejar este caso como desees
+  }
 
   const handleClose = () => {
     // Restablecer el formulario
-    formik.resetForm();
-    setHasErrors(undefined);
-    setShow(false);
-    Mensaje ='' // Cerrar la ventana modal
-  };
-
-
-
+    formik.resetForm()
+    setHasErrors(undefined)
+    setShow(false)
+    Mensaje = '' // Cerrar la ventana modal
+  }
 
   useEffect(() => {
     initialValues.rol = rol
-    console.log('Valor seleccionado en el ComboBox (rol):',  initialValues.rol );
-    console.log('Usuario Creación:',  initialValues.usuario_creacion);
-    console.log('Usuario Creación:',  initialValues.usuario_creacion);
-  }, [rol]);
-  
-
-
+    console.log('Valor seleccionado en el ComboBox (rol):', initialValues.rol)
+    console.log('Usuario Creación:', initialValues.usuario_creacion)
+    console.log('Usuario Creación:', initialValues.usuario_creacion)
+  }, [rol])
 
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: async (values, {setStatus, setSubmitting,resetForm}) => {
+    onSubmit: async (values, {setStatus, setSubmitting, resetForm}) => {
       setLoading(true)
       try {
         const {data: auth} = await register(
@@ -123,16 +112,18 @@ if (storedData !== null) {
           initialValues.rol,
           initialValues.usuario_creacion
         )
-    
+
         //const {data: user} = await getUserByToken(auth.api_token)
         console.log(auth.mensaje)
-          if(auth.mensaje ==='El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.')
-          { 
-            Mensaje = auth.mensaje  
-           console.log(CorreoConfirmarCuenta(values.email))
-              
-            resetForm();
-        }else{
+        if (
+          auth.mensaje ===
+          'El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.'
+        ) {
+          Mensaje = auth.mensaje
+          console.log(CorreoConfirmarCuenta(values.email))
+
+          resetForm()
+        } else {
           setHasErrors(true)
           Mensaje = auth.mensaje
         }
@@ -189,21 +180,17 @@ if (storedData !== null) {
           <Modal.Title>{modalTitle}</Modal.Title> {/* Utiliza el título pasado como prop */}
         </Modal.Header>
         <Modal.Body>
+          {hasErrors === true && (
+            <div className='mb-lg-15 alert alert-danger'>
+              <div className='alert-text font-weight-bold'>{Mensaje}</div>
+            </div>
+          )}
 
-        {hasErrors === true && (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>
-          {Mensaje}
-          </div>
-        </div>
-      )}
-
-      {hasErrors === false && (
-        <div className='mb-10 bg-light-info p-8 rounded'>
-          <div className='text-info text-center'>
-         {Mensaje} </div>
-        </div>
-      )}
+          {hasErrors === false && (
+            <div className='mb-10 bg-light-info p-8 rounded'>
+              <div className='text-info text-center'>{Mensaje} </div>
+            </div>
+          )}
 
           <div className='fv-row mb-8'>
             <div style={{display: 'flex', alignItems: 'center'}}>
@@ -392,26 +379,20 @@ if (storedData !== null) {
             <Form.Group controlId='exampleForm.SelectCustom'>
               <Form.Label>Rol</Form.Label>
               <Form.Select value={rol} onChange={(e) => setRol(e.target.value)}>
-  {roles.map((role: { id: number; rol: string }) => (
-    <option key={role.id} value={role.rol}>
-      {role.rol}
-    </option>
-  ))}
-</Form.Select>
-
-
+                {roles.map((role: {id: number; rol: string}) => (
+                  <option key={role.id} value={role.rol}>
+                    {role.rol}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
           </div>
-
-
-
         </Modal.Body>
         <Modal.Footer className='d-flex justify-content-between'>
           <Button
             variant='primary'
-            onClick={handleClose} 
+            onClick={handleClose}
             style={{background: 'linear-gradient(to right, #260101, #FF5733)', color: 'white'}}
-         
           >
             Cerrar
           </Button>

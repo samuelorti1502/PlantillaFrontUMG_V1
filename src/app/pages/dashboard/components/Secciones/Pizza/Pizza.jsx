@@ -5,6 +5,7 @@ import Mitad from '../../../ImagenesMenu/Mitad.png'
 import ArmarPizza from '../../../ImagenesMenu/ArmarPizza.png'
 import CrearPizza from '../../CrearPizza/CrearPizza'
 import ArmaPizza from '../../ArmaPizza/ArmaPizza'
+import { Sidebar } from '../../../../menu/restaurante/secciones/modal'
 
 const pizzas = [
     { nombre: 'Queso', descripcion: 'Descripción', tamanio: 'MEDIANA Q79', img: P3 },
@@ -85,10 +86,11 @@ export default function Pizza(props) {
 
         {
             stateModalArmaPizza && (
-                <ArmaPizza stateModalArmaPizza={stateModalArmaPizza}
+                /*<ArmaPizza stateModalArmaPizza={stateModalArmaPizza}
                             setStateModalArmaPizza={setStateModalArmaPizza}
                             hideScrollBodyArmaPizza={hideScrollBodyArmaPizza}
-                            enviarPizza={getPizza}/>
+            enviarPizza={getPizza}/>*/
+                <Sidebar/>
             )
         }
 

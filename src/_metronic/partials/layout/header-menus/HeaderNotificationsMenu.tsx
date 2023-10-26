@@ -9,6 +9,7 @@ const HeaderNotificationsMenu: FC = () => (
     className='menu menu-sub menu-sub-dropdown menu-column w-350px w-lg-375px'
     data-kt-menu='true'
   >
+    <h1>Hola</h1>
     <div
       className='d-flex flex-column bgi-no-repeat rounded-top'
       style={{backgroundImage: `url('${toAbsoluteUrl('/media/misc/menu-header-bg.jpg')}')`}}

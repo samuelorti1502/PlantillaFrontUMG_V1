@@ -11,7 +11,7 @@ import { reInitMenu } from '../helpers';
 
 const MasterLayout = () => {
   const location = useLocation();
-  const hiddenRoutes = ['menu', 'comer-restaurante']; // Rutas que ocultan el Sidebar
+  const hiddenRoutes = ['menu','comer-restaurante']; // Rutas que ocultan el Sidebar
   const isHiddenRoute = hiddenRoutes.some(route => location.pathname.includes(route));
 
   useEffect(() => {
@@ -25,7 +25,8 @@ const MasterLayout = () => {
           <div className='app-page flex-column flex-column-fluid' id='kt_app_page'>
             <HeaderWrapper />
             <div className='app-wrapper flex-column flex-row-fluid' id='kt_app_wrapper'>
-              {!isHiddenRoute && <Sidebar />} {/* Mostrar el Sidebar si no es una de las rutas ocultas */}
+              {/*{!isHiddenRoute && <Sidebar />} {/* Mostrar el Sidebar si no es una de las rutas ocultas */}
+              <Sidebar />
               <div className='app-main flex-column flex-row-fluid' id='kt_app_main'>
                 <div className='d-flex flex-column flex-column-fluid'>
                   <Content>

@@ -3,7 +3,7 @@ import clsx from 'clsx'
 import {Link} from 'react-router-dom'
 import {KTSVG, toAbsoluteUrl} from '../../../helpers'
 import {useLayout} from '../../core'
-// import {Header} from './Header'
+import {Header} from './Header'
 import {Navbar} from './Navbar'
 
 export function HeaderWrapper() {
@@ -89,7 +89,7 @@ export function HeaderWrapper() {
                 data-kt-swapper-mode="{default: 'append', lg: 'prepend'}"
                 data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}"
               >
-                {/* <Header /> */}
+                {/*<Header />*/}
               </div>
             )}
           <Navbar />
