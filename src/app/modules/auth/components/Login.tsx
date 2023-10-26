@@ -76,14 +76,7 @@ export function Login() {
         <div className='mb-lg-15 alert alert-danger'>
           <div className='alert-text font-weight-bold'>{formik.status}</div>
         </div>
-      ) : (
-        <div className='mb-10 bg-light-info p-8 rounded'>
-          <div className='text-info'>
-            Usa la cuenta <strong>admin@demo.com</strong> y la contraseña <strong>demo</strong> para
-            continuar.
-          </div>
-        </div>
-      )}
+      ) : null}
 
       {/* begin::Form group */}
       <div className='fv-row mb-8'>
@@ -159,7 +152,7 @@ export function Login() {
           style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)',color: 'white'}}
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {!loading && <span className='indicator-label'>Iinisiar Sesión</span>}
+          {!loading && <span className='indicator-label'>Iniciar Sesión</span>}
           {loading && (
             <span className='indicator-progress' style={{display: 'block'}}>
              Espere por favor...

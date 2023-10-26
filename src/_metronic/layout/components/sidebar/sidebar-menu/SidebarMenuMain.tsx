@@ -9,6 +9,12 @@ const SidebarMenuMain = () => {
   return (
     <>
       <SidebarMenuItem
+        to='/menu'
+        icon='/media/icons/duotune/general/gen024.svg'
+        title='Menu'
+        fontIcon='bi-layers'
+      />
+      <SidebarMenuItem
         to='/dashboard'
         icon='/media/icons/duotune/art/art002.svg'
         title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}

@@ -10,6 +10,7 @@ import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import ComerRestaurante from '../pages/dashboard/ComerRestaurane'
 import Rol from '../pages/rol/'
 import Usuarios from '../pages/usuarios/'
+import Menu from '../pages/menu'
 
 const PrivateRoutes = () => {
   // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -26,8 +27,9 @@ const PrivateRoutes = () => {
 
 
         {/* Redirect to Dashboard after success login/registartion */}
-        <Route path='auth/*' element={<Navigate to='/dashboard' />} />
+        <Route path='auth/*' element={<Navigate to='/rol' />} />
         {/* Pages */}
+        <Route path='menu' element={<Menu />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='builder' element={<BuilderPageWrapper />} />
         <Route path='comer-restaurante' element={<ComerRestaurante />} />
