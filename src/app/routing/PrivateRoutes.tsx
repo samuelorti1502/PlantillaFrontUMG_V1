@@ -27,13 +27,13 @@ const PrivateRoutes = () => {
 
 
         {/* Redirect to Dashboard after success login/registartion */}
-        <Route path='auth/*' element={<Navigate to='/rol' />} />
+        <Route path='auth/*' element={<Navigate to='/menu' />} />
         {/* Pages */}
         <Route path='menu' element={<Menu />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
-        <Route path='builder' element={<BuilderPageWrapper />} />
+        <Route path='rol' element={<Rol />} />
         <Route path='comer-restaurante' element={<ComerRestaurante />} />
-        <Route path='/rol' element={<Rol />} />
+        
          {/* Lazy Modules */}
          <Route
           path='administracion/usuarios/*'

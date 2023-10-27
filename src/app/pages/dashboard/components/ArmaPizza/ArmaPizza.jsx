@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Button } from 'react-bootstrap'
 import './ArmaPizza.css';
 import SignoMas from '../../ImagenesMenu/SignoMas.png'
 import SignoMenos from '../../ImagenesMenu/SignoMenos.png';
@@ -203,19 +204,23 @@ export default function ArmaPizza(props) {
         return value == null ? 0 : value
     }
 
+    useEffect(
+        () => {
+            cargarCatalogos()
+        }, []
+    )
 
     return (
-
-        <div className="modal-armar-pizza">
-            <button onClick={cargarCatalogos}>Cargar Catálogos</button>
-            <div className="bg-modal-armar-pizza" onClick={changeStateModal}></div>
-            <div className="sidebar-modal-pizza">
+        <div>
+            <div className="" onClick={changeStateModal}></div>
+            <div className="">
                 <div className="description-armar">
                     <p>
                         Debes elegir entre 1 y N ingredientes. Las opciones con * se consideran un ingrediente más.
                     </p>
                 </div>
-                <div className="section-scroll">
+            </div>
+            <div className="section-scroll">
                     <form onSubmit={handleSubmit}>
                         <div className="section-pizza padding-side">
                             <div className="title-item">
@@ -384,17 +389,13 @@ export default function ArmaPizza(props) {
                                     <img className="icon-img" src={SignoMas} alt="Aumentar cantidad" />
                                 </span>
                             </div>
-                            <div className="add-to-order-container">
-                                <img className="add-icon" src={mas} alt="" />
-                                <button type="submit" className="button-añadir-pedido">
-                                    AÑADIR AL PEDIDO
-                                </button>
-                                <span className='min-price'>Q{0 + precioTotal}</span>
+                            <div className="">
+                                <Button className='w-100' type="submit"> <i className="bi bi-plus fs-2" />AÑADIR AL PEDIDO <span className='min-price'>Q{0 + precioTotal}</span></Button>
+                                
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
         </div>
     );
 }

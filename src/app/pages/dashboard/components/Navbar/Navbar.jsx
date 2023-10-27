@@ -1,4 +1,3 @@
-import React from 'react';
 import { FaPizzaSlice } from 'react-icons/fa';
 import { BiSolidDrink } from 'react-icons/bi';
 import { GiSodaCan } from 'react-icons/gi';
