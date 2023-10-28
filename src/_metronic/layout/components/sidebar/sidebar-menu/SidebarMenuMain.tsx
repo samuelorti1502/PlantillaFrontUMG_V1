@@ -46,6 +46,25 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/administracion/usuarios/listado' title='Listado' hasBullet={true} />
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
+        to='/administracion/productos'
+        title='Productos'
+        icon='/media/icons/duotune/communication/com006.svg'
+        fontIcon='bi-layers'
+      >
+        <SidebarMenuItem
+          to='/administracion/productos/listado'
+          title='Listado'
+          fontIcon='bi-archive'
+          icon='/media/icons/duotune/general/gen022.svg'
+        />
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItem
+        to='/clientes'
+        title='Clientes'
+        fontIcon='bi-archive'
+        icon='/media/icons/duotune/general/gen022.svg'
+      />
+      <SidebarMenuItemWithSub
         to='/administracion/proveedores'
         title='Proveedores'
         icon='/media/icons/duotune/communication/com006.svg'
@@ -61,12 +80,6 @@ const SidebarMenuMain = () => {
       <SidebarMenuItem
         to='/clientes'
         title='Clientes'
-        fontIcon='bi-archive'
-        icon='/media/icons/duotune/general/gen022.svg'
-      />
-      <SidebarMenuItem
-        to='/productos'
-        title='Productos'
         fontIcon='bi-archive'
         icon='/media/icons/duotune/general/gen022.svg'
       />
