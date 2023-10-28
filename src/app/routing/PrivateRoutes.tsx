@@ -10,6 +10,7 @@ import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import ComerRestaurante from '../pages/menu/restaurante/ComerRestaurane'
 import Rol from '../pages/rol/'
 import Usuarios from '../pages/usuarios/'
+import Prov from '../pages/proveedores/'
 import Menu from '../pages/menu'
 
 const PrivateRoutes = () => {
@@ -40,6 +41,14 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <Usuarios />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='administracion/proveedores/*'
+          element={
+            <SuspensedView>
+              <Prov />
             </SuspensedView>
           }
         />
