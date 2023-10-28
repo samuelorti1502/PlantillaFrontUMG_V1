@@ -5,7 +5,9 @@ import {SidebarMenu} from '../../../../../_metronic/layout/components/sidebar/si
 import {Arma} from '../secciones/arma'
 
 const Sidebar = () => {
+
   const {config} = useLayout()
+
 
   useEffect(() => {
     updateDOM(config)
@@ -14,6 +16,7 @@ const Sidebar = () => {
   if (!config.app?.sidebar?.display) {
     return null
   }
+
 
   return (
     //<div id='kt_app_sidebar' className={clsx('app-sidebar', config.app?.sidebar?.default?.class)}>

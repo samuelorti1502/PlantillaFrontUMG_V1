@@ -5,8 +5,16 @@ import SignoMas from '../../../dashboard/ImagenesMenu/SignoMas.png'
 import SignoMenos from '../../../dashboard/ImagenesMenu/SignoMenos.png';
 import mas from '../../../dashboard/ImagenesMenu/mas.png';
 
-const Arma = (props: any) => {
-  const {stateModalArmaPizza, setStateModalArmaPizza, hideScrollBodyArmaPizza} = props
+
+
+const CATTAMANIOSCATALOGO = 'tamaniosCatalogo'
+const CATTIPOMASACATALOGO = 'masasCatalogo'
+const CATTIPOQUESOCATALOGO = 'quesosCatalogo'
+const CATTIPOVEGETALESCATALOGO = 'vegetalesCatalogo'
+const CATTIPOCARNECATALOGO = 'carnesCatalogo'
+const CATTIPOSSALSACATALOGO = 'salsasCatalogo'
+
+const Arma = () => {
   const [precioTotal, setPrecioTotal] = useState(0)
   const [pizza, setPizza] = useState({
     tamanio: '',
@@ -18,34 +26,7 @@ const Arma = (props: any) => {
     precio: 0,
   })
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    setPizza({...pizza, precio: precioTotal})
-
-    console.log('Pizza:', pizza)
-    props.enviarPizza(pizza)
-  }
-
-  const changeStateModal = () => {
-    setStateModalArmaPizza(!stateModalArmaPizza)
-    hideScrollBodyArmaPizza()
-  }
-
-  const CATALOGO_URL = 'http://3.22.100.138:4000/api/Menu/nombre/'
   
-  const consumirCatalogos = (nombreCatalogo: string, funcionSet: any) => {
-    // Realizar la llamada a la API con el nombre del catálogo
-    axios
-      .get(CATALOGO_URL + nombreCatalogo)
-      .then((response) => {
-        funcionSet(response.data)
-        console.log(response.data)
-      })
-      .catch((error) => {
-        console.error('Error al obtener datos de la API', error)
-      })
-  }
-
   const [tamaniosCatalogo, setTamaniosCatalogo] = useState([])
   const [masasCatalogo, setMasasCatalogo] = useState([])
   const [quesosCatalogo, setQuesosCatalogo] = useState([])
@@ -62,15 +43,41 @@ const Arma = (props: any) => {
     consumirCatalogos('Carnes', setCarnesCatalogo)
   }, [])
 
-  const [selectedSalsa, setSelectedSalsa] = useState('')
-
   const handlePrecio = (precio: number) => {
     setPrecioTotal(precioTotal + precio);
   };
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    setPizza({ ...pizza, precio: precioTotal });
+    console.log('Pizza:', pizza);
+    // Puedes enviar pizza a otro componente aquí o manejarla de alguna manera.
+  };
+  useEffect(() => {
+    console.log("PRUEBA")
+  }, [pizza]);
+
+ 
+
+ 
+  const CATALOGO_URL = 'http://3.22.100.138:4000/api/Menu/nombre/'
+  
+  const consumirCatalogos = (nombreCatalogo: string, funcionSet: any) => {
+    axios
+      .get(CATALOGO_URL + nombreCatalogo)
+      .then((response) => {
+        funcionSet(response.data)
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.error('Error al obtener datos de la API', error)
+      })
+  }
+
+
   return (
     <div className='modal-armar-pizza'>
-      <div className='bg-modal-armar-pizza' onClick={changeStateModal}></div>
+      <div className='bg-modal-armar-pizza'></div>
       <div className='sidebar-modal-pizza'>
         <div className='description-armar'>
           <div>
@@ -80,7 +87,7 @@ const Arma = (props: any) => {
                 ingrediente más.
               </p>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               {/*Tamaño*/}
               <SeccionesMenu setCatalogo={tamaniosCatalogo} handlePrecio={handlePrecio} setTitulo="Tamaño" />
               {/*Masas*/}

@@ -13,13 +13,13 @@ export default function NavBar() {
         </a>
         <div className='nav-items'>
             <a href="#pizzas" className='nav-item'>
-            <FaPizzaSlice className="nav-icon" /> Pizzas
+            <FaPizzaSlice className="nav-icon" /> PIZZAS
           </a>
           <a href="#gaseosas" className='nav-item'>
-            <GiSodaCan className="nav-icon" /> Gaseosas
+            <GiSodaCan className="nav-icon" /> GASEOSAS
           </a>
           <a href="#bebidas" className='nav-item'>
-            <BiSolidDrink className="nav-icon" /> Bebidas
+            <BiSolidDrink className="nav-icon" /> BEBIDAS
           </a>
         </div>
       </div>

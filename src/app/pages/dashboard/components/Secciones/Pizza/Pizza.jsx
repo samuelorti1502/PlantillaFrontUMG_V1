@@ -76,7 +76,7 @@ export default function Pizza(props) {
                     //onClick={changeStateModalArmaPizza}
                     >
                         <img className='pizza-icon' src={ArmarPizza} alt="Arma tu pizza" />
-                        <span className='bold-text'>Arma tu pizza</span>
+                        <span className='bold-text'>ARMA TU PIZZA</span>
                     </a>
                 </div>
                 
@@ -92,7 +92,7 @@ export default function Pizza(props) {
                         // onClick={changeStateModalPizzaMitades}
                     >
                     <img className='pizza-icon' src={Mitad} alt="Pizza por mitades" />
-                    <span className='bold-text'>Pizza por mitades</span>
+                    <span className='bold-text'>PIZZA POR MITADES</span>
                 </a>
             </div>
             </div>

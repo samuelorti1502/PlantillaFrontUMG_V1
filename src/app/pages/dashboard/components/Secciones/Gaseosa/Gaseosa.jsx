@@ -13,23 +13,25 @@ const gaseosas = [
 
 export default function Gaseosa() {
   return (
-    <section id="gaseosas" className='seccion-gaseosas'>
-        <div className='div-titulo'>
-            <h3>Gaseosas</h3>
-        </div>
-        <div className='gaseosas'>
-            {
-                gaseosas.map((gaseosa, index) => (
-                    <div key={index} className='gaseosa-item'>
-                        <img src={gaseosa.img} />
-                        <h4>{gaseosa.nombre}</h4>
-                        <p>{gaseosa.descripcion}</p>
-                        <button>{gaseosa.tamanio}</button>
-                    </div>
-                ))
-            }
-            
-        </div>
-    </section>
+    <div className="card">
+        <section id="gaseosas" className='card-body'>
+            <div className='div-titulo'>
+                <h3>Gaseosas</h3>
+            </div>
+            <div className='gaseosas'>
+                {
+                    gaseosas.map((gaseosa, index) => (
+                        <div key={index} className='gaseosa-item'>
+                            <img src={gaseosa.img} />
+                            <h4>{gaseosa.nombre}</h4>
+                            <p>{gaseosa.descripcion}</p>
+                            <button>{gaseosa.tamanio}</button>
+                        </div>
+                    ))
+                }
+                
+            </div>
+        </section>
+    </div>
   )
 }

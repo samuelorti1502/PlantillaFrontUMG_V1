@@ -1,5 +1,5 @@
 .nav-container {
-  background-color: #fff;
+  background-color: #1e1e2d;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15);
   position: fixed;
   top: 0;
@@ -28,9 +28,11 @@
   text-decoration: none;
   color: #d76e3f;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
   transition: color 0.3s;
   padding: 0px 30px;
+  margin-left: 20px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
   .nav-item:hover {
@@ -43,5 +45,6 @@
   
   .nav-logo img {
     width: 80px;
+    margin-left: 150px;
   }
   

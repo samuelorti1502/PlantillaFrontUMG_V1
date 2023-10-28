@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import Pizza from '../../../dashboard/components/Secciones/Pizza/Pizza'
 import './Secciones.css'
 import Gaseosa from '../../../dashboard/components/Secciones/Gaseosa/Gaseosa'
 import Bebida from '../../../dashboard/components/Secciones/Bebida/Bebida'
 
 export default function Secciones() {
+  const [informacionSeleccionada, setInformacionSeleccionada] = useState(null);
+  const [precioTotal, setPrecioTotal] = useState(0);
   const [pizza, setPizza] = useState({
     tamanio: '',
     masa: '',
@@ -15,39 +17,42 @@ export default function Secciones() {
     precio: 0,
   })
 
-  useEffect(() => {
-    calcularPrecio()
-  }, [pizza])
-
   const showPizza = (pizzaChild: any) => {
-    console.log('Pizza en secciones', pizzaChild)
-    setPizza(pizzaChild)
-  }
+    setPizza(pizzaChild);
+    setPrecioTotal(precioTotal + pizzaChild.precio);
+  };
 
-  // Calcula el precio de la pizza
-  const calcularPrecio = () => {
-    // Aquí debes realizar el cálculo del precio en base a las opciones seleccionadas en pizza.
-    // Esto podría ser similar a la función calcularPrecioTotal en tu componente ArmaPizza.
-    let precioCalculado = 0 // Calcula el precio aquí
-    setPizza({...pizza, precio: precioCalculado})
-  }
 
   return (
     <div className='main'>
       <div className='container-center'>
         <div className='secciones'>
-          <Pizza />
+          <Pizza enviarPizzaSeccion={showPizza}/>
+          <br />
           <Gaseosa />
+          <br />
           <Bebida />
+          <br />
         </div>
-        <div className='orden'>
-          <h3>Tu orden</h3>
-          <span>{pizza.tamanio}</span>
-          <span>{pizza.masa}</span>
-          <span>{pizza.salsa}</span>
-          <span>{pizza.vegetales.join(', ')}</span>
-          <span>{pizza.carnes.join(', ')}</span>
-          <span>{pizza.precio}</span>
+        <div className="tu-orden-container">
+          <div className="boton-container">
+            <button className="boton-continuar-pago">
+              CONTINUAR AL PAGO
+              <span className="precio-total">{precioTotal > 0 && `Q${precioTotal}`}</span>
+            </button>
+          </div>
+          <div className="titulo-orden">
+            <h1 className="tu-orden">TU ORDEN</h1>
+          </div>
+          <span className="pedido">{pizza.tamanio}{pizza.tamanio && ','}</span>
+            <span className="pedido">{pizza.masa}{pizza.masa && ','}</span>
+            <span className="pedido">{pizza.salsa}{pizza.salsa && ','}</span>
+            <span className="pedido">{pizza.queso}{pizza.queso && ','}</span>
+            <span className="pedido">{pizza.vegetales.join(', ')}</span>
+            <span className="pedido">{pizza.carnes.join(', ')}</span>
+            <br />
+            <span className="precio">{pizza.precio > 0 && `Q${pizza.precio}`}</span>
+            <br />
         </div>
       </div>
     </div>
