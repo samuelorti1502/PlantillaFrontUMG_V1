@@ -1,16 +1,24 @@
-import {useContext} from 'react'
-import {Button, Modal, Row, Col} from 'react-bootstrap'
-import {ContentContext} from './context'
+import { useContext, useState } from 'react'
+import { Button, Modal, Row, Col } from 'react-bootstrap'
+import { ContentContext } from './context'
 import DataTable from 'react-data-table-component'
-import {useAuth} from '../../modules/auth'
+import { useAuth } from '../../modules/auth'
+import { FormProd } from './form'
 
 const Index = () => {
-  const {allData, eliminar, show, handleShow, handleClose} = useContext(ContentContext)
-  const {currentUser} = useAuth()
+  const { allData, eliminar, show, handleShow, handleClose } = useContext(ContentContext)
+  const { currentUser } = useAuth()
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)
     //allData()
+  }
+
+  const [mostrar, setMostrar] = useState(false);
+  const [tipo, setTipo] = useState(0)
+
+  const handleShowM = () => {
+    setMostrar(true);
   }
 
   const columns = [
@@ -54,27 +62,14 @@ const Index = () => {
           >
             <i className='bi bi-trash' />
           </Button>
-          <Button variant='warning' className='ms-3 btn-sm btn-icon' onClick={handleShow}>
+          <Button variant='warning' className='ms-3 btn-sm btn-icon'
+            onClick={() => {
+              handleShowM();
+              setTipo(1);
+            }}>
             <i className='bi bi-pencil' />
           </Button>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Editar Producto</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Row>
-                <Col>{currentUser?.usuario || ''}</Col>
-              </Row>
-            </Modal.Body>
-            <Modal.Footer className='d-flex justify-content-between'>
-              <Button variant='secondary' onClick={handleClose}>
-                Cerrar
-              </Button>
-              <Button variant='primary' onClick={handleClose}>
-                Guardar Cambios
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} />
         </div>
       ),
     },
