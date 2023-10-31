@@ -21,6 +21,11 @@ const Index = () => {
     setMostrar(true);
   }
 
+  const formatter = new Intl.NumberFormat('es-GT', {
+    style: 'currency',
+    currency: 'GTQ',
+  });
+
   const columns = [
     {
       name: '#',
@@ -41,7 +46,7 @@ const Index = () => {
     },
     {
       name: 'Precio',
-      selector: (row: any) => row.precio,
+      cell: (row: any) => formatter.format(row.precio),
     },
     {
       name: 'Estatus',
