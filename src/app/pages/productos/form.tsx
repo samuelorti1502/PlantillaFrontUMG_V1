@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { useEffect, useRef, useState } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 import clsx from 'clsx'
 import { useFormik } from 'formik'
 import CurrencyInput from 'react-currency-input-field';
 import { toAbsoluteUrl } from '../../../_metronic/helpers';
+import axios from 'axios';
 
 const initialValues = {
   id: 1,
@@ -28,13 +29,6 @@ const FormProd = ({ mostrar, setMostrar, tipo }: any) => {
     setValue(event.target.value);
   };
 
-  const formatCurrency = (value: any) => {
-    return new Intl.NumberFormat("es-MX", {
-      style: "currency",
-      currency: "MXN",
-    }).format(value);
-  };
-
   const [image, setImage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -50,6 +44,20 @@ const FormProd = ({ mostrar, setMostrar, tipo }: any) => {
     setImage(file)
   }
 
+  const [roles, setRoles] = useState([])
+  const [rol, setRol] = useState('')
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const response = await axios.get('http://3.22.100.138:4000/api/estatus/listar') // Reemplaza 'API_URL_AQUI' con tu URL de la API
+        setRoles(response.data) // Suponiendo que la respuesta de la API sea un array de roles
+        //console.log(response.data)
+      } catch (error) {
+        console.error('Error al obtener roles de la API', error)
+      }
+    }
+    fetchRoles()
+  }, [])
 
   return (
 
@@ -171,6 +179,18 @@ const FormProd = ({ mostrar, setMostrar, tipo }: any) => {
             </div>
             <div style={{ flex: 1, marginLeft: '15px' }}>
               <label className='form-label fw-bolder text-dark fs-6'>Estatus</label>
+              <div className='fv-row mb-8'>
+                <Form.Group controlId='exampleForm.SelectCustom'>
+                  <Form.Label>Rol</Form.Label>
+                  <Form.Select value={rol} onChange={(e) => setRol(e.target.value)}>
+                    {roles.map((role: { id: number; nombre_estatus: string }) => (
+                      <option key={role.id} value={role.nombre_estatus}>
+                        {role.nombre_estatus}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </div>
               <input
                 placeholder='Estatus'
                 autoComplete='off'
