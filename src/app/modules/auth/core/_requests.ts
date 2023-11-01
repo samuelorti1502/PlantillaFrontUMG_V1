@@ -87,7 +87,8 @@ export function registrarProducto(
   descripcion: string,
   categoria: string,
   precio: string,
-  usuario_creacion: string,
+  estatus: string,
+  // usuario_creacion: string,
   imagen: string
 ) {
   console.log('Hola')
@@ -95,9 +96,9 @@ export function registrarProducto(
     id_prod_menu: 1,
     nombre: producto,
     descripcion: descripcion,
-    id_menu: categoria,
+    id_menu: parseInt(categoria),
     precio: parseFloat(precio),
-    id_estatus: 'Activo',
+    id_estatus: parseInt(estatus),
     usuario_creacion: 3,
     imagen: imagen,
   })

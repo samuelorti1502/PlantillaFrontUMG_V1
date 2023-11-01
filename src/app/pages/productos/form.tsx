@@ -1,13 +1,13 @@
-import {useEffect, useRef, useState} from 'react'
-import {Modal, Button, Form} from 'react-bootstrap'
+import { useEffect, useRef, useState } from 'react'
+import { Modal, Button, Form } from 'react-bootstrap'
 import clsx from 'clsx'
 import CurrencyInput from 'react-currency-input-field'
-import {toAbsoluteUrl} from '../../../_metronic/helpers'
+import { toAbsoluteUrl } from '../../../_metronic/helpers'
 import axios from 'axios'
 import * as Yup from 'yup'
-import {Field, ErrorMessage, useFormik} from 'formik'
-import {registrarProducto} from '../../modules/auth/core/_requests'
-import {useAuth} from '../../modules/auth/core/Auth'
+import { Field, ErrorMessage, useFormik } from 'formik'
+import { registrarProducto } from '../../modules/auth/core/_requests'
+import { useAuth } from '../../modules/auth/core/Auth'
 import {
   CurrencyInputProps,
   CurrencyInputOnChangeValues,
@@ -22,7 +22,7 @@ const initialValues = {
   descripcion: '',
   categoria: '',
   precio: '',
-  estatus: '',
+  estatus: 1,
   usuario_creacion: '',
   imagen: '',
 }
@@ -30,16 +30,16 @@ const initialValues = {
 const validationSchema = Yup.object().shape({
   producto: Yup.string().required('Producto es requerido'),
   descripcion: Yup.string().required('Descripción es requerida'),
-  // categoria: Yup.string().required('Categoría es requerida'),
+  //categoria: Yup.string().required('Categoría es requerida'),
   // precio: Yup.number()
-  //   .typeError('Precio debe ser un número')
-  //   .required('Precio es requerido')
-  //   .min(0, 'El precio no puede ser negativo')
-  //   .max(100, 'El precio no puede ser negativo'),
+  //   .typeError('Amount must be a number')
+  //   .required("Please provide plan cost.")
+  //   .min(0, "Too little")
+  //   .max(5000, 'Very costly!')
   // estatus: Yup.string().required('Estatus es requerido'),
 })
 
-const FormProd = ({mostrar, setMostrar, tipo}: any) => {
+const FormProd = ({ mostrar, setMostrar, tipo }: any) => {
   const [value, setValue] = useState('')
 
   const [image, setImage] = useState('')
@@ -101,16 +101,17 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
 
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [loading, setLoading] = useState(false)
-  const {saveAuth, setCurrentUser} = useAuth()
+  const { saveAuth, setCurrentUser } = useAuth()
   let Mensaje = ''
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (values, {setStatus, setSubmitting, resetForm}) => {
+    onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
       setLoading(true)
+      //console.log("Crear producto")
       try {
-        const {data: prod} = await registrarProducto(
+        const { data: prod } = await registrarProducto(
           values.producto,
           values.descripcion,
           categoria,
@@ -118,39 +119,28 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
           estatus,
           'values.imagen'
         )
-
-        //console.log(prod.mensaje)
-        if (
-          prod.mensaje ===
-          'El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.'
-        ) {
-          Mensaje = prod.mensaje
-          resetForm()
+        if (prod.success) {
+          setLoading(false)
+          setStatus(prod.mensaje)
+          setHasErrors(false)
+          setTimeout(() => {
+            resetForm();
+            setMostrar(false)
+          }, 2000);
         } else {
+          setStatus("Error al ingresar el producto, por favor revise los datos")
           setHasErrors(true)
-          Mensaje = prod.mensaje
+          setSubmitting(false)
+          setLoading(false)
         }
-        setStatus(prod.mensaje)
-        saveAuth(undefined)
-        setHasErrors(false)
-        setLoading(false)
-      } catch (error) {
-        console.error(error)
-        setHasErrors(true)
-        Mensaje = 'Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.'
-        saveAuth(undefined)
-        setStatus(Mensaje)
+        //console.log(prod)
+      } catch (error: any) {
+        setStatus(error.error.mensaje)
         setSubmitting(false)
         setLoading(false)
-        console.log(
-          values.producto,
-          values.descripcion,
-          categoria,
-          String(rawValue),
-          estatus,
-          values.imagen
-        )
+
       }
+
     },
   })
 
@@ -195,6 +185,7 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
   }
 
   return (
+
     <Modal show={mostrar} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{tipo === 0 ? 'Nuevo Producto' : 'Editar Producto'}</Modal.Title>
@@ -202,20 +193,20 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
       <Modal.Body>
         {hasErrors === true && (
           <div className='mb-lg-15 alert alert-danger'>
-            <div className='alert-text font-weight-bold'>{Mensaje}</div>
+            <div className='alert-text font-weight-bold'>{formik.status}</div>
           </div>
         )}
 
         {hasErrors === false && (
           <div className='mb-10 bg-light-info p-8 rounded'>
-            <div className='text-info text-center'>{Mensaje} </div>
+            <div className='text-info text-center'>{formik.status} </div>
           </div>
         )}
         <>
           {/* Producto - Descripcion */}
           <div className='fv-row mb-8'>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{flex: 1}}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ flex: 1 }}>
                 <label className='form-label fw-bolder text-dark fs-6'>Producto</label>
                 <input
                   // name='producto'
@@ -234,7 +225,7 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                   )}
                 />
               </div>
-              <div style={{flex: 1, marginLeft: '15px'}}>
+              <div style={{ flex: 1, marginLeft: '15px' }}>
                 <label className='form-label fw-bolder text-dark fs-6'>Descripción</label>
                 <textarea
                   placeholder='Descripción'
@@ -258,14 +249,27 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
           </div>
           {/* Categoria - Precio */}
           <div className='fv-row mb-8'>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{flex: 1, marginTop: '18px'}}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ flex: 1, marginTop: '18px' }}>
                 <label className='form-label fw-bolder text-dark fs-6'>Categoria</label>
                 <div className='fv-row mb-8'>
                   <Form.Group controlId='exampleForm.SelectCustom'>
-                    <Form.Select value={categoria} onChange={(e) => setCategoria(e.target.value)}>
-                      {categorias.map((cat: {id: number; nombre: string}) => (
-                        <option key={cat.id} value={cat.id}>
+                    <Form.Select value={categoria} onChange={(e) => setCategoria(e.target.value)}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        {
+                          'is-invalid': formik.touched.categoria && formik.errors.categoria,
+                        },
+                        {
+                          'is-valid': formik.touched.categoria && !formik.errors.categoria,
+                        }
+                      )}>
+                      {categorias.map((cat: { id_categoria: number; nombre: string }) => (
+                        <option
+                          key={cat.id_categoria}
+                          value={cat.id_categoria}
+                        // {...formik.getFieldProps(cat.id_categoria)}
+                        >
                           {cat.nombre}
                         </option>
                       ))}
@@ -273,17 +277,27 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                   </Form.Group>
                 </div>
               </div>
-              <div style={{flex: 1, marginLeft: '15px'}}>
+              <div style={{ flex: 1, marginLeft: '15px' }}>
                 <label className='form-label fw-bolder text-dark fs-6'>Precio</label>
                 <CurrencyInput
                   id='validationCustom01'
                   name='input-1'
-                  className={`form-control ${className}`}
+                  //className={`form-control ${className}`}
                   value={value}
+                  // {...formik.getFieldProps('precio')}
                   onValueChange={handleOnValueChange}
                   placeholder='Ingrese el precio'
                   prefix={prefix}
                   step={1}
+                  className={clsx(
+                    'form-control bg-transparent',
+                    {
+                      'is-invalid': formik.touched.precio && formik.errors.precio,
+                    },
+                    {
+                      'is-valid': formik.touched.precio && !formik.errors.precio,
+                    }
+                  )}
                 />
                 {/* <div className='invalid-feedback'>{errorMessage}</div> */}
               </div>
@@ -291,8 +305,8 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
           </div>
           {/* Imagen - Estatus */}
           <div className='fv-row mb-8'>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{flex: 1}}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ flex: 1 }}>
                 <label className='form-label fw-bolder text-dark fs-6'>Imagen</label>
                 <div className='image-input image-input-outline' data-kt-image-input='true'>
                   {image ? (
@@ -300,14 +314,14 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                       alt='Logo'
                       src={toAbsoluteUrl(image)}
                       className='image-input-wrapper w-125px h-125px'
-                      // onChange={handleImage}
+                    // onChange={handleImage}
                     />
                   ) : (
                     <img
                       alt='Logo'
                       src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
                       className='image-input-wrapper w-125px h-125px'
-                      // onChange={handleImage}
+                    // onChange={handleImage}
                     />
                   )}
 
@@ -349,19 +363,26 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                   {/* end::Remove button */}
                 </div>
               </div>
-              <div style={{flex: 1, marginLeft: '15px'}}>
+              <div style={{ flex: 1, marginLeft: '15px' }}>
                 <label className='form-label fw-bolder text-dark fs-6'>Estatus</label>
                 <div className='fv-row mb-8'>
                   <Form.Group controlId='exampleForm.SelectCustom'>
-                    {/* <Form.Label>Rol</Form.Label> */}
-                    <Form.Select value={estatus} onChange={(e) => console.log('Estatus', estatus)}>
-                      {status.map((role: {id: number; nombre_estatus: string}) => (
-                        <option
-                          key={role.id}
-                          value={role.id}
-                          onChange={(e) => setEstatus(String(role.id))}
+                    <Form.Select value={estatus} onChange={(e) => setEstatus(e.target.value)}
+                      className={clsx(
+                        'form-control bg-transparent',
+                        {
+                          'is-invalid': formik.touched.estatus && formik.errors.estatus,
+                        },
+                        {
+                          'is-valid': formik.touched.estatus && !formik.errors.estatus,
+                        }
+                      )}>
+                      {status.map((est: { id: number; nombre_estatus: string }) => (
+                        <option key={est.id}
+                          value={est.id}
+                        // {...formik.getFieldProps('estatus')}
                         >
-                          {role.nombre_estatus}
+                          {est.nombre_estatus}
                         </option>
                       ))}
                     </Form.Select>
@@ -376,19 +397,19 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
         <Button
           variant='primary'
           onClick={handleClose}
-          style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white'}}
+          style={{ background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white' }}
         >
           Cerrar
         </Button>
         <Button
           variant='secondary'
           onClick={formik.submitForm}
-          style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white'}}
+          style={{ background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white' }}
           disabled={formik.isSubmitting}
         >
           {!loading && <span className='indicator-label'>Crear Producto</span>}
           {loading && (
-            <span className='indicator-progress' style={{display: 'block'}}>
+            <span className='indicator-progress' style={{ display: 'block' }}>
               Espere por favor...{' '}
               <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
             </span>
@@ -399,4 +420,4 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
   )
 }
 
-export {FormProd}
+export { FormProd }
