@@ -10,7 +10,9 @@ import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import ComerRestaurante from '../pages/menu/restaurante/ComerRestaurane'
 import Rol from '../pages/rol/'
 import Usuarios from '../pages/usuarios/'
+import Prov from '../pages/proveedores/'
 import Menu from '../pages/menu'
+import Prod from '../pages/productos'
 
 const PrivateRoutes = () => {
   // const ProfilePage = lazy(() => import('../modules/profile/ProfilePage'))
@@ -40,6 +42,22 @@ const PrivateRoutes = () => {
           element={
             <SuspensedView>
               <Usuarios />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='administracion/productos/*'
+          element={
+            <SuspensedView>
+              <Prod />
+            </SuspensedView>
+          }
+        />
+        <Route
+          path='administracion/proveedores/*'
+          element={
+            <SuspensedView>
+              <Prov />
             </SuspensedView>
           }
         />

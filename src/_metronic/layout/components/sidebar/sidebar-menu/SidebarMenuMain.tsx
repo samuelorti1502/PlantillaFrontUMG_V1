@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-target-blank */
-import { useIntl } from 'react-intl'
-import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
-import { SidebarMenuItem } from './SidebarMenuItem'
+import {useIntl} from 'react-intl'
+import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
+import {SidebarMenuItem} from './SidebarMenuItem'
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
@@ -17,7 +17,7 @@ const SidebarMenuMain = () => {
       <SidebarMenuItem
         to='/dashboard'
         icon='/media/icons/duotune/art/art002.svg'
-        title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
+        title={intl.formatMessage({id: 'MENU.DASHBOARD'})}
         fontIcon='bi-app-indicator'
       />
       <SidebarMenuItem
@@ -43,23 +43,43 @@ const SidebarMenuMain = () => {
         icon='/media/icons/duotune/communication/com006.svg'
         fontIcon='bi-person'
       >
-        <SidebarMenuItem to='/administracion/usuarios/nuevo' title='Listado' hasBullet={true} />
+        <SidebarMenuItem to='/administracion/usuarios/listado' title='Listado' hasBullet={true} />
       </SidebarMenuItemWithSub>
-      <SidebarMenuItem
-        to='/proveedores'
-        title='Proveedores'
-        fontIcon='bi-archive'
-        icon='/media/icons/duotune/general/gen022.svg'
-      />
+      <SidebarMenuItemWithSub
+        to='/administracion/productos'
+        title='Productos'
+        icon='/media/icons/duotune/communication/com006.svg'
+        fontIcon='bi-layers'
+      >
+        <SidebarMenuItem
+          to='/administracion/productos/listado'
+          title='Listado'
+          fontIcon='bi-archive'
+          icon='/media/icons/duotune/general/gen022.svg'
+        />
+      </SidebarMenuItemWithSub>
       <SidebarMenuItem
         to='/clientes'
         title='Clientes'
         fontIcon='bi-archive'
         icon='/media/icons/duotune/general/gen022.svg'
       />
+      <SidebarMenuItemWithSub
+        to='/administracion/proveedores'
+        title='Proveedores'
+        icon='/media/icons/duotune/communication/com006.svg'
+        fontIcon='bi-layers'
+      >
+        <SidebarMenuItem
+          to='/administracion/proveedores/listado'
+          title='Listado'
+          fontIcon='bi-archive'
+          icon='/media/icons/duotune/general/gen022.svg'
+        />
+      </SidebarMenuItemWithSub>
       <SidebarMenuItem
-        to='/productos'
-        title='Productos'
+        to='/clientes'
+        title='Clientes'
         fontIcon='bi-archive'
         icon='/media/icons/duotune/general/gen022.svg'
       />
@@ -68,4 +88,4 @@ const SidebarMenuMain = () => {
   )
 }
 
-export { SidebarMenuMain }
+export {SidebarMenuMain}

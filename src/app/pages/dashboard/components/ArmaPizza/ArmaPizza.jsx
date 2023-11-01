@@ -179,181 +179,181 @@ export default function ArmaPizza(props) {
                 </div>
             </div>
             <div className="section-scroll">
-                    <form onSubmit={handleSubmit} id='formPizzaArmar'>
-                        <div className="section-pizza padding-side">
-                            <div className="title-item">
-                                <h4>TAMAÑO</h4>
-                                <span>Requerido</span>
-                            </div>
-                            {tamaniosCatalogo.map((tamanio, index) => (
-                                <label htmlFor={'tamanio' + index} key={index} className="section-pizza-item" id={'div-tamanio' + index}>
-                                    <h5>{tamanio.nombre}</h5>
-                                    <div className='div-radio'>
-                                        <span>{tamanio.precio != null ? `+Q${tamanio.precio}` : ''}</span>
-                                        <input
-                                            type="radio"
-                                            name="tamanio"
-                                            id={'tamanio' + index}
-                                            value={tamanio.nombre}
-                                            onChange={(e) => {
-                                                handleInputChange(e)
-                                                agregarSeleccionBotones(e, 'tamanio')
+                <form onSubmit={handleSubmit}>
+                    <div className="section-pizza padding-side">
+                        <div className="title-item">
+                            <h4>TAMAÑO</h4>
+                            <span>Requerido</span>
+                        </div>
+                        {tamaniosCatalogo.map((tamanio, index) => (
+                            <label htmlFor={'tamanio' + index} key={index} className="section-pizza-item" id={'div-tamanio' + index}>
+                                <h5>{tamanio.nombre}</h5>
+                                <div className='div-radio'>
+                                    <span>{tamanio.precio != null ? `+Q${tamanio.precio}` : ''}</span>
+                                    <input
+                                        type="radio"
+                                        name="tamanio"
+                                        id={'tamanio' + index}
+                                        value={tamanio.nombre}
+                                        onChange={(e) => {
+                                            handleInputChange(e)
+                                            agregarSeleccionBotones(e, 'tamanio')
 
-                                            }}
-                                            required={true}
-                                        />
-                                    </div>
+                                        }}
+                                        required={true}
+                                    />
+                                </div>
 
+                            </label>
+                        ))}
+                    </div>
+
+                    <div className="section-pizza padding-side">
+                        <div className="title-item">
+                            <h4>TIPO DE MASA</h4>
+                            <span>Requerido</span>
+                        </div>
+                        {masasCatalogo.map((masa, index) => (
+                            <label htmlFor={'masa' + index} key={index} className="section-pizza-item" id={'div-masa' + index}>
+                                <h5>{masa.nombre}</h5>
+                                <div className='div-radio'>
+                                    <span>{masa.precio > 0 ? `+Q${masa.precio}` : ''}</span>
+                                    <input
+                                        type="radio"
+                                        name='masa'
+                                        id={'masa' + index}
+                                        value={masa.nombre}
+                                        onChange={(e) => {
+                                            handleInputChange(e)
+                                            agregarSeleccionBotones(e, 'masa')
+                                        }}
+                                        required={true}
+                                    />
+                                </div>
+
+                            </label>
+                        ))}
+                    </div>
+
+                    <div className="tipos-salsa padding-side">
+                        <div className="title-item">
+                            <h4>Salsa Base</h4>
+                            <span>Requerido</span>
+                        </div>
+                        <div className="tipos-salsa-container-item">
+                            {salsasCatalogo.map((salsa, index) => (
+                                <label htmlFor={'salsa' + index} key={index} className="tipos-salsa-item item-radio-none" id={'div-salsa' + index}>
+                                    <span>{salsa.nombre}</span>
+                                    <span>{salsa.precio > 0 ? `+Q${salsa.precio}` : ''}</span>
+                                    <input
+                                        type="radio"
+                                        name="salsa"
+                                        id={'salsa' + index}
+                                        value={salsa.nombre}
+                                        onChange={(e) => {
+                                            handleInputChange(e)
+                                            agregarSeleccionBotones(e, 'salsa')
+                                        }}
+                                        required={true}
+                                    />
                                 </label>
                             ))}
                         </div>
+                    </div>
 
-                        <div className="section-pizza padding-side">
-                            <div className="title-item">
-                                <h4>TIPO DE MASA</h4>
-                                <span>Requerido</span>
-                            </div>
-                            {masasCatalogo.map((masa, index) => (
-                                <label htmlFor={'masa' + index} key={index} className="section-pizza-item" id={'div-masa' + index}>
-                                    <h5>{masa.nombre}</h5>
-                                    <div className='div-radio'>
-                                        <span>{masa.precio > 0 ? `+Q${masa.precio}` : ''}</span>
-                                        <input
-                                            type="radio"
-                                            name='masa'
-                                            id={'masa' + index}
-                                            value={masa.nombre}
-                                            onChange={(e) => {
-                                                handleInputChange(e)
-                                                agregarSeleccionBotones(e, 'masa')
-                                            }}
-                                            required={true}
-                                        />
-                                    </div>
-
+                    <div className="opcion-queso padding-side">
+                        <div className="title-item">
+                            <h4>Quesos</h4>
+                            <span>Requerido</span>
+                        </div>
+                        <div className="queso-container-item">
+                            {quesosCatalogo.map((queso, index) => (
+                                <label htmlFor={'queso' + index} key={index} className="queso-item item-radio-none" id={'div-queso' + index}>
+                                    <span>{queso.nombre}</span>
+                                    <span>{queso.precio > 0 ? `+Q${queso.precio}` : ''}</span>
+                                    <input
+                                        type="radio"
+                                        name="queso"
+                                        id={'queso' + index}
+                                        value={queso.nombre}
+                                        onChange={(e) => {
+                                            handleInputChange(e)
+                                            agregarSeleccionBotones(e, 'queso')
+                                        }}
+                                        required={true}
+                                    />
                                 </label>
                             ))}
                         </div>
+                    </div>
 
-                        <div className="tipos-salsa padding-side">
-                            <div className="title-item">
-                                <h4>Salsa Base</h4>
-                                <span>Requerido</span>
-                            </div>
-                            <div className="tipos-salsa-container-item">
-                                {salsasCatalogo.map((salsa, index) => (
-                                    <label htmlFor={'salsa' + index} key={index} className="tipos-salsa-item item-radio-none" id={'div-salsa' + index}>
-                                        <span>{salsa.nombre}</span>
-                                        <span>{salsa.precio > 0 ? `+Q${salsa.precio}` : ''}</span>
-                                        <input
-                                            type="radio"
-                                            name="salsa"
-                                            id={'salsa' + index}
-                                            value={salsa.nombre}
-                                            onChange={(e) => {
-                                                handleInputChange(e)
-                                                agregarSeleccionBotones(e, 'salsa')
-                                            }}
-                                            required={true}
-                                        />
-                                    </label>
-                                ))}
-                            </div>
+                    <div className="tipos-vegetales padding-side">
+                        <div className="title-item">
+                            <h4>Vegetales</h4>
+                            <span>Opcional</span>
                         </div>
+                        <div className="tipos-vegetales-container-item">
+                            {vegetalesCatalogo.map((vegetal, index) => (
+                                <label htmlFor={'vegetales' + index} key={index} className="tipos-vegetales-item item-radio-none" id={'div-vegetales' + index}>
+                                    <span>{vegetal.nombre}</span>
+                                    <span>{vegetal.precio != null ? `+Q${vegetal.precio}` : ''}</span>
+                                    <input
+                                        type="checkbox"
+                                        name="vegetales"
+                                        id={'vegetales' + index}
+                                        value={vegetal.nombre}
+                                        onChange={(e) => {
+                                            handleMultipleInputChange(e)
+                                            agregarSeleccionBotones(e, 'vegetales')
+                                        }}
+                                    />
+                                </label>
+                            ))}
+                        </div>
+                    </div>
 
-                        <div className="opcion-queso padding-side">
-                            <div className="title-item">
-                                <h4>Quesos</h4>
-                                <span>Requerido</span>
-                            </div>
-                            <div className="queso-container-item">
-                                {quesosCatalogo.map((queso, index) => (
-                                    <label htmlFor={'queso' + index} key={index} className="queso-item item-radio-none" id={'div-queso' + index}>
-                                        <span>{queso.nombre}</span>
-                                        <span>{queso.precio > 0 ? `+Q${queso.precio}` : ''}</span>
-                                        <input
-                                            type="radio"
-                                            name="queso"
-                                            id={'queso' + index}
-                                            value={queso.nombre}
-                                            onChange={(e) => {
-                                                handleInputChange(e)
-                                                agregarSeleccionBotones(e, 'queso')
-                                            }}
-                                            required={true}
-                                        />
-                                    </label>
-                                ))}
-                            </div>
+                    <div className="tipos-carne padding-side">
+                        <div className="title-item">
+                            <h4>Carnes</h4>
+                            <span>Opcional</span>
                         </div>
+                        <div className="tipos-carne-container-item">
+                            {carnesCatalogo.map((carne, index) => (
+                                <label htmlFor={'carnes' + index} key={index} className="tipos-carne-item item-radio-none" id={'div-carnes' + index}>
+                                    <span>{carne.nombre}</span>
+                                    <span>{carne.precio != null ? `+Q${carne.precio}` : ''}</span>
+                                    <input
+                                        type="checkbox"
+                                        name="carnes"
+                                        id={'carnes' + index}
+                                        value={carne.nombre}
+                                        onChange={(e) => {
+                                            handleMultipleInputChange(e)
+                                            agregarSeleccionBotones(e, 'carnes')
+                                        }}
+                                    />
+                                </label>
+                            ))}
+                        </div>
+                    </div>
 
-                        <div className="tipos-vegetales padding-side">
-                            <div className="title-item">
-                                <h4>Vegetales</h4>
-                                <span>Opcional</span>
-                            </div>
-                            <div className="tipos-vegetales-container-item">
-                                {vegetalesCatalogo.map((vegetal, index) => (
-                                    <label htmlFor={'vegetales' + index} key={index} className="tipos-vegetales-item item-radio-none" id={'div-vegetales' + index}>
-                                        <span>{vegetal.nombre}</span>
-                                        <span>{vegetal.precio != null ? `+Q${vegetal.precio}` : ''}</span>
-                                        <input
-                                            type="checkbox"
-                                            name="vegetales"
-                                            id={'vegetales' + index}
-                                            value={vegetal.nombre}
-                                            onChange={(e) => {
-                                                handleMultipleInputChange(e)
-                                                agregarSeleccionBotones(e, 'vegetales')
-                                            }}
-                                        />
-                                    </label>
-                                ))}
-                            </div>
+                    <div className="button-add-order-container">
+                        <div className="add-remove">
+                            <span className="size-icon">
+                                <img className="icon-img" src={SignoMenos} alt="Disminuir cantidad" />
+                            </span>
+                            <span>1</span>
+                            <span className="size-icon">
+                                <img className="icon-img" src={SignoMas} alt="Aumentar cantidad" />
+                            </span>
                         </div>
+                        <div className="">
+                            <Button className='w-100' type="submit"> <i className="bi bi-plus fs-2" />AÑADIR AL PEDIDO <span className='min-price'>Q{0 + precioTotal}</span></Button>
 
-                        <div className="tipos-carne padding-side">
-                            <div className="title-item">
-                                <h4>Carnes</h4>
-                                <span>Opcional</span>
-                            </div>
-                            <div className="tipos-carne-container-item">
-                                {carnesCatalogo.map((carne, index) => (
-                                    <label htmlFor={'carnes' + index} key={index} className="tipos-carne-item item-radio-none" id={'div-carnes' + index}>
-                                        <span>{carne.nombre}</span>
-                                        <span>{carne.precio != null ? `+Q${carne.precio}` : ''}</span>
-                                        <input
-                                            type="checkbox"
-                                            name="carnes"
-                                            id={'carnes' + index}
-                                            value={carne.nombre}
-                                            onChange={(e) => {
-                                                handleMultipleInputChange(e)
-                                                agregarSeleccionBotones(e, 'carnes')
-                                            }}
-                                        />
-                                    </label>
-                                ))}
-                            </div>
                         </div>
-
-                        <div className="button-add-order-container">
-                            <div className="add-remove">
-                                <span className="size-icon">
-                                    <img className="icon-img" src={SignoMenos} alt="Disminuir cantidad" />
-                                </span>
-                                <span>1</span>
-                                <span className="size-icon">
-                                    <img className="icon-img" src={SignoMas} alt="Aumentar cantidad" />
-                                </span>
-                            </div>
-                            <div className="">
-                                <Button className='w-100' type="submit"> <i className="bi bi-plus fs-2" />AÑADIR AL PEDIDO <span className='min-price'>Q{0 + precioTotal}</span></Button>
-                                
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
