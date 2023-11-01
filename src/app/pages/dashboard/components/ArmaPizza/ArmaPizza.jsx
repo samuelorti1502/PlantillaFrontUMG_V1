@@ -3,44 +3,6 @@ import { Button } from 'react-bootstrap'
 import './ArmaPizza.css';
 import SignoMas from '../../ImagenesMenu/SignoMas.png'
 import SignoMenos from '../../ImagenesMenu/SignoMenos.png';
-import mas from '../../ImagenesMenu/mas.png';
-
-const TAMANIOSCATALOGO = [
-    { nombre: 'Mediana', precio: 70 },
-    { nombre: 'Grande', precio: 90 },
-    { nombre: 'Pequeña', precio: 50 }
-];
-
-const TIPOMASACATALOGO = [
-    { nombre: 'Tradicional', precio: 10 },
-    { nombre: 'Artesanal', precio: null }
-];
-
-const TIPOQUESOCATALOGO = [
-    { nombre: 'Queso', precio: null },
-    { nombre: 'Extra Queso', precio: 5 }
-];
-
-const TIPOVEGETALESCATALOGO = [
-    { nombre: 'Cebolla', precio: 5 },
-    { nombre: 'Pimiento Verde', precio: 5 },
-    { nombre: 'Hongos', precio: 5 },
-    { nombre: 'Piña', precio: 5 },
-    { nombre: 'Tomate', precio: 5 }
-];
-
-const TIPOCARNECATALOGO = [
-    { nombre: 'Tocino', precio: 5 },
-    { nombre: 'Jamón', precio: 5 },
-    { nombre: 'Pepperoni', precio: 5 },
-    { nombre: 'Carne de res', precio: 5 }
-];
-
-const TIPOSSALSACATALOGO = [
-    { nombre: 'Salsa de Tomate', precio: null },
-    { nombre: 'Salsa Ranch', precio: null },
-    { nombre: 'Salsa Alfredo', precio: null }
-];
 
 
 const CATTAMANIOSCATALOGO = 'TAMANIOSCATALOGO'
@@ -54,6 +16,9 @@ const CATTIPOSSALSACATALOGO = 'TIPOSSALSACATALOGO'
 const CATALOGO_URL = 'http://3.22.100.138:4000/api/Menu/nombre/';
 
 export default function ArmaPizza(props) {
+
+    const { pizzaArmar, setPizzaArmar, addPizzaArmar } = props
+
     const [tamaniosCatalogo, setTamaniosCatalogo] = useState([]);
     const [masasCatalogo, setMasasCatalogo] = useState([]);
     const [quesosCatalogo, setQuesosCatalogo] = useState([]);
@@ -89,20 +54,12 @@ export default function ArmaPizza(props) {
 
     const { stateModalArmaPizza, setStateModalArmaPizza, hideScrollBodyArmaPizza } = props;
     const [precioTotal, setPrecioTotal] = useState(0);
-    const [pizza, setPizza] = useState({
-        tamanio: '',
-        masa: '',
-        salsa: '',
-        queso: '',
-        vegetales: [],
-        carnes: [],
-        precio: 0
-    })
+    
 
     useEffect(() => {
         calcularPrecioTotal()
-        console.log('Pizza actualizada ', pizza)
-    }, [pizza])
+        console.log('Pizza actualizada ', pizzaArmar)
+    }, [pizzaArmar])
 
     const changeStateModal = () => {
         setStateModalArmaPizza(!stateModalArmaPizza);
@@ -112,7 +69,7 @@ export default function ArmaPizza(props) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        setPizza({ ...pizza, [name]: value, precio: precioTotal })
+        setPizzaArmar({ ...pizzaArmar, [name]: value, precio: precioTotal })
         calcularPrecioTotal()
     };
 
@@ -120,21 +77,22 @@ export default function ArmaPizza(props) {
 
         const { name, value, checked } = e.target
         if (checked) {
-            pizza[name] = [...pizza[name], value]
+            pizzaArmar[name] = [...pizzaArmar[name], value]
         } else {
-            const index = pizza[name].indexOf(value)
-            pizza[name].splice(index, 1)
+            const index = pizzaArmar[name].indexOf(value)
+            pizzaArmar[name].splice(index, 1)
         }
-        console.log(pizza)
+        console.log(pizzaArmar)
         calcularPrecioTotal()
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPizza({ ...pizza, precio: precioTotal });
+        setPizzaArmar({ ...pizzaArmar, precio: precioTotal });
 
-        console.log('Pizza:', pizza);
-        props.enviarPizza(pizza);
+        console.log('Pizza:', pizzaArmar);
+        addPizzaArmar()
+        document.getElementById('formPizzaArmar').reset()
 
     };
 
@@ -153,24 +111,24 @@ export default function ArmaPizza(props) {
 
         let [precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes] = [0, 0, 0, 0, 0, 0]
 
-        if (pizza.tamanio !== '') {
-            precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizza.tamanio)
+        if (pizzaArmar.tamanio !== '') {
+            precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizzaArmar.tamanio)
         }
 
-        if (pizza.masa !== '') precioMasa = getPrecioCatalogo(CATTIPOMASACATALOGO, pizza.masa)
+        if (pizzaArmar.masa !== '') precioMasa = getPrecioCatalogo(CATTIPOMASACATALOGO, pizzaArmar.masa)
 
-        if (pizza.queso !== '') precioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizza.queso)
+        if (pizzaArmar.queso !== '') precioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaArmar.queso)
 
-        if (pizza.salsa !== '') precioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizza.salsa)
+        if (pizzaArmar.salsa !== '') precioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaArmar.salsa)
 
-        if (pizza.vegetales.length > 0) {
-            pizza.vegetales.forEach((vegetal) => {
+        if (pizzaArmar.vegetales.length > 0) {
+            pizzaArmar.vegetales.forEach((vegetal) => {
                 precioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
             })
         }
 
-        if (pizza.carnes.length > 0) {
-            pizza.carnes.forEach((carne) => {
+        if (pizzaArmar.carnes.length > 0) {
+            pizzaArmar.carnes.forEach((carne) => {
                 precioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
             })
         }
@@ -203,7 +161,7 @@ export default function ArmaPizza(props) {
     const getValue = (value) => {
         return value == null ? 0 : value
     }
-
+    
     useEffect(
         () => {
             cargarCatalogos()
@@ -221,7 +179,7 @@ export default function ArmaPizza(props) {
                 </div>
             </div>
             <div className="section-scroll">
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} id='formPizzaArmar'>
                         <div className="section-pizza padding-side">
                             <div className="title-item">
                                 <h4>TAMAÑO</h4>

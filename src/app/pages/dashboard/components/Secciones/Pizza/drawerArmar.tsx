@@ -1,9 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState } from 'react'
 import { KTSVG } from '../../../../../../_metronic/helpers'
 import ArmaPizza from '../../ArmaPizza/ArmaPizza'
+import CrearPizza from '../../CrearPizza/CrearPizza'
 
-const DrawerArmar = ({ tipo }: any) => {
+const DrawerArmar = (props: any) => {
+
+    let { tipo, pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitadesToOrden, pizzaArmar, setPizzaArmar, addPizzaArmar } = props
+
+    const recibirOrden = (orden: any) => {
+        console.log('Orden recibida de ArmarPizza ', orden)
+        props.enviarOrden(orden)
+        tipo = 1
+        console.log('Tipo ...', tipo)
+    }
+    
     return (
         <div
             id='kt_help'
@@ -48,8 +60,12 @@ const DrawerArmar = ({ tipo }: any) => {
                         data-kt-scroll-offset='5px'
                     >
 
-                        {tipo === 0 ? <ArmaPizza /> : 'Pizza por mitades'}
-                    </div>
+                        {tipo === 0 ? <ArmaPizza pizzaArmar={pizzaArmar} setPizzaArmar={setPizzaArmar} addPizzaArmar={addPizzaArmar}/> : 
+                        <CrearPizza 
+                                pizzaPorMitades={pizzaPorMitades} 
+                                setPizzaPorMitades={setPizzaPorMitades} 
+                                addPizzaPorMitadesToOrden={addPizzaPorMitadesToOrden}/>}
+                        </div>
                     {/* end::Content */}
                 </div>
                 {/* end::Body */}

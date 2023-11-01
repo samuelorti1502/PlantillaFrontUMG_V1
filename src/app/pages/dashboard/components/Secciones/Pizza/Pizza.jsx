@@ -20,6 +20,8 @@ const pizzas = [
 
 export default function Pizza(props) {
 
+    const { pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitadesToOrden, pizzaArmar, setPizzaArmar, addPizzaArmar } = props
+
     const [stateModalPizzaMitades, setStateModalPizzaMitades] = useState(false)
     const [stateModalArmaPizza, setStateModalArmaPizza] = useState(false)
     const [tipo, setTipo]= useState(0)
@@ -57,9 +59,14 @@ export default function Pizza(props) {
         props.enviarPizzaSeccion(pizza)
     }
 
+    const recibirOrden = (orden) => {
+        console.log('Orden en secciones recibe de drawerArmar', orden)
+        props.enviarOrden(orden)
+    }
+
     return (
 <div className="card">
-<div id="pizzas" className='card-body'>
+    <div id="pizzas" className='card-body'>
             <div className='div-titulo'>
                 <h3>Pizzas</h3>
             </div>
@@ -96,13 +103,15 @@ export default function Pizza(props) {
                 </a>
             </div>
             </div>
-            <DrawerArmar tipo={tipo}/>
-            {stateModalPizzaMitades && (
-                <CrearPizza stateModalPizzaMitades={stateModalPizzaMitades}
-                    setStateModalPizzaMitades={setStateModalPizzaMitades}
-                    hideScrollBodyPizzaMitades={hideScrollBodyPizzaMitades}
-                />
-            )}
+            <DrawerArmar 
+                    tipo={tipo} 
+                    pizzaArmar={pizzaArmar}
+                    setPizzaArmar={setPizzaArmar}
+                    pizzaPorMitades={pizzaPorMitades} 
+                    setPizzaPorMitades={setPizzaPorMitades}
+                    addPizzaPorMitadesToOrden={addPizzaPorMitadesToOrden}
+                    addPizzaArmar={addPizzaArmar}/>
+            
 
             {
                 stateModalArmaPizza && (

@@ -17,18 +17,6 @@
     background: rgba(0,0,0,0.4);
 }
 
-.sidebar-modal-pizza {
-    background: #fff;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    min-width: 400px;
-}
-
-.sidebar-modal-pizza::-webkit-scrollbar, .section-scroll::-webkit-scrollbar {
-    display: none;
-}
-
 .description-armar {
     display: grid;
     grid-template-columns: 1fr;
