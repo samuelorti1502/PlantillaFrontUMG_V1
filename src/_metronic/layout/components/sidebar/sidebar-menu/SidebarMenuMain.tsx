@@ -14,13 +14,13 @@ const SidebarMenuMain = () => {
         title='Menu'
         fontIcon='bi-layers'
       />
-      <SidebarMenuItem
+      {/* <SidebarMenuItem
         to='/dashboard'
         icon='/media/icons/duotune/art/art002.svg'
         title={intl.formatMessage({ id: 'MENU.DASHBOARD' })}
         fontIcon='bi-app-indicator'
-      />
-      <SidebarMenuItem
+      /> */}
+      {/* <SidebarMenuItem
         to='/builder'
         icon='/media/icons/duotune/general/gen019.svg'
         title='Layout Builder'
@@ -31,7 +31,7 @@ const SidebarMenuMain = () => {
         icon='/media/icons/duotune/general/gen024.svg'
         title='Rol'
         fontIcon='bi-layers'
-      />
+      /> */}
       <div className='menu-item'>
         <div className='menu-content pt-8 pb-2'>
           <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Administracion</span>
@@ -71,7 +71,7 @@ const SidebarMenuMain = () => {
           icon='/media/icons/duotune/general/gen022.svg'
         />
       </SidebarMenuItemWithSub>
-      <SidebarMenuItem
+      {/* <SidebarMenuItem
         to='/proveedores'
         title='Proveedores'
         fontIcon='bi-archive'
@@ -89,7 +89,7 @@ const SidebarMenuMain = () => {
         fontIcon='bi-archive'
         icon='/media/icons/duotune/general/gen022.svg'
       />
-      <SidebarMenuItem to='/crafted/account/settings' title='Settings' hasBullet={true} />
+      <SidebarMenuItem to='/crafted/account/settings' title='Settings' hasBullet={true} /> */}
     </>
   )
 }

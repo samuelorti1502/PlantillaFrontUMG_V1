@@ -1,8 +1,6 @@
 import axios from 'axios'
 import {UserModel} from './_models'
 
-
-
 const API_URL = process.env.REACT_APP_API_URL
 
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`
@@ -15,12 +13,6 @@ export const REGISTER_URL = `${API_URL}/usuario`
 export const MODIFICAR_URL = `${API_URL}/Usuario/modificar`
 export const PRODUCTO_URL = `${API_URL}/menu`
 export const CATEGORIA_URL = `${API_URL}/categorias`
-
-
-
-
-
-
 
 // Server should return AuthModel
 export function login(usuario: string, password: string) {
@@ -36,9 +28,6 @@ export function login(usuario: string, password: string) {
 export function CorreoConfirmarCuenta(email: string) {
   axios.get<{result: boolean}>(CORREO_COMNFIRMAR_CUENTA+`/${email}`)
 }
-
-
-
 
 // Server should return AuthModel
 export function register(
@@ -64,12 +53,7 @@ export function register(
     confirmado: 0,
     usuario_creacion: usuario_creacion,
   })
-
- 
-
 }
-
-
 
 //Funcion para Editar el registro de un usuario:
 export function Editar_Usuario(
@@ -97,14 +81,7 @@ export function Editar_Usuario(
   });
 }
 
-
-
-
 // Server should return object => { result: boolean } (Is Email in DB)
-
-
-
-
 export function requestPassword(email: string) {
   return axios.get<{result: boolean}>(REQUEST_PASSWORD_URL+`/${email}`)
 }
@@ -134,6 +111,7 @@ export function Confirmar_Cuenta(token: string) {
     contraseña :'null',
     dato: 'null'
   })
+}
 
 export function registrarProducto(
   producto: string,
