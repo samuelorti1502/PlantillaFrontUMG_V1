@@ -62,9 +62,8 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
     validationSchema: validationSchema,
     onSubmit: async (values, {setStatus, setSubmitting, resetForm}) => {
       setLoading(true)
-      //console.log("Crear producto")
       try {
-        const {data: prod} = await ingresarCategoria(values.nombre, 'imagen', currentUser?.nombre)
+        const {data: prod} = await ingresarCategoria(values.nombre, 'imagen', currentUser?.usuario)
         if (prod.success) {
           setLoading(false)
           setStatus(prod.mensaje)
@@ -116,7 +115,7 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                   placeholder='Ingrese la categoria'
                   type='text'
                   autoComplete='off'
-                  {...formik.getFieldProps('producto')}
+                  {...formik.getFieldProps('nombre')}
                   className={clsx(
                     'form-control bg-transparent',
                     {
@@ -133,47 +132,6 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
           {/* Imagen - Estatus */}
           <div className='fv-row mb-8'>
             <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{flex: 1}}>
-                {/* <label className='form-label fw-bolder text-dark fs-6'>Imagen</label> */}
-                <div className='image-input image-input-outline' data-kt-image-input='true'>
-                  <img
-                    alt='Logo'
-                    src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
-                    className='image-input-wrapper w-125px h-125px'
-                    // onChange={handleImage}
-                  />
-                  <label
-                    className='btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow'
-                    data-kt-image-input-action='change'
-                    data-bs-toggle='tooltip'
-                    data-bs-dismiss='click'
-                    title='Change avatar'
-                  >
-                    <i className='bi-duotone bi-pencil fs-6'>
-                      <span className='path1'></span>
-                      <span className='path2'></span>
-                    </i>
-
-                    {/* begin::Inputs */}
-                    <input type='file' name='avatar' accept='.png, .jpg, .jpeg' />
-                    <input type='hidden' name='avatar_remove' />
-                    {/* end::Inputs */}
-                  </label>
-                  {/* end::Edit button */}
-
-                  {/* begin::Remove button */}
-                  <span
-                    className='btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow'
-                    data-kt-image-input-action='remove'
-                    data-bs-toggle='tooltip'
-                    data-bs-dismiss='click'
-                    title='Remove avatar'
-                  >
-                    <i className='bi-outline bi-trash fs-3'></i>
-                  </span>
-                  {/* end::Remove button */}
-                </div>
-              </div>
               {tipo === 1 && (
                 <div style={{flex: 1, marginLeft: '15px'}}>
                   <label className='form-label fw-bolder text-dark fs-6'>Estatus</label>
@@ -183,7 +141,7 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                       placeholder='Ingrese la categoria'
                       type='text'
                       autoComplete='off'
-                      {...formik.getFieldProps('producto')}
+                      {...formik.getFieldProps('categoria')}
                       className={clsx(
                         'form-control bg-transparent',
                         {

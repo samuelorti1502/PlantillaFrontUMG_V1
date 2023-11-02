@@ -11,6 +11,7 @@ export const REQUEST_NEW_PASSWORD = `${API_URL}/correo/confirmar-password`
 export const REQUEST_CONFIRMAR_CUENTA = `${API_URL}/correo/confirmar-cuenta`
 export const REGISTER_URL = `${API_URL}/usuario`
 export const PRODUCTO_URL = `${API_URL}/menu`
+export const CATEGORIA_URL = `${API_URL}/categorias`
 
 // Server should return AuthModel
 export function login(usuario: string, password: string) {
@@ -105,11 +106,10 @@ export function registrarProducto(
 }
 
 export function ingresarCategoria(nombre: string, imagen: string, usuario_creacion: string) {
-  console.log('Hola')
-  return axios.post(PRODUCTO_URL, {
+  return axios.post(CATEGORIA_URL, {
     id_categoria: 1,
     nombre: nombre,
-    imagen: imagen,
+    imagen: 'N/A',
     id_status: 1,
     usuario_creacion: usuario_creacion,
   })

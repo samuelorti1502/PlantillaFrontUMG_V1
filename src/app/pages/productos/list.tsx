@@ -1,30 +1,30 @@
-import { useContext, useState } from 'react'
-import { Button, Modal, Row, Col } from 'react-bootstrap'
-import { ContentContext } from './context'
+import {useContext, useState} from 'react'
+import {Button, Modal, Row, Col} from 'react-bootstrap'
+import {ContentContext} from './context'
 import DataTable from 'react-data-table-component'
-import { useAuth } from '../../modules/auth'
-import { FormProd } from './form'
+import {useAuth} from '../../modules/auth'
+import {FormProd} from './form'
 
 const Index = () => {
-  const { allData, eliminar, show, handleShow, handleClose } = useContext(ContentContext)
-  const { currentUser } = useAuth()
+  const {allData, eliminar, show, handleShow, handleClose} = useContext(ContentContext)
+  const {currentUser} = useAuth()
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)
     //allData()
   }
 
-  const [mostrar, setMostrar] = useState(false);
+  const [mostrar, setMostrar] = useState(false)
   const [tipo, setTipo] = useState(0)
 
   const handleShowM = () => {
-    setMostrar(true);
+    setMostrar(true)
   }
 
   const formatter = new Intl.NumberFormat('es-GT', {
     style: 'currency',
     currency: 'GTQ',
-  });
+  })
 
   const columns = [
     {
@@ -54,7 +54,14 @@ const Index = () => {
     },
     {
       name: 'Imagen',
-      selector: (row: any) => row.imagen,
+      cell: (row: any) => (
+        // row.imagen,
+        <img
+          src={`http://3.22.100.138/images/${row.imagen}`}
+          alt='Imagen'
+          style={{width: '50px', height: '50px'}}
+        />
+      ),
     },
     {
       name: 'Acciones',
@@ -67,11 +74,14 @@ const Index = () => {
           >
             <i className='bi bi-trash' />
           </Button>
-          <Button variant='warning' className='ms-3 btn-sm btn-icon'
+          <Button
+            variant='warning'
+            className='ms-3 btn-sm btn-icon'
             onClick={() => {
-              handleShowM();
-              setTipo(1);
-            }}>
+              handleShowM()
+              setTipo(1)
+            }}
+          >
             <i className='bi bi-pencil' />
           </Button>
           <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} />
