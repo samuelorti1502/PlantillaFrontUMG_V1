@@ -12,6 +12,8 @@ export const CORREO_COMNFIRMAR_CUENTA = `${API_URL}/correo/confirmar`
 export const REQUEST_NEW_PASSWORD = `${API_URL}/correo/confirmar-password`
 export const REQUEST_CONFIRMAR_CUENTA = `${API_URL}/correo/confirmar-cuenta`
 export const REGISTER_URL = `${API_URL}/usuario`
+export const MODIFICAR_URL = `${API_URL}/Usuario/modificar`
+
 
 
 
@@ -47,7 +49,6 @@ export function register(
   usuario_creacion: string
 ) {
 
-
   return axios.post(REGISTER_URL, {
     id: 1,
     nombres: nombres,
@@ -65,6 +66,37 @@ export function register(
  
 
 }
+
+
+
+//Funcion para Editar el registro de un usuario:
+export function Editar_Usuario(
+  nombres: string,
+  apellidos: string,
+  email: string,
+  usuario: string,
+  password: string,
+  rol: string,
+  usuario_creacion: string,
+  usuarioactual: string
+) {
+  return axios.put(MODIFICAR_URL + `/${usuarioactual}`, {
+    id: 1,
+    nombres: nombres,
+    apellidos: apellidos,
+    email: email,
+    usuario: usuario,
+    password: password,
+    rol: rol,
+    estatus: 'Activo',
+    token: 'nullXD',
+    confirmado: 0,
+    usuario_creacion: usuario_creacion,
+  });
+}
+
+
+
 
 // Server should return object => { result: boolean } (Is Email in DB)
 

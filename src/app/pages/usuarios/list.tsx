@@ -1,17 +1,58 @@
 import {useContext} from 'react'
-import {Button, Modal, Row, Col} from 'react-bootstrap'
+import {Button,Modal, Row, Col} from 'react-bootstrap'
 import {ContentContext} from './context'
 import DataTable from 'react-data-table-component'
 import { useAuth } from '../../modules/auth'
+import EditarUsuario from './EditarUsuario'
+import EliminarUsuario from './EliminarUsuario'
+import React, { useState } from 'react';
 
-const Index = () => {
-  const {allData, eliminar, show, handleShow, handleClose} = useContext(ContentContext)
-  const {currentUser} = useAuth()
 
-  const handleDelete = (usuario: any) => {
+const Lista = () => {
+  const {allData, eliminar} = useContext(ContentContext)
+
+
+ // const {currentUser} = useAuth()
+
+ const handleDelete = (usuario: any) => {
     eliminar(usuario)
-    //allData()
+    allData()
+    
   }
+  
+
+
+  const [show, setShow] = useState(false)
+  const [showDelete, setShowDelete] = useState(false)
+  const [selectedUser, setSelectedUser] = useState(null);
+
+
+  const handleShow = (row) => {
+    setSelectedUser(row);
+    setShow(true);
+    
+  }
+  
+  
+  const handleCloseModal = () => {
+    setSelectedUser(null);
+    setShow(false);
+  }
+  
+
+  const handleShowEliminar = (row) => {
+    setSelectedUser(row);
+    setShowDelete(true);
+    
+  }
+  
+  
+  const handleCloseModalEliminar = () => {
+    setSelectedUser(null);
+    setShowDelete(false);
+  }
+
+
 
   const columns = [
     {
@@ -54,33 +95,14 @@ const Index = () => {
           <Button
             variant={'danger'}
             className='btn-sm btn-icon'
-            onClick={() => handleDelete(row.usuario)}
+          //  onClick={() => handleDelete(row.usuario)}
+          onClick={() => handleShowEliminar(row)}
           >
             <i className='bi bi-trash' />
           </Button>
-          <Button variant='warning' className='ms-3 btn-sm btn-icon' onClick={handleShow}>
+          <Button variant='warning' className='ms-3 btn-sm btn-icon' onClick={() => handleShow(row)}>
             <i className='bi bi-pencil' />
           </Button>
-          <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Editar Usuario</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Row>
-                <Col>
-                {currentUser?.usuario || ''}
-                </Col>
-              </Row>
-            </Modal.Body>
-            <Modal.Footer className='d-flex justify-content-between'>
-              <Button variant='secondary' onClick={handleClose}>
-                Cerrar
-              </Button>
-              <Button variant='primary' onClick={handleClose}>
-                Guardar Cambios
-              </Button>
-            </Modal.Footer>
-          </Modal>
         </div>
       ),
     },
@@ -112,19 +134,40 @@ const Index = () => {
   }
   
   //console.log( currentUser)
+
+
+
   return (
 
     <div>
-      <DataTable
-        className='form w-100'
-        title='Usuarios'
+ <DataTable
+        title="Usuarios"
         columns={columns}
-        data={allData}
+        data={allData} // Usa el estado para los datos
         pagination
         customStyles={tableCustomStyles}
-      />
+/>
+{show && (
+    <EditarUsuario
+      modalTitle={'Editar Usuario'}
+      show={show}
+      handleClose={handleCloseModal}
+      selectedUser={selectedUser}
+    />
+  )} :
+
+{showDelete && (
+    <EliminarUsuario
+      modalTitle={'Eliminar Usuario'}
+      show={showDelete}
+      handleClose={handleCloseModalEliminar}
+      selectedUser={selectedUser}
+
+    />
+  )}
+       
     </div>
   )
 }
 
-export default Index
+export default Lista
