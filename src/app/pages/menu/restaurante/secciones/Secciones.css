@@ -22,6 +22,7 @@
     height: 600px;
     overflow-y: auto;
     background-color:   #1e1e2d;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .tu-orden{

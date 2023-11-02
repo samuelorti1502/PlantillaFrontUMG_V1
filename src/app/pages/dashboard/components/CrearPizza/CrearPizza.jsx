@@ -35,7 +35,6 @@ export default function CrearPizza(props) {
   )
 
   useEffect(() => {
-    calcularPrecioTotal()
   }, [pizzaPorMitades])
 
   const agregarSeleccionBotones = (e, nombre) => {
@@ -50,6 +49,18 @@ export default function CrearPizza(props) {
     })
   }
 
+  const closeDrawer = () => {
+    // Obtener el elemento por su ID
+    let elemento = document.getElementById("kt_help_close");
+    // Crear un nuevo evento click
+    let eventoClick = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window
+    });
+    // Disparar el evento click en el elemento
+    elemento.dispatchEvent(eventoClick);
+}
 
   const consumirCatalogos = (nombreCatalogo, funcionSet) => {
     fetch(CATALOGO_URL + nombreCatalogo)
@@ -95,19 +106,16 @@ export default function CrearPizza(props) {
 
     setPizzaPorMitades({ ...pizzaPorMitades, [name]: value })
     console.log('handleInputChange ', pizzaPorMitades)
-    calcularPrecioTotal()
   };
 
   const handleInputChangeMitad1 = e => {
     const { name, value } = e.target;
     setPizzaPorMitades({ ...pizzaPorMitades, mitad1 : { ...pizzaPorMitades.mitad1, [name] : value} })
-    calcularPrecioTotal()
   }
 
   const handleInputChangeMitad2 = e => {
     const { name, value } = e.target;
     setPizzaPorMitades({ ...pizzaPorMitades, mitad2 : { ...pizzaPorMitades.mitad2, [name] : value} })
-    calcularPrecioTotal()
   }
 
 
@@ -122,7 +130,6 @@ export default function CrearPizza(props) {
         pizzaPorMitades.mitad1[name].splice(index, 1)
     }
     setPizzaPorMitades({...pizzaPorMitades})
-    calcularPrecioTotal()
   }
 
   const handleMultipleInputChangeMitad2 = e => {
@@ -135,10 +142,48 @@ export default function CrearPizza(props) {
         pizzaPorMitades.mitad2[name].splice(index, 1)
     }
     setPizzaPorMitades({...pizzaPorMitades})
-    calcularPrecioTotal()
   }
 
-  const calcularPrecioTotal = () => {
+    const [grandTotal, setGrandTotal] = useState(0);
+    const [items, setItems] = useState([]);
+    const seleccionUnica = ['Tamaño', 'Masa', 'Salsa', 'Queso'];
+    
+    const calcularPrecio = (data) => {
+      // Verificar si es un catálogo de selección única
+      if (seleccionUnica.includes(data.tipo)) {
+        // Filtrar elementos previos del mismo tipo
+        const elementosPrevios = items.filter((item) => item.tipo !== data.tipo);
+        setItems([...elementosPrevios, data]);
+      } else {
+        // Catálogo de selección múltiple
+        const itemIndex = items.findIndex((item) => item.nombre === data.nombre);
+        if (itemIndex !== -1) {
+          const updatedItems = [...items];
+          updatedItems[itemIndex] = {
+            ...data,
+            cantidad: updatedItems[itemIndex].cantidad + 1,
+          };
+          setItems(updatedItems);
+        } else {
+          setItems([...items, { ...data, cantidad: 1 }]);
+        }
+      }
+    };
+    
+    useEffect(() => {
+      let total = 0;
+      items.forEach((item) => {
+        if (item.tipo === 'Vegetales' || item.tipo === 'Carnes') {
+          // Si es un elemento de Vegetales o Carnes, multiplica su precio por la cantidad
+          total += item.precio * item.cantidad;
+        } else {
+          total += item.precio;
+        }
+      });
+      setGrandTotal(total);
+    }, [items]);
+
+  /*const calcularPrecioTotal = () => {
 
     let [ precioTamanio, precioMasa, mitad1PrecioQueso, mitad1PrecioSalsa, mitad1PrecioVegetales, mitad1PrecioCarnes,
         mitad2PrecioSalsa, mitad2PrecioQueso, mitad2PrecioVegetales, mitad2PrecioCarnes] = Array(10).fill(0)
@@ -191,16 +236,17 @@ export default function CrearPizza(props) {
 
 
 }
-
+*/
 const handleSubmit = (e) => {
     e.preventDefault();
-    calcularPrecioTotal()
-    setPizzaPorMitades({ ...pizzaPorMitades, precio: precioTotal });
+    setPizzaPorMitades([...pizzaPorMitades, {items, total: grandTotal}]);
 
     console.log('Pizza mitra:', pizzaPorMitades);
     addPizzaPorMitadesToOrden()
     //document.getElementById('formPizzaMitades').reset()
     setStepPhase(1)
+
+    closeDrawer()
 };
 
   const getPrecioCatalogo = (catalogo, nombre) => {
@@ -281,7 +327,8 @@ const handleSubmit = (e) => {
                                   id={'tamanio' + index}
                                   value={tamanio.nombre}
                                   onChange={(e) => {
-                                      handleInputChange(e)
+                                      //handleInputChange(e)
+                                      calcularPrecio({...tamanio, tipo: 1})
                                       agregarSeleccionBotones(e, 'tamanio')
 
                                   }}
@@ -309,7 +356,7 @@ const handleSubmit = (e) => {
                                   id={'masa' + index}
                                   value={masa.nombre}
                                   onChange={(e) => {
-                                      handleInputChange(e)
+                                        calcularPrecio({...masa, tipo: 2})
                                       agregarSeleccionBotones(e, 'masa')
                                   }}
                                   required={true}
@@ -344,6 +391,7 @@ const handleSubmit = (e) => {
                                     value={salsa.nombre}
                                     onChange={(e) => {
                                         handleInputChangeMitad1(e)
+                                        calcularPrecio({...salsa, tipo: 3})
                                         agregarSeleccionBotones(e, 'salsa')
                                     }}
                                     required={true}
@@ -369,6 +417,7 @@ const handleSubmit = (e) => {
                                     value={queso.nombre}
                                     onChange={(e) => {
                                         handleInputChangeMitad1(e)
+                                        calcularPrecio({...queso, tipo: 4})
                                         agregarSeleccionBotones(e, 'queso')
                                     }}
                                     required={true}
@@ -395,6 +444,7 @@ const handleSubmit = (e) => {
                                     value={vegetal.nombre}
                                     onChange={(e) => {
                                         handleMultipleInputChangeMitad1(e)
+                                        calcularPrecio({...vegetal, tipo: 5})
                                         agregarSeleccionBotones(e, 'vegetales')
                                     }}
                                 />
@@ -420,6 +470,7 @@ const handleSubmit = (e) => {
                                     value={carne.nombre}
                                     onChange={(e) => {
                                         handleMultipleInputChangeMitad1(e)
+                                        calcularPrecio({...carne, tipo: 6})
                                         agregarSeleccionBotones(e, 'carnes')
                                     }}
                                 />
@@ -452,6 +503,7 @@ const handleSubmit = (e) => {
                                     value={salsa.nombre}
                                     onChange={(e) => {
                                         handleInputChangeMitad2(e)
+                                        calcularPrecio({...salsa, tipo: 7})
                                         agregarSeleccionBotones(e, 'salsa')
                                     }}
                                     required={true}
@@ -477,6 +529,7 @@ const handleSubmit = (e) => {
                                     value={queso.nombre}
                                     onChange={(e) => {
                                         handleInputChangeMitad2(e)
+                                        calcularPrecio({...queso, tipo: 8})
                                         agregarSeleccionBotones(e, 'queso')
                                     }}
                                     required={true}
@@ -503,6 +556,7 @@ const handleSubmit = (e) => {
                                     value={vegetal.nombre}
                                     onChange={(e) => {
                                         handleMultipleInputChangeMitad2(e)
+                                        calcularPrecio({...vegetal, tipo: 9})
                                         agregarSeleccionBotones(e, 'vegetales')
                                     }}
                                 />
@@ -528,6 +582,7 @@ const handleSubmit = (e) => {
                                     value={carne.nombre}
                                     onChange={(e) => {
                                         handleMultipleInputChangeMitad2(e)
+                                        calcularPrecio({...carne, tipo: 10})
                                         agregarSeleccionBotones(e, 'carnes')
                                     }}
                                 />
@@ -543,12 +598,12 @@ const handleSubmit = (e) => {
             {stepPhase === 1 || stepPhase === 2 ? (
               <button type="button" onClick={changeUpStepPhase} className="button-next">
                 <span>SIGUIENTE PASO</span>
-                <span className='min-price'>Q{0 + precioTotal}</span>
+                <span className='min-price'>Q. {grandTotal}</span>
               </button>
             ) : (
               <button type="submit" className="button-next">
                 <span>AGREGAR A LA ORDEN</span>
-                <span className='min-price'>Q{0 + precioTotal}</span>
+                <span className='min-price'>Q. {grandTotal}</span>
               </button>
             )}
           </div>

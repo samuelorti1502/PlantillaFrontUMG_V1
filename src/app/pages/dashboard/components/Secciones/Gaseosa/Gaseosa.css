@@ -1,10 +1,10 @@
 .seccion-gaseosas {
-    border-radius: 5px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
-    min-width: 280px;
-    padding: 20px 15px 50px;
-    background-color: #fff;
-    margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.15);
+  min-width: 280px;
+  padding: 20px 15px 50px;
+  background-color: #fff;
+  margin-bottom: 20px;
 }
 
 .div-titulo {
@@ -16,39 +16,41 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 15px;
+    padding: 2rem 2.25rem;
 }
 
 .gaseosa-item {
-  border: 1px solid #ccc; /* Cambiamos el color del borde a gris claro */
-  border-radius: 10px; /* Aumentamos el radio para un borde más redondo */
+  border: 1px solid #ccc; 
+  border-radius: 10px; 
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Agregamos una ligera sombra a cada elemento */
-  text-align: center; /* Centramos el contenido */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  text-align: center; 
 }
 
-.gaseosa-item img {
-    width: 100%; /* Haz que la imagen ocupe el ancho completo del cuadro */
-    border-radius: 0; /* Elimina el borde redondo */
-    margin: 0; /* Elimina los márgenes por defecto */
-    max-width: none; /* Evita el máximo ancho de la imagen */
-    object-fit: cover; /* Escala y recorta la imagen para llenar el espacio */
+.bebida-item img {
+  width: 100%;
+  border-radius: 0;
+  margin: 0; 
+  max-width: none; 
+  object-fit: cover;
 }
 
 .gaseosa-item button {
-    border: none; /* Eliminamos el borde por defecto del botón */
-    border-radius: 15px; /* Agregamos un radio para un borde redondo */
-    background-color: #f28a2e; /* Cambiamos el color de fondo del botón (puedes ajustarlo según tus preferencias) */
-    color: white; /* Cambiamos el color del texto a blanco */
-    padding: 10px 20px; /* Añadimos relleno al botón */
-    cursor: pointer; /* Cambiamos el cursor al pasar por encima del botón */
-    font-weight: bold; /* Hacemos el texto en negrita */
-    margin-top: 5px; /* Establecemos un margen superior para separar el botón de la descripción */
+    border: none;
+    border-radius: 15px;
+    background-color: #f28a2e; 
+    color: white; 
+    padding: 10px 20px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    margin-top: 5px;
   }
 
   .gaseosa-item h4 {
     font-size: 1.5rem; /* Tamaño de fuente más grande (ajusta según tus preferencias) */
     font-weight: bold; /* Texto en negrita */
     text-align: left; /* Alineamos el texto a la izquierda */
+    font-family: 'Courier New', Courier, monospace;
   }
 
   .gaseosa-item p {
