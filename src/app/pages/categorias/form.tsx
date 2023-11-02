@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Modal, Button, Form} from 'react-bootstrap'
 import clsx from 'clsx'
 import axios from 'axios'
@@ -6,7 +6,6 @@ import * as Yup from 'yup'
 import {useFormik} from 'formik'
 import {ingresarCategoria} from '../../modules/auth/core/_requests'
 import {useAuth} from '../../modules/auth/core/Auth'
-import {toAbsoluteUrl} from '../../../_metronic/helpers'
 
 const RouteBase = process.env.REACT_APP_API_URL
 
@@ -15,14 +14,16 @@ const initialValues = {
   nombre: '',
   imagen: '',
   usuario_creacion: '',
+  estatus: 1,
 }
 
 const validationSchema = Yup.object().shape({
   nombre: Yup.string().required('Categoria es requerido'),
 })
 
-const FormProd = ({mostrar, setMostrar, tipo}: any) => {
+const FormProd = ({mostrar, setMostrar, tipo, id_cat, nombre, estatusCat}: any) => {
   const [status, setStatus] = useState([])
+  const [estatus, setEstatus] = useState('')
 
   const consumirAPI = async (url: any) => {
     try {
@@ -40,6 +41,10 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
     if (data) {
       setStatus(data)
     }
+  }
+
+  const handleUpdate = () => {
+    console.log('Actualizando categoria')
   }
 
   useEffect(() => {
@@ -90,7 +95,9 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
   return (
     <Modal show={mostrar} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{tipo === 0 ? 'Nueva Categoria' : 'Editar Categoria'}</Modal.Title>
+        <Modal.Title>
+          {tipo === 0 ? `Nueva Categoria ${tipo}` : `Editar Categoria ${tipo}`}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {hasErrors === true && (
@@ -110,22 +117,41 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{flex: 1}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Categoria</label>
-                <input
-                  // name='producto'
-                  placeholder='Ingrese la categoria'
-                  type='text'
-                  autoComplete='off'
-                  {...formik.getFieldProps('nombre')}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    {
-                      'is-invalid': formik.touched.nombre && formik.errors.nombre,
-                    },
-                    {
-                      'is-valid': formik.touched.nombre && !formik.errors.nombre,
-                    }
-                  )}
-                />
+                {tipo === 0 ? (
+                  <input
+                    // name='producto'
+                    placeholder='Ingrese la categoria'
+                    type='text'
+                    autoComplete='off'
+                    {...formik.getFieldProps('nombre')}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.nombre && formik.errors.nombre,
+                      },
+                      {
+                        'is-valid': formik.touched.nombre && !formik.errors.nombre,
+                      }
+                    )}
+                  />
+                ) : (
+                  <input
+                    placeholder='Ingrese la categoria'
+                    type='text'
+                    autoComplete='off'
+                    defaultValue={nombre || ''} // El valor predeterminado es una cadena vacía si id_cat es nulo
+                    //onChange={formik.handleChange}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.nombre && formik.errors.nombre,
+                      },
+                      {
+                        'is-valid': formik.touched.nombre && !formik.errors.nombre,
+                      }
+                    )}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -133,25 +159,35 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
           <div className='fv-row mb-8'>
             <div style={{display: 'flex', alignItems: 'center'}}>
               {tipo === 1 && (
-                <div style={{flex: 1, marginLeft: '15px'}}>
+                <div style={{flex: 1}}>
                   <label className='form-label fw-bolder text-dark fs-6'>Estatus</label>
                   <div className='fv-row mb-8'>
-                    <input
-                      // name='producto'
-                      placeholder='Ingrese la categoria'
-                      type='text'
-                      autoComplete='off'
-                      {...formik.getFieldProps('categoria')}
-                      className={clsx(
-                        'form-control bg-transparent',
-                        {
-                          'is-invalid': formik.touched.nombre && formik.errors.nombre,
-                        },
-                        {
-                          'is-valid': formik.touched.nombre && !formik.errors.nombre,
-                        }
-                      )}
-                    />
+                    <Form.Group controlId='exampleForm.SelectCustom'>
+                      <Form.Select
+                        value={estatus}
+                        onChange={(e) => setEstatus(e.target.value)}
+                        className={clsx(
+                          'form-control bg-transparent',
+                          {
+                            'is-invalid': formik.touched.estatus && formik.errors.estatus,
+                          },
+                          {
+                            'is-valid': formik.touched.estatus && !formik.errors.estatus,
+                          }
+                        )}
+                      >
+                        <option value=''>Seleccionar estatus</option>
+                        {status.map((est: {id: number; nombre_estatus: string}) => (
+                          <option
+                            key={est.id}
+                            value={est.id}
+                            // {...formik.getFieldProps('estatus')}
+                          >
+                            {est.nombre_estatus}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
                   </div>
                 </div>
               )}
@@ -169,11 +205,15 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
         </Button>
         <Button
           variant='secondary'
-          onClick={formik.submitForm}
+          onClick={tipo === 0 ? formik.submitForm : handleUpdate}
           style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white'}}
           disabled={formik.isSubmitting}
         >
-          {!loading && <span className='indicator-label'>Crear Categoria</span>}
+          {!loading && (
+            <span className='indicator-label'>
+              {tipo === 0 ? 'Crear Categoria' : 'Actualizar '}
+            </span>
+          )}
           {loading && (
             <span className='indicator-progress' style={{display: 'block'}}>
               Espere por favor...{' '}

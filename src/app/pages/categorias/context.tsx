@@ -1,5 +1,5 @@
 import {createContext, FC, ReactNode, useState, useEffect} from 'react'
-import {GetRoute, PostRoute, DeleteRoute} from '../../services/private'
+import {GetRoute} from '../../services/private'
 type Props = {
   children?: ReactNode
 }

@@ -1,13 +1,11 @@
 import {useContext, useState} from 'react'
-import {Button, Modal, Row, Col} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 import {ContentContext} from './context'
 import DataTable from 'react-data-table-component'
-import {useAuth} from '../../modules/auth'
 import {FormProd} from './form'
 
 const Index = () => {
-  const {allData, eliminar, show, handleShow, handleClose} = useContext(ContentContext)
-  const {currentUser} = useAuth()
+  const {allData, eliminar} = useContext(ContentContext)
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)

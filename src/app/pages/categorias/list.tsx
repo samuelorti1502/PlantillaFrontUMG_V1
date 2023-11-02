@@ -2,29 +2,25 @@ import {useContext, useState} from 'react'
 import {Button} from 'react-bootstrap'
 import {ContentContext} from './context'
 import DataTable from 'react-data-table-component'
-import {useAuth} from '../../modules/auth'
 import {FormProd} from './form'
 
 const Index = () => {
-  const {allData, eliminar} = useContext(ContentContext)
-  const {currentUser} = useAuth()
-
-  const handleDelete = (usuario: any) => {
-    eliminar(usuario)
-    //allData()
-  }
+  const {allData} = useContext(ContentContext)
 
   const [mostrar, setMostrar] = useState(false)
   const [tipo, setTipo] = useState(0)
+  const [id_cat, setID] = useState()
+  const [nombre, setNombre] = useState()
+  const [estatusCat, setEstatusCat] = useState()
 
   const handleShowM = () => {
     setMostrar(true)
   }
 
-  const formatter = new Intl.NumberFormat('es-GT', {
-    style: 'currency',
-    currency: 'GTQ',
-  })
+  const handleCat = (category: any) => {
+    setID(category)
+    //console.log(category)
+  }
 
   const columns = [
     {
@@ -78,11 +74,21 @@ const Index = () => {
             onClick={() => {
               handleShowM()
               setTipo(1)
+              setID(row.id_categoria)
+              setNombre(row.nombre)
+              setEstatusCat(row.id_status)
             }}
           >
             <i className='bi bi-pencil' />
           </Button>
-          <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} />
+          <FormProd
+            mostrar={mostrar}
+            setMostrar={setMostrar}
+            tipo={tipo}
+            id_cat={id_cat}
+            nombre={nombre}
+            estatusCat={estatusCat}
+          />
         </div>
       ),
     },
