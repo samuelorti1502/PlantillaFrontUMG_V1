@@ -43,6 +43,29 @@ export async function PostRoute(url, form) {
   return await response
 }
 
+export async function PutRoute(url, form) {
+  const data = JSON.stringify({
+    usuario: JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).id,
+    ...form,
+  })
+
+  const response = await fetch(`${RouteBase}/${url}`, {
+    method: 'PUT', // Cambiamos el método a PUT
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).token}`,
+    },
+    body: data,
+  })
+    .then((data) => data.json())
+    .catch(() => [])
+
+  return await response
+}
+
 export async function DeleteRoute(url, id) {
   const response = await fetch(`${RouteBase}/${url}/${id}`, {
     method: 'DELETE',
@@ -55,11 +78,10 @@ export async function DeleteRoute(url, id) {
     },
   })
     .then((data) => data.json())
-    .catch(() => []);
+    .catch(() => [])
 
-  return response;
+  return response
 }
-
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

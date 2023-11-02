@@ -13,6 +13,8 @@ export const REQUEST_NEW_PASSWORD = `${API_URL}/correo/confirmar-password`
 export const REQUEST_CONFIRMAR_CUENTA = `${API_URL}/correo/confirmar-cuenta`
 export const REGISTER_URL = `${API_URL}/usuario`
 export const MODIFICAR_URL = `${API_URL}/Usuario/modificar`
+export const PRODUCTO_URL = `${API_URL}/menu`
+export const CATEGORIA_URL = `${API_URL}/categorias`
 
 
 
@@ -133,7 +135,34 @@ export function Confirmar_Cuenta(token: string) {
     dato: 'null'
   })
 
+export function registrarProducto(
+  producto: string,
+  descripcion: string,
+  categoria: string,
+  precio: string,
+  estatus: string,
+  // usuario_creacion: string,
+  imagen: string
+) {
+  console.log('Hola')
+  return axios.post(PRODUCTO_URL, {
+    id_prod_menu: 1,
+    nombre: producto,
+    descripcion: descripcion,
+    id_menu: parseInt(categoria),
+    precio: parseFloat(precio),
+    id_estatus: parseInt(estatus),
+    usuario_creacion: 3,
+    imagen: imagen,
+  })
 }
 
-
-
+export function ingresarCategoria(nombre: string, imagen: string, usuario_creacion: string) {
+  return axios.post(CATEGORIA_URL, {
+    id_categoria: 1,
+    nombre: nombre,
+    imagen: 'N/A',
+    id_status: 1,
+    usuario_creacion: usuario_creacion,
+  })
+}
