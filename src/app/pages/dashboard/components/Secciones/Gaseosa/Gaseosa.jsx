@@ -1,37 +1,68 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import './Gaseosa.css'
-import Coca from '../../../ImagenesMenu/Coca.jpg'
+import Horchata from '../../../ImagenesMenu/Horchata.jpg'
 
-const gaseosas = [
-    { nombre: 'Coca Cola', descripcion: 'Refrescante y Burbujeante', tamanio: 'AGREGAR POR Q15', img: Coca },
-    { nombre: 'Coca Cola', descripcion: 'Refrescante y Burbujeante', tamanio: 'AGREGAR POR Q15', img: Coca },
-    { nombre: 'Coca Cola', descripcion: 'Refrescante y Burbujeante', tamanio: 'AGREGAR POR Q15', img: Coca },
-    { nombre: 'Coca Cola', descripcion: 'Refrescante y Burbujeante', tamanio: 'AGREGAR POR Q15', img: Coca },
-    { nombre: 'Coca Cola', descripcion: 'Refrescante y Burbujeante', tamanio: 'AGREGAR POR Q15', img: Coca },
-    { nombre: 'Coca Cola', descripcion: 'Refrescante y Burbujeante', tamanio: 'AGREGAR POR Q15', img: Coca }
-]
-
-export default function Gaseosa() {
+export default function Gaseosa({enviarGaseosa}) {
+    const [gaseosas, setGaseosas] = useState([]);
+    useEffect(() => {
+        let isMounted = true;
+        const GASEOSAS_URL = 'http://3.22.100.138:4000/api/Menu/nombre/Gaseosas';
+    
+        fetch(GASEOSAS_URL)
+          .then((response) => response.json())
+          .then((data) => {
+            if (isMounted) {
+              const gaseosasData = data.map((item) => ({
+                nombre: item.nombre,
+                precio: item.precio || 0,
+                imagen: item.imagen,
+              }));
+    
+              setGaseosas(gaseosasData);
+            }
+          })
+          .catch((error) => {
+            if (isMounted) {
+              console.error('Error al cargar datos de gaseosas:', error);
+            }
+          });
+    
+        return () => {
+          isMounted = false;
+        };
+      }, []);
+    
+      const handleButtonClicked = (gaseosa) => {
+        console.log('Gaseosa seleccionada:', gaseosa);
+        enviarGaseosa(gaseosa);
+      };
   return (
     <div className="card">
-        <section id="gaseosas" className='card-body'>
+        <div id="gaseosas" className='card-body'>
             <div className='div-titulo'>
                 <h3>Gaseosas</h3>
             </div>
-            <div className='gaseosas'>
-                {
-                    gaseosas.map((gaseosa, index) => (
-                        <div key={index} className='gaseosa-item'>
-                            <img src={gaseosa.img} />
-                            <h4>{gaseosa.nombre}</h4>
-                            <p>{gaseosa.descripcion}</p>
-                            <button>{gaseosa.tamanio}</button>
-                        </div>
-                    ))
-                }
-                
+            <div className="gaseosas">
+                {gaseosas.map((gaseosa, index) => (
+                <div key={index} className="gaseosa-item">
+                    <h4>{gaseosa.nombre}</h4>
+                    <img
+                        src={gaseosa.imagen}
+                        alt={gaseosa.nombre}
+                        onError={() => {
+                            console.error(`No se pudo cargar la imagen para ${gaseosa.nombre}`);
+                        }}
+                    />
+                    <button
+                    className="boton-gaseosa"
+                    onClick={() => handleButtonClicked(gaseosa)}
+                    >
+                    {`AGREGAR POR Q${gaseosa.precio}`}
+                    </button>
+                </div>
+                ))}
             </div>
-        </section>
+        </div>
     </div>
   )
 }
