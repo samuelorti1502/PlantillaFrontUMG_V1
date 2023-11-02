@@ -98,7 +98,7 @@ const EliminarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, s
         <Modal.Body>
 
         <div className='text-center tmb-lg-15 alert alert-danger text-xl'>
-  ¿Está seguro que desea eliminar al usuario ? {selectedUser.usuario}
+  ¿Está seguro que desea eliminar al usuario  {selectedUser.usuario} ?
 </div>
 
 
