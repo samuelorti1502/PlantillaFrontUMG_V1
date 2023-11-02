@@ -14,7 +14,7 @@ const CATTIPOSSALSACATALOGO = 'TIPOSSALSACATALOGO'
 const CATALOGO_URL = 'http://3.22.100.138:4000/api/Menu/nombre/';
 
 export default function CrearPizza(props) {
-  const { pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitadesToOrden  } = props;
+  const { pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitades} = props;
 
   const [stepPhase, setStepPhase] = useState(1);
   const [tamaniosCatalogo, setTamaniosCatalogo] = useState([]);
@@ -24,9 +24,6 @@ export default function CrearPizza(props) {
   const [carnesCatalogo, setCarnesCatalogo] = useState([]);
   const [salsasCatalogo, setSalsasCatalogo] = useState([]);
   const [precioTotal, setPrecioTotal] = useState(0);
-
-
-  
 
   useEffect(
     () => {
@@ -49,18 +46,6 @@ export default function CrearPizza(props) {
     })
   }
 
-  const closeDrawer = () => {
-    // Obtener el elemento por su ID
-    let elemento = document.getElementById("kt_help_close");
-    // Crear un nuevo evento click
-    let eventoClick = new MouseEvent("click", {
-        bubbles: true,
-        cancelable: true,
-        view: window
-    });
-    // Disparar el evento click en el elemento
-    elemento.dispatchEvent(eventoClick);
-}
 
   const consumirCatalogos = (nombreCatalogo, funcionSet) => {
     fetch(CATALOGO_URL + nombreCatalogo)
@@ -144,7 +129,32 @@ export default function CrearPizza(props) {
     setPizzaPorMitades({...pizzaPorMitades})
   }
 
-    const [grandTotal, setGrandTotal] = useState(0);
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    setPizzaPorMitades([...pizzaPorMitades, {items, total: grandTotal}]);
+    
+    addPizzaPorMitades()
+    console.log('Pizza mitad:', pizzaPorMitades);
+    closeDrawer()
+    //document.getElementById('formPizzaMitades').reset()
+    setStepPhase(1)
+};
+
+const closeDrawer = () => {
+  // Obtener el elemento por su ID
+  let elemento = document.getElementById("kt_help_close");
+  // Crear un nuevo evento click
+  let eventoClick = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window
+  });
+  // Disparar el evento click en el elemento
+  elemento.dispatchEvent(eventoClick);
+}
+
+const [grandTotal, setGrandTotal] = useState(0);
     const [items, setItems] = useState([]);
     const seleccionUnica = ['Tamaño', 'Masa', 'Salsa', 'Queso'];
     
@@ -182,97 +192,8 @@ export default function CrearPizza(props) {
       });
       setGrandTotal(total);
     }, [items]);
-
-  /*const calcularPrecioTotal = () => {
-
-    let [ precioTamanio, precioMasa, mitad1PrecioQueso, mitad1PrecioSalsa, mitad1PrecioVegetales, mitad1PrecioCarnes,
-        mitad2PrecioSalsa, mitad2PrecioQueso, mitad2PrecioVegetales, mitad2PrecioCarnes] = Array(10).fill(0)
-
-    if (pizzaPorMitades.tamanio !== '') {
-        precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizzaPorMitades.tamanio)
-    }
-
-    if (pizzaPorMitades.masa !== '') precioMasa = getPrecioCatalogo(CATTIPOMASACATALOGO, pizzaPorMitades.masa)
-
-    if (pizzaPorMitades.mitad1.queso !== '') mitad1PrecioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaPorMitades.mitad1.queso)
-
-    if (pizzaPorMitades.mitad1.salsa !== '') mitad1PrecioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaPorMitades.mitad1.salsa)
-
-    if (pizzaPorMitades.mitad1.vegetales.length > 0) {
-        pizzaPorMitades.mitad1.vegetales.forEach((vegetal) => {
-            mitad1PrecioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
-        })
-    }
-
-    if (pizzaPorMitades.mitad1.carnes.length > 0) {
-        pizzaPorMitades.mitad1.carnes.forEach((carne) => {
-            mitad1PrecioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
-        })
-    }
-
-    if (pizzaPorMitades.mitad2.queso !== '') mitad2PrecioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaPorMitades.mitad2.queso)
-
-    if (pizzaPorMitades.mitad2.salsa !== '') mitad2PrecioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaPorMitades.mitad2.salsa)
-
-    if (pizzaPorMitades.mitad2.vegetales.length > 0) {
-        pizzaPorMitades.mitad2.vegetales.forEach((vegetal) => {
-            mitad2PrecioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
-        })
-    }
-
-    if (pizzaPorMitades.mitad2.carnes.length > 0) {
-        pizzaPorMitades.mitad2.carnes.forEach((carne) => {
-            mitad2PrecioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
-        })
-    }
-
-
-    console.log('Precios', precioTamanio, precioMasa, mitad1PrecioQueso, mitad1PrecioSalsa, mitad1PrecioVegetales, mitad1PrecioCarnes,
-                    mitad2PrecioSalsa, mitad2PrecioQueso, mitad2PrecioVegetales, mitad2PrecioCarnes)
-    setPrecioTotal(precioTamanio + precioMasa + mitad1PrecioQueso + mitad1PrecioSalsa + mitad1PrecioVegetales + mitad1PrecioCarnes +
-        mitad2PrecioSalsa + mitad2PrecioQueso + mitad2PrecioVegetales + mitad2PrecioCarnes)
     
-    console.log('Total pizza por mitades ', precioTotal)
-
-
-}
-*/
-const handleSubmit = (e) => {
-    e.preventDefault();
-    setPizzaPorMitades([...pizzaPorMitades, {items, total: grandTotal}]);
-
-    console.log('Pizza mitra:', pizzaPorMitades);
-    addPizzaPorMitadesToOrden()
-    //document.getElementById('formPizzaMitades').reset()
-    setStepPhase(1)
-
-    closeDrawer()
-};
-
-  const getPrecioCatalogo = (catalogo, nombre) => {
-
-      switch (catalogo) {
-          case 'TAMANIOSCATALOGO':
-              return getValue(tamaniosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
-          case 'TIPOMASACATALOGO':
-              return getValue(masasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
-          case 'TIPOQUESOCATALOGO':
-              return getValue(quesosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
-          case 'TIPOVEGETALESCATALOGO':
-              return getValue(vegetalesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
-          case 'TIPOCARNECATALOGO':
-              return getValue(carnesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
-          case 'TIPOSSALSACATALOGO':
-              return getValue(salsasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
-          default:
-              return 'NA';
-      }
-
-  }
-
-  const getValue = (value) => {
-      return value == null ? 0 : value
-  }
+  
   return (
     <div className="">
       <div className="bg-modal-armar-pizza"></div>
@@ -356,7 +277,8 @@ const handleSubmit = (e) => {
                                   id={'masa' + index}
                                   value={masa.nombre}
                                   onChange={(e) => {
-                                        calcularPrecio({...masa, tipo: 2})
+                                      //handleInputChange(e)
+                                      calcularPrecio({...masa, tipo: 2})
                                       agregarSeleccionBotones(e, 'masa')
                                   }}
                                   required={true}
@@ -390,7 +312,7 @@ const handleSubmit = (e) => {
                                     id={'salsa' + index}
                                     value={salsa.nombre}
                                     onChange={(e) => {
-                                        handleInputChangeMitad1(e)
+                                        //handleInputChangeMitad1(e)
                                         calcularPrecio({...salsa, tipo: 3})
                                         agregarSeleccionBotones(e, 'salsa')
                                     }}
@@ -416,7 +338,7 @@ const handleSubmit = (e) => {
                                     id={'queso' + index}
                                     value={queso.nombre}
                                     onChange={(e) => {
-                                        handleInputChangeMitad1(e)
+                                        //handleInputChangeMitad1(e)
                                         calcularPrecio({...queso, tipo: 4})
                                         agregarSeleccionBotones(e, 'queso')
                                     }}
@@ -443,7 +365,7 @@ const handleSubmit = (e) => {
                                     id={'vegetales' + index}
                                     value={vegetal.nombre}
                                     onChange={(e) => {
-                                        handleMultipleInputChangeMitad1(e)
+                                        //handleMultipleInputChangeMitad1(e)
                                         calcularPrecio({...vegetal, tipo: 5})
                                         agregarSeleccionBotones(e, 'vegetales')
                                     }}
@@ -469,7 +391,7 @@ const handleSubmit = (e) => {
                                     id={'carnes' + index}
                                     value={carne.nombre}
                                     onChange={(e) => {
-                                        handleMultipleInputChangeMitad1(e)
+                                        //handleMultipleInputChangeMitad1(e)
                                         calcularPrecio({...carne, tipo: 6})
                                         agregarSeleccionBotones(e, 'carnes')
                                     }}
@@ -502,7 +424,7 @@ const handleSubmit = (e) => {
                                     id={'salsa' + index}
                                     value={salsa.nombre}
                                     onChange={(e) => {
-                                        handleInputChangeMitad2(e)
+                                        //handleInputChangeMitad2(e)
                                         calcularPrecio({...salsa, tipo: 7})
                                         agregarSeleccionBotones(e, 'salsa')
                                     }}
@@ -528,7 +450,7 @@ const handleSubmit = (e) => {
                                     id={'queso' + index}
                                     value={queso.nombre}
                                     onChange={(e) => {
-                                        handleInputChangeMitad2(e)
+                                        //handleInputChangeMitad2(e)
                                         calcularPrecio({...queso, tipo: 8})
                                         agregarSeleccionBotones(e, 'queso')
                                     }}
@@ -555,7 +477,7 @@ const handleSubmit = (e) => {
                                     id={'vegetales' + index}
                                     value={vegetal.nombre}
                                     onChange={(e) => {
-                                        handleMultipleInputChangeMitad2(e)
+                                        //handleMultipleInputChangeMitad2(e)
                                         calcularPrecio({...vegetal, tipo: 9})
                                         agregarSeleccionBotones(e, 'vegetales')
                                     }}
@@ -581,7 +503,7 @@ const handleSubmit = (e) => {
                                     id={'carnes' + index}
                                     value={carne.nombre}
                                     onChange={(e) => {
-                                        handleMultipleInputChangeMitad2(e)
+                                        //handleMultipleInputChangeMitad2(e)
                                         calcularPrecio({...carne, tipo: 10})
                                         agregarSeleccionBotones(e, 'carnes')
                                     }}

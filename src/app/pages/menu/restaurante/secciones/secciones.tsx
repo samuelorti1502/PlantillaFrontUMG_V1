@@ -8,6 +8,7 @@ export default function Secciones() {
   const [informacionSeleccionada, setInformacionSeleccionada] = useState(null);
   const [precioTotal, setPrecioTotal] = useState(0);
   const [pizzaArmar, setPizzaArmar] = useState([])
+  const [pizzaPorMitades, setPizzaPorMitades] = useState([])
   const [gaseosasSeleccionadas, setGaseosasSeleccionadas] = useState([]);
   const [bebidasSeleccionadas, setBebidasSeleccionadas] = useState([]);
   // const [pizzaArmar, setPizzaArmar] = useState({
@@ -20,23 +21,23 @@ export default function Secciones() {
   //   precio: 0,
   // })
 
-  const [ pizzaPorMitades, setPizzaPorMitades ] = useState({
-    tamanio: '',
-    masa: '',
-    mitad1: {
-      salsa: '',
-      queso: '',
-      vegetales: [],
-      carnes: []
-    },
-    mitad2: {
-      salsa: '',
-      queso: '',
-      vegetales: [],
-      carnes: []
-    },
-    precio: 0
-  })
+  //const [ pizzaPorMitades, setPizzaPorMitades ] = useState({
+   // tamanio: '',
+   // masa: '',
+   // mitad1: {
+    //  salsa: '',
+    //  queso: '',
+    //  vegetales: [],
+    //  carnes: []
+    //},
+    //mitad2: {
+    //  salsa: '',
+    //  queso: '',
+    //  vegetales: [],
+    //  carnes: []
+    //},
+    //precio: 0
+  //})
 
 
   const [ orden, setOrden ] = useState({
@@ -49,15 +50,28 @@ export default function Secciones() {
   
   useEffect(() => {
     calcularPrecioTotal();
-    });
+  }, [pizzaArmar, gaseosasSeleccionadas, bebidasSeleccionadas]);
   
-    const calcularPrecioTotal = () => {
-      let total = 0;
-      for (const pizza of pizzaArmar) {
-        total += pizza.total;
-      }
-      setPrecioTotal(total);
-    };
+  const calcularPrecioTotal = () => {
+    let total = 0;
+    
+    // Sumar el precio de las pizzas armadas
+    for (const pizza of pizzaArmar) {
+      total += pizza.total;
+    }
+  
+    // Sumar el precio de las gaseosas seleccionadas
+    for (const gaseosa of gaseosasSeleccionadas) {
+      total += gaseosa.precio;
+    }
+  
+    // Sumar el precio de las bebidas seleccionadas
+    for (const bebida of bebidasSeleccionadas) {
+      total += bebida.precio;
+    }
+  
+    setPrecioTotal(total);
+  };
 
   const handleAddPizzaArmar= () => {
   
@@ -67,13 +81,22 @@ export default function Secciones() {
   
   }
 
+  const handleAddPizzaPorMitades= () => {
+  
+    setOrden({...orden, listPizzaPorMitades: [...orden.listPizzaPorMitades, {...pizzaPorMitades}]})
+    // setPizzaArmar({...getEmptyValuesPizzaArmar()})
+    console.log(orden)
+  
+  }
+
   const showGaseosa = (gaseosaChild) => {
     setGaseosasSeleccionadas([...gaseosasSeleccionadas, gaseosaChild]);
-    setPrecioTotal(precioTotal + gaseosaChild.precio);
+    setPrecioTotal((prevPrecioTotal) => prevPrecioTotal + gaseosaChild.precio);
   };
+  
   const showBebida = (bebidaChild) => {
     setBebidasSeleccionadas([...bebidasSeleccionadas, bebidaChild]);
-    setPrecioTotal(precioTotal + bebidaChild.precio);
+    setPrecioTotal((prevPrecioTotal) => prevPrecioTotal + bebidaChild.precio);
   };
  
   return (
@@ -85,8 +108,11 @@ export default function Secciones() {
                   setPizzaArmar={setPizzaArmar}
                   pizzaPorMitades={pizzaPorMitades} 
                   setPizzaPorMitades={setPizzaPorMitades}
+                  addPizzaPorMitades={handleAddPizzaPorMitades}
                   //addPizzaPorMitadesToOrden={handleAddPizzaPorMitadesToOrden}
                   addPizzaArmar={handleAddPizzaArmar}/>
+                  
+                  
           <br />
           <Gaseosa enviarGaseosa={showGaseosa}/>
           <br />
@@ -130,9 +156,9 @@ export default function Secciones() {
                 </div>
               ))}
             </div>
-            <br />
-            <br />
             <div>
+            <div className="linea-horizontal"></div>
+            <br />
               {gaseosasSeleccionadas.map((gaseosa, index) => (
                   <h3 className="gaseosa">
                     {`${gaseosa.nombre} Q${gaseosa.precio}`}
@@ -140,8 +166,9 @@ export default function Secciones() {
               ))}
             </div>
             <br />
-            <br />
             <div>
+            <div className="linea-horizontal"></div>
+            <br />
               {bebidasSeleccionadas.map((bebida, index) => (
                   <h3 className="bebida">
                     {`${bebida.nombre} Q${bebida.precio}`}
@@ -149,7 +176,7 @@ export default function Secciones() {
               ))}
           </div>
             <div>
-              {orden.listPizzaPorMitades.map((pizza, index) => (
+              {/* orden.listPizzaPorMitades.map((pizza, index) => (
                 <div key={index}>
                   <h3>PIZZA POR MITADES</h3>
                 <span className="pedido">{pizza.tamanio}{pizza.tamanio && ','}</span>
@@ -171,6 +198,13 @@ export default function Secciones() {
                 <br />
                 <span className="precio">{pizza.precio > 0 && `Q${pizza.precio}`}</span>
                 <br />
+                </div>
+              ))*/}
+              {pizzaPorMitades.map((pizzaMitad, index) => (
+                <div key={index}>
+                  <h3>PIZZA POR MITADES</h3>
+                  {pizzaMitad.items.map((item, index) => ( <span key={index} className="pedido">{item.nombre}, </span> ) ) }
+                  <p className="precio mt-5">{`Q${pizzaMitad.total}`}</p>
                 </div>
               ))}
             </div>

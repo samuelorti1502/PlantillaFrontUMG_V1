@@ -187,7 +187,6 @@ export default function ArmaPizza(props) {
       setGrandTotal(total);
     }, [items]);
     
-
     
 
     const getPrecioCatalogo = (catalogo, nombre) => {

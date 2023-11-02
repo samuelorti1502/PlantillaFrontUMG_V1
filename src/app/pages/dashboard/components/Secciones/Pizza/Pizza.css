@@ -31,6 +31,7 @@
   padding: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
   text-align: center; 
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .pizza-item img {
@@ -50,10 +51,12 @@
     cursor: pointer; 
     font-weight: bold; 
     margin-top: 5px; 
+    font-size: 15px;
+    margin-bottom: 10px;
   }
 
   .pizza-item h4 {
-    font-size: 1.5rem; 
+    font-size: 20px; 
     font-weight: bold; 
     text-align: left;
     font-family: 'Courier New', Courier, monospace;

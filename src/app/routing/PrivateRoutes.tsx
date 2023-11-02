@@ -8,6 +8,7 @@ import {getCSSVariableValue} from '../../_metronic/assets/ts/_utils'
 import {WithChildren} from '../../_metronic/helpers'
 import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import ComerRestaurante from '../pages/menu/restaurante/ComerRestaurane'
+import MesaAsignacion from '../pages/dashboard/components/MesaAsignacion/MesaAsignacion'
 import Rol from '../pages/rol/'
 import Usuarios from '../pages/usuarios/'
 import Menu from '../pages/menu'
@@ -32,6 +33,7 @@ const PrivateRoutes = () => {
         <Route path='menu' element={<Menu />} />
         <Route path='dashboard' element={<DashboardWrapper />} />
         <Route path='rol' element={<Rol />} />
+        <Route path='asignar-mesa' element={<MesaAsignacion />} />
         <Route path='comer-restaurante' element={<ComerRestaurante />} />
         
          {/* Lazy Modules */}

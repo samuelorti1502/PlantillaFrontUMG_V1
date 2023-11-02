@@ -45,14 +45,15 @@ export default function Bebida({enviarBebida}) {
             <div className="bebidas">
                 {bebidas.map((bebida, index) => (
                 <div key={index} className="bebida-item">
-                    <h4>{bebida.nombre}</h4>
                     <img
-                        src={bebida.imagen}
+                        src={`http://3.22.100.138/images/${bebida.imagen}`}
                         alt={bebida.nombre}
+                        style={{ width: '100px', height: '100px' }}
                         onError={() => {
                             console.error(`No se pudo cargar la imagen para ${bebida.nombre}`);
                         }}
                     />
+                    <h4>{bebida.nombre}</h4>
                     <button
                     className="boton-bebida"
                     onClick={() => handleButtonClicked(bebida)}
@@ -66,3 +67,5 @@ export default function Bebida({enviarBebida}) {
     </div>
   )
 }
+
+//CREADO POR LAS AGUILAS 

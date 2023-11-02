@@ -45,14 +45,15 @@ export default function Gaseosa({enviarGaseosa}) {
             <div className="gaseosas">
                 {gaseosas.map((gaseosa, index) => (
                 <div key={index} className="gaseosa-item">
-                    <h4>{gaseosa.nombre}</h4>
                     <img
-                        src={gaseosa.imagen}
+                        src={`http://3.22.100.138/images/${gaseosa.imagen}`}
                         alt={gaseosa.nombre}
+                        style={{ width: '100px', height: '100px' }}
                         onError={() => {
                             console.error(`No se pudo cargar la imagen para ${gaseosa.nombre}`);
                         }}
                     />
+                    <h4>{gaseosa.nombre}</h4>
                     <button
                     className="boton-gaseosa"
                     onClick={() => handleButtonClicked(gaseosa)}

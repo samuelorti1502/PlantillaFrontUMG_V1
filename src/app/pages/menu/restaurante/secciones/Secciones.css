@@ -54,10 +54,9 @@
 
   .linea-horizontal {
     flex-grow: 1;
-    height: 1px;
-    background-color: white; /* Color de la línea */
-    margin-left: 10px; /* Espaciado a la izquierda de la línea */
-    width: 20%;
+    height: 2px;
+    background-color: white; 
+    width: 80%;
     margin-top: 18px;
     margin-right: 10px;
   }

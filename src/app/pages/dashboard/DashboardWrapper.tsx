@@ -38,7 +38,7 @@ const DashboardPage: FC = () => (
           FRESH & <span>TASTY</span>
         </h1>
         <div className="button-container">
-        <Link to="/comer-restaurante">
+        <Link to="/asignar-mesa">
           <button className="banner-button">
             Restaurante <FaArrowRight />
           </button>

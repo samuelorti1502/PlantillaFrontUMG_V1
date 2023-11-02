@@ -12,7 +12,7 @@ import {ErrorsPage} from '../modules/errors/ErrorsPage'
 import {Logout, AuthPage, useAuth} from '../modules/auth'
 import {App} from '../App'
 import Usuarios from '../pages/usuarios'
-import ComerRestaurante from '../pages/dashboard/ComerRestaurane'
+import MesaAsignacion from '../pages/dashboard/components/MesaAsignacion/MesaAsignacion'
 /**
  * Base URL of the website.
  *
