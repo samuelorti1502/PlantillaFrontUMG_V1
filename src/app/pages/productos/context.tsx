@@ -1,12 +1,12 @@
-import {createContext, FC, ReactNode, useState, useEffect} from 'react'
-import {GetRoute, PostRoute, DeleteRoute} from '../../services/private'
+import { createContext, FC, ReactNode, useState, useEffect } from 'react'
+import { GetRoute, PostRoute, DeleteRoute, PutRoute } from '../../services/private'
 type Props = {
   children?: ReactNode
 }
 
 export const ContentContext = createContext<any | null>(null)
 
-export const ContentProvider: FC<Props> = ({children}) => {
+export const ContentProvider: FC<Props> = ({ children }) => {
   const texto: String = 'Bienvenido Context'
   const [show, setShow] = useState(false)
   const [allData, setAllData] = useState<any>([])
@@ -22,7 +22,7 @@ export const ContentProvider: FC<Props> = ({children}) => {
   const handleShow = () => setShow(true)
 
   const creaetUpdate = async (data: any) => {
-    const response = await PostRoute(`rol/${!data?.id ? 'store' : 'update'}`, data)
+    const response = await PutRoute(`categorias/${!data?.id ? 'store' : 'update'}`, data)
     all()
     handleClose()
     console.log(response.message)
@@ -42,7 +42,7 @@ export const ContentProvider: FC<Props> = ({children}) => {
     handleShow()
   }
 
-  const roles =async (data: any) => {
+  const roles = async (data: any) => {
     /*console.log("hola")
     const response = await GetRoute('rol/listar')
     console.log(response.message)*/

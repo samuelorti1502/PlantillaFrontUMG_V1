@@ -1,11 +1,11 @@
-import {useContext, useState} from 'react'
-import {Button} from 'react-bootstrap'
-import {ContentContext} from './context'
+import { useContext, useState } from 'react'
+import { Button } from 'react-bootstrap'
+import { ContentContext } from './context'
 import DataTable from 'react-data-table-component'
-import {FormProd} from './form'
+import { FormProd } from './form'
 
 const Index = () => {
-  const {allData, eliminar} = useContext(ContentContext)
+  const { allData, eliminar } = useContext(ContentContext)
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)
@@ -49,7 +49,20 @@ const Index = () => {
     },
     {
       name: 'Estatus',
-      selector: (row: any) => row.estatus,
+      cell: (row: any) => (
+        <div
+          style={{
+            backgroundColor: row.estatus === 'Activo' ? '#d6f0e0' : row.estatus === 'Inactivo' ? '#e66975' : row.estatus === 'Pendiente' ? '#f0e0d6' : '',
+            color: row.estatus === 'Activo' ? '#0d6832' : row.estatus === 'Inactivo' ? '#f80a22' : row.estatus === 'Pendiente' ? '#e0c440' : '',
+            borderRadius: '5px',
+            padding: '5px 10px',
+          }}
+        >
+
+          {/* {row.id_status === 1 ? 'Activo' : row.id_status === 4 ? 'Inactivo' : 'Otro'} */}
+          {row.estatus}
+        </div>
+      ),
     },
     {
       name: 'Imagen',
@@ -58,7 +71,7 @@ const Index = () => {
         <img
           src={`http://3.22.100.138/images/${row.imagen}`}
           alt='Imagen'
-          style={{width: '50px', height: '50px'}}
+          style={{ width: '50px', height: '50px' }}
         />
       ),
     },
@@ -93,9 +106,10 @@ const Index = () => {
   const tableCustomStyles = {
     table: {
       style: {
-        //color: theme.text.primary,
-        //justifyContent: 'center',
+        justifyContent: 'center',
         backgroundColor: '#FFA500',
+        //maxWidth: '90%',
+        margin: 'auto',
       },
     },
     tableWrapper: {
@@ -108,11 +122,19 @@ const Index = () => {
         fontSize: '15px',
         fontWeight: 'bold',
         paddingLeft: '0 8px',
-        //justifyContent: 'center',
+        justifyContent: 'center',
         justifyTitle: 'center',
         backgroundColor: '#FFA500',
-      },
+      }
     },
+    cells: {
+      style: {
+        fontSize: '12px',
+        justifyContent: 'center',
+
+      }
+    }
+
   }
 
   return (
