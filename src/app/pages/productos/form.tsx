@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
   // estatus: Yup.string().required('Estatus es requerido'),
 })
 
-const FormProd = ({mostrar, setMostrar, tipo}: any) => {
+const FormProd = ({mostrar, setMostrar, tipo, datos}: any) => {
   const [value, setValue] = useState('')
 
   const [image, setImage] = useState('')
@@ -185,7 +185,7 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
   return (
     <Modal show={mostrar} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{tipo === 0 ? 'Nuevo Producto' : 'Editar Producto'}</Modal.Title>
+        <Modal.Title>{tipo === 0 ? 'Nuevo Producto' : `Editar Producto`}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {hasErrors === true && (
@@ -205,41 +205,79 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
             <div style={{display: 'flex', alignItems: 'center'}}>
               <div style={{flex: 1}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Producto</label>
-                <input
-                  // name='producto'
-                  placeholder='Producto'
-                  type='text'
-                  autoComplete='off'
-                  {...formik.getFieldProps('producto')}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    {
-                      'is-invalid': formik.touched.producto && formik.errors.producto,
-                    },
-                    {
-                      'is-valid': formik.touched.producto && !formik.errors.producto,
-                    }
-                  )}
-                />
+                {tipo === 0 ? (
+                  <input
+                    // name='producto'
+                    placeholder='Producto'
+                    type='text'
+                    autoComplete='off'
+                    {...formik.getFieldProps('producto')}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.producto && formik.errors.producto,
+                      },
+                      {
+                        'is-valid': formik.touched.producto && !formik.errors.producto,
+                      }
+                    )}
+                  />
+                ) : (
+                  <input
+                    // name='producto'
+                    placeholder='Producto'
+                    type='text'
+                    autoComplete='off'
+                    defaultValue={datos.nombre || ''}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.producto && formik.errors.producto,
+                      },
+                      {
+                        'is-valid': formik.touched.producto && !formik.errors.producto,
+                      }
+                    )}
+                  />
+                )}
               </div>
               <div style={{flex: 1, marginLeft: '15px'}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Descripción</label>
-                <textarea
-                  placeholder='Descripción'
-                  // component='textarea'
-                  autoComplete='off'
-                  rows={3}
-                  {...formik.getFieldProps('descripcion')}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    {
-                      'is-invalid': formik.touched.descripcion && formik.errors.descripcion,
-                    },
-                    {
-                      'is-valid': formik.touched.descripcion && !formik.errors.descripcion,
-                    }
-                  )}
-                />
+                {tipo === 0 ? (
+                  <textarea
+                    placeholder='Descripción'
+                    // component='textarea'
+                    autoComplete='off'
+                    rows={3}
+                    {...formik.getFieldProps('descripcion')}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.descripcion && formik.errors.descripcion,
+                      },
+                      {
+                        'is-valid': formik.touched.descripcion && !formik.errors.descripcion,
+                      }
+                    )}
+                  />
+                ) : (
+                  <textarea
+                    placeholder='Descripción'
+                    // component='textarea'
+                    autoComplete='off'
+                    rows={3}
+                    defaultValue={datos.descripcion}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.descripcion && formik.errors.descripcion,
+                      },
+                      {
+                        'is-valid': formik.touched.descripcion && !formik.errors.descripcion,
+                      }
+                    )}
+                  />
+                )}
                 {/* <ErrorMessage name='descripcion' component='div' className='text-danger' /> */}
               </div>
             </div>
@@ -279,26 +317,49 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
               </div>
               <div style={{flex: 1, marginLeft: '15px'}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Precio</label>
-                <CurrencyInput
-                  id='validationCustom01'
-                  name='input-1'
-                  //className={`form-control ${className}`}
-                  value={value}
-                  // {...formik.getFieldProps('precio')}
-                  onValueChange={handleOnValueChange}
-                  placeholder='Ingrese el precio'
-                  prefix={prefix}
-                  step={1}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    {
-                      'is-invalid': formik.touched.precio && formik.errors.precio,
-                    },
-                    {
-                      'is-valid': formik.touched.precio && !formik.errors.precio,
-                    }
-                  )}
-                />
+                {tipo === 0 ? (
+                  <CurrencyInput
+                    id='validationCustom01'
+                    name='input-1'
+                    //className={`form-control ${className}`}
+                    value={value}
+                    // {...formik.getFieldProps('precio')}
+                    onValueChange={handleOnValueChange}
+                    placeholder='Ingrese el precio'
+                    prefix={prefix}
+                    step={1}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.precio && formik.errors.precio,
+                      },
+                      {
+                        'is-valid': formik.touched.precio && !formik.errors.precio,
+                      }
+                    )}
+                  />
+                ) : (
+                  <CurrencyInput
+                    id='validationCustom01'
+                    name='input-1'
+                    //className={`form-control ${className}`}
+                    defaultValue={datos.precio}
+                    // {...formik.getFieldProps('precio')}
+                    onValueChange={handleOnValueChange}
+                    placeholder='Ingrese el precio'
+                    prefix={prefix}
+                    step={1}
+                    className={clsx(
+                      'form-control bg-transparent',
+                      {
+                        'is-invalid': formik.touched.precio && formik.errors.precio,
+                      },
+                      {
+                        'is-valid': formik.touched.precio && !formik.errors.precio,
+                      }
+                    )}
+                  />
+                )}
                 {/* <div className='invalid-feedback'>{errorMessage}</div> */}
               </div>
             </div>
@@ -309,7 +370,7 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
               <div style={{flex: 1}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Imagen</label>
                 <div className='image-input image-input-outline' data-kt-image-input='true'>
-                  {image ? (
+                  {/* {image ? (
                     <img
                       alt='Logo'
                       src={toAbsoluteUrl(image)}
@@ -320,6 +381,22 @@ const FormProd = ({mostrar, setMostrar, tipo}: any) => {
                     <img
                       alt='Logo'
                       src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
+                      className='image-input-wrapper w-125px h-125px'
+                      // onChange={handleImage}
+                    />
+                  )} */}
+
+                  {tipo === 0 ? (
+                    <img
+                      alt='Logo'
+                      src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
+                      className='image-input-wrapper w-125px h-125px'
+                      // onChange={handleImage}
+                    />
+                  ) : (
+                    <img
+                      alt='Logo'
+                      src={`http://3.22.100.138/images/${datos.imagen}`}
                       className='image-input-wrapper w-125px h-125px'
                       // onChange={handleImage}
                     />

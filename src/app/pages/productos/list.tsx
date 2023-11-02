@@ -14,6 +14,7 @@ const Index = () => {
 
   const [mostrar, setMostrar] = useState(false)
   const [tipo, setTipo] = useState(0)
+  const [datosFila, setDatosFila] = useState()
 
   const handleShowM = () => {
     setMostrar(true)
@@ -78,11 +79,12 @@ const Index = () => {
             onClick={() => {
               handleShowM()
               setTipo(1)
+              setDatosFila(row)
             }}
           >
             <i className='bi bi-pencil' />
           </Button>
-          <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} />
+          <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} datos={datosFila} />
         </div>
       ),
     },
