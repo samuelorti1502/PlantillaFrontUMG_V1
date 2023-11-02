@@ -63,7 +63,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, id_cat, nombre, estatusCat }: any
     initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
-      const { data: mod } = await modificarCategoria(id_cate, nombreCat, 'imagen', 1, currentUser?.usuario);
+      const { data: mod } = await modificarCategoria(id_cat, nombreCat, 'imagen', 1, currentUser?.usuario);
       console.log(`Actualizando categoria ${id_cat}`);
       // console.log(`Actualizando categoria ${values.nombre}`);
       // console.log(`Actualizando categoria ${nombreCat}`);
