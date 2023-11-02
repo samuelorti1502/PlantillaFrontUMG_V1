@@ -103,3 +103,14 @@ export function registrarProducto(
     imagen: imagen,
   })
 }
+
+export function ingresarCategoria(nombre: string, imagen: string, usuario_creacion: string) {
+  console.log('Hola')
+  return axios.post(PRODUCTO_URL, {
+    id_categoria: 1,
+    nombre: nombre,
+    imagen: imagen,
+    id_status: 1,
+    usuario_creacion: usuario_creacion,
+  })
+}

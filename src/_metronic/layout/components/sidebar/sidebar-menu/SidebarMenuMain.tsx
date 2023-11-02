@@ -46,6 +46,19 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/administracion/usuarios/listado' title='Listado' hasBullet={true} />
       </SidebarMenuItemWithSub>
       <SidebarMenuItemWithSub
+        to='/administracion/categorias'
+        title='Categorias'
+        icon='/media/icons/duotune/communication/com006.svg'
+        fontIcon='bi-layers'
+      >
+        <SidebarMenuItem
+          to='/administracion/categorias/listado'
+          title='Listado'
+          fontIcon='bi-archive'
+          icon='/media/icons/duotune/general/gen022.svg'
+        />
+      </SidebarMenuItemWithSub>
+      <SidebarMenuItemWithSub
         to='/administracion/productos'
         title='Productos'
         icon='/media/icons/duotune/communication/com006.svg'
