@@ -21,7 +21,7 @@ const initialValues = {
   email: '',
   usuario: '',
   password: '',
-  rol: 'Mesero',
+  rol: 'Administrador',
   estatus: '',
   token: '',
   confirmado: '',

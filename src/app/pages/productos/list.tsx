@@ -3,9 +3,30 @@ import { Button } from 'react-bootstrap'
 import { ContentContext } from './context'
 import DataTable from 'react-data-table-component'
 import { FormProd } from './form'
+import EliminarUsuario from './EliminarProducto'
+import EliminarProducto from './EliminarProducto'
 
 const Index = () => {
   const { allData, eliminar } = useContext(ContentContext)
+
+  //d
+  const [showDelete, setShowDelete] = useState(false)
+  const [selectedUser, setSelectedUser] = useState(null);
+
+
+  const handleShowEliminar = (row) => {
+    setSelectedUser(row);
+    setShowDelete(true);
+    
+  }
+  
+  
+  const handleCloseModalEliminar = () => {
+    setSelectedUser(null);
+    setShowDelete(false);
+  }
+//d
+
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)
@@ -82,7 +103,8 @@ const Index = () => {
           <Button
             variant={'danger'}
             className='btn-sm btn-icon'
-            onClick={() => handleDelete(row.usuario)}
+            onClick={() => handleShowEliminar(row)}
+          //  onClick={() => handleDelete(row.usuario)}
           >
             <i className='bi bi-trash' />
           </Button>
@@ -97,7 +119,7 @@ const Index = () => {
           >
             <i className='bi bi-pencil' />
           </Button>
-          <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} datos={datosFila} />
+         
         </div>
       ),
     },
@@ -147,6 +169,16 @@ const Index = () => {
         pagination
         customStyles={tableCustomStyles}
       />
+       <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} datos={datosFila} />
+       {showDelete && (
+    <EliminarProducto
+      modalTitle={'Eliminar Producto'}
+      show={showDelete}
+      handleClose={handleCloseModalEliminar}
+      selectedUser={selectedUser}
+
+    />
+  )}
     </div>
   )
 }

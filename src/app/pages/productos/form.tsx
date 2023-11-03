@@ -12,7 +12,7 @@ import {
   CurrencyInputProps,
   CurrencyInputOnChangeValues,
 } from 'react-currency-input-field/src/components/CurrencyInputProps'
-import Select from 'react-select'
+
 
 const RouteBase = process.env.REACT_APP_API_URL
 

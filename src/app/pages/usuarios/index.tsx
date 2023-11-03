@@ -4,6 +4,7 @@ import EditarUsuario from './EditarUsuario'
 import Lista from './list'
 import { ContentProvider } from './context'
 import { useState } from 'react'
+import InvoiceModal from './botonTest'
 
 const Index = () => {
 
@@ -12,7 +13,7 @@ const Index = () => {
 
   return (
     <ContentProvider>
-      <Formulario modalTitle={modalTitle} />  
+      <Formulario modalTitle={modalTitle} />   
       <Lista />
     </ContentProvider>
   )
