@@ -44,6 +44,20 @@ const Index = () => {
     //console.log(category)
   }
 
+  const [show, setShow] = useState(false)
+  const [showDelete, setShowDelete] = useState(false)
+  const [selectedUser, setSelectedUser] = useState(null)
+
+  const handleShowEliminar = (row) => {
+    setSelectedUser(row)
+    setShowDelete(true)
+  }
+
+  const handleCloseModalEliminar = () => {
+    setSelectedUser(null)
+    setShowDelete(false)
+  }
+
   const columns = [
     {
       name: '#',

@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
+import {useEffect, useRef, useState} from 'react'
+import {Modal, Button, Form} from 'react-bootstrap'
 import clsx from 'clsx'
 import CurrencyInput from 'react-currency-input-field'
-import { toAbsoluteUrl } from '../../../_metronic/helpers'
+import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import axios from 'axios'
 import * as Yup from 'yup'
-import { Field, ErrorMessage, useFormik } from 'formik'
-import { registrarProducto } from '../../modules/auth/core/_requests'
-import { useAuth } from '../../modules/auth/core/Auth'
+import {useFormik} from 'formik'
+import {registrarProducto} from '../../modules/auth/core/_requests'
+import {useAuth} from '../../modules/auth/core/Auth'
 import {
   CurrencyInputProps,
   CurrencyInputOnChangeValues,
@@ -39,7 +39,7 @@ const validationSchema = Yup.object().shape({
   // estatus: Yup.string().required('Estatus es requerido'),
 })
 
-const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
+const FormProd = ({mostrar, setMostrar, tipo, datos}: any) => {
   const [value, setValue] = useState('')
 
   const [archivo, setArchivo] = useState([])
@@ -117,17 +117,17 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
 
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [loading, setLoading] = useState(false)
-  const { saveAuth, setCurrentUser } = useAuth()
+  const {saveAuth, setCurrentUser} = useAuth()
   let Mensaje = ''
 
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
-    onSubmit: async (values, { setStatus, setSubmitting, resetForm }) => {
+    onSubmit: async (values, {setStatus, setSubmitting, resetForm}) => {
       setLoading(true)
       //console.log("Crear producto")
       try {
-        const { data: prod } = await registrarProducto(
+        const {data: prod} = await registrarProducto(
           values.producto,
           values.descripcion,
           categoria,
@@ -201,7 +201,6 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
 
   const handleUpdate = (id: any) => {
     console.log(id)
-
   }
 
 
@@ -230,8 +229,8 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
         <>
           {/* Producto - Descripcion */}
           <div className='fv-row mb-8'>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <div style={{flex: 1}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Producto</label>
                 {tipo === 0 ? (
                   <input
@@ -269,7 +268,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                   />
                 )}
               </div>
-              <div style={{ flex: 1, marginLeft: '15px' }}>
+              <div style={{flex: 1, marginLeft: '15px'}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Descripción</label>
                 {tipo === 0 ? (
                   <textarea
@@ -312,8 +311,8 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
           </div>
           {/* Categoria - Precio */}
           <div className='fv-row mb-8'>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: 1, marginTop: '18px' }}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <div style={{flex: 1, marginTop: '18px'}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Categoria</label>
                 <div className='fv-row mb-8'>
                   <Form.Group controlId='exampleForm.SelectCustom'>
@@ -333,7 +332,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                       {tipo === 1 ? (
                         <>
                           <option value=''>{datos.categoria}</option>
-                          {categorias.map((cat: { id_categoria: number; nombre: string }) => (
+                          {categorias.map((cat: {id_categoria: number; nombre: string}) => (
                             <option key={cat.id_categoria} value={cat.id_categoria}>
                               {cat.nombre}
                             </option>
@@ -342,7 +341,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                       ) : (
                         <>
                           <option value=''>Seleccionar categoria</option>
-                          {categorias.map((cat: { id_categoria: number; nombre: string }) => (
+                          {categorias.map((cat: {id_categoria: number; nombre: string}) => (
                             <option key={cat.id_categoria} value={cat.id_categoria}>
                               {cat.nombre}
                             </option>
@@ -353,7 +352,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                   </Form.Group>
                 </div>
               </div>
-              <div style={{ flex: 1, marginLeft: '15px' }}>
+              <div style={{flex: 1, marginLeft: '15px'}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Precio</label>
                 {tipo === 0 ? (
                   <CurrencyInput
@@ -404,8 +403,8 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
           </div>
           {/* Imagen - Estatus */}
           <div className='fv-row mb-8'>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <div style={{flex: 1}}>
                 {/* <label className='form-label fw-bolder text-dark fs-6'>Imagen</label> */}
                 <div className='image-input image-input-outline' data-kt-image-input='true'>
                   {/* {image ? (
@@ -429,7 +428,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                       alt='Logo'
                       src={toAbsoluteUrl('/media/logos/LogoPizza.png')}
                       className='image-input-wrapper w-150px h-150px'
-                    // onChange={handleImage}
+                      // onChange={handleImage}
                     />
                   ) : (
                     <img
@@ -438,7 +437,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
 
                         src = {image}
                       className='image-input-wrapper w-150px h-150px'
-                    // onChange={handleImage}
+                      // onChange={handleImage}
                     />
                   )}
 
@@ -480,7 +479,7 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                   {/* end::Remove button */}
                 </div>
               </div>
-              <div style={{ flex: 1, marginLeft: '15px' }}>
+              <div style={{flex: 1, marginLeft: '15px'}}>
                 <label className='form-label fw-bolder text-dark fs-6'>Estatus</label>
                 <div className='fv-row mb-8'>
                   <Form.Group controlId='exampleForm.SelectCustom'>
@@ -500,11 +499,11 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                       {tipo === 1 ? (
                         <>
                           <option value=''>{datos.estatus}</option>
-                          {status.map((est: { id: number; nombre_estatus: string }) => (
+                          {status.map((est: {id: number; nombre_estatus: string}) => (
                             <option
                               key={est.id}
                               value={est.id}
-                            // {...formik.getFieldProps('estatus')}
+                              // {...formik.getFieldProps('estatus')}
                             >
                               {est.nombre_estatus}
                             </option>
@@ -513,18 +512,17 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                       ) : (
                         <>
                           <option value=''>Seleccionar estatus</option>
-                          {status.map((est: { id: number; nombre_estatus: string }) => (
+                          {status.map((est: {id: number; nombre_estatus: string}) => (
                             <option
                               key={est.id}
                               value={est.id}
-                            // {...formik.getFieldProps('estatus')}
+                              // {...formik.getFieldProps('estatus')}
                             >
                               {est.nombre_estatus}
                             </option>
                           ))}
                         </>
                       )}
-
                     </Form.Select>
                   </Form.Group>
                 </div>
@@ -537,19 +535,21 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
         <Button
           variant='primary'
           onClick={handleClose}
-          style={{ background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white' }}
+          style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white'}}
         >
           Cerrar
         </Button>
         <Button
           variant='secondary'
           onClick={tipo === 0 ? formik.submitForm : () => handleUpdate(datos.id_prod_menu)}
-          style={{ background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white' }}
+          style={{background: 'linear-gradient(to right, #F2AC29, #FF5733)', color: 'white'}}
           disabled={formik.isSubmitting}
         >
-          {!loading && <span className='indicator-label'>{tipo === 0 ? 'Crear Producto' : 'Actualizar '}</span>}
+          {!loading && (
+            <span className='indicator-label'>{tipo === 0 ? 'Crear Producto' : 'Actualizar '}</span>
+          )}
           {loading && (
-            <span className='indicator-progress' style={{ display: 'block' }}>
+            <span className='indicator-progress' style={{display: 'block'}}>
               Espere por favor...{' '}
               <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
             </span>
@@ -560,4 +560,4 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
   )
 }
 
-export { FormProd }
+export {FormProd}
