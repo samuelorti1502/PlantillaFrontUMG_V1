@@ -42,13 +42,20 @@ const validationSchema = Yup.object().shape({
 const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
   const [value, setValue] = useState('')
 
+  const [archivo, setArchivo] = useState([])
+
   const [image, setImage] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleImage = (event: any) => {
     const file = event.target.files[0]
-    setImage(file)
+    const imagen = URL.createObjectURL(file);
+    console.log(file)
+    setImage(imagen)
+    setArchivo(file)
+    console.log(imagen)
   }
+
 
   const [status, setStatus] = useState([])
   const [categorias, setCategorias] = useState([])
@@ -86,6 +93,15 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
     fetchCategories()
   }, [])
 
+
+
+  useEffect(() => {
+    datos?.imagen &&
+    setImage(`http://3.22.100.138/images/${datos?.imagen || ''}`)
+
+  }, [mostrar])
+
+
   const handleSaveChanges = (values: any) => {
     console.log('Form values:', values)
     // Aquí puedes manejar los valores del formulario y realizar cualquier llamada de API necesaria
@@ -117,7 +133,8 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
           categoria,
           String(rawValue),
           estatus,
-          'values.imagen'
+          'values.imagen',
+          //archivo
         )
         if (prod.success) {
           setLoading(false)
@@ -187,7 +204,13 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
 
   }
 
+
+
+
+
   return (
+
+  
     <Modal show={mostrar} onHide={handleClose}>
       <Modal.Header closeButton>
         <Modal.Title>{tipo === 0 ? 'Nuevo Producto' : `Editar Producto`}</Modal.Title>
@@ -411,7 +434,9 @@ const FormProd = ({ mostrar, setMostrar, tipo, datos }: any) => {
                   ) : (
                     <img
                       alt='Logo'
-                      src={`http://3.22.100.138/images/${datos.imagen}`}
+                    // src={`http://3.22.100.138/images/${datos.imagen}`}
+
+                        src = {image}
                       className='image-input-wrapper w-150px h-150px'
                     // onChange={handleImage}
                     />

@@ -29,7 +29,7 @@ let Mensaje = ''
 
 const EliminarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, selectedUser}) => {
   //const {show} = useContext(ContentContext)
-  const { allData, eliminar } = useContext(ContentContext);
+  const { eliminar } = useContext(ContentContext);
 
   // ... Resto del código
 
@@ -37,7 +37,8 @@ const EliminarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, s
     // Eliminar el usuario aquí
     await eliminar(usuario);
     // Luego, carga los datos actualizados después de eliminar
-    allData();
+   
+
   };
 
 
@@ -49,7 +50,7 @@ const EliminarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, s
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
  
   const [loading, setLoading] = useState(false)
-  const {saveAuth} = useAuth()
+
 
 
 
@@ -64,22 +65,20 @@ const EliminarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, s
         console.log('Usuario Eliminado Exitosamente')
      
           Mensaje = 'Usuario Eliminado Exitosamente'
-      
-
         setStatus(Mensaje)
-        saveAuth(undefined)
         setHasErrors(false)
-        setLoading(false)
+          setLoading(false)
         //setCurrentUser(user)
+        setTimeout(() => {
+          handleClose()},2000)
       } catch (error) {
         console.error(error)
         setHasErrors(true)
         Mensaje = 'Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.'
-        saveAuth(undefined)
         setStatus('Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.')
         setSubmitting(false)
-        setLoading(false)
         setHasErrors(true)
+        setHasErrors(false)
       }
     },
   })

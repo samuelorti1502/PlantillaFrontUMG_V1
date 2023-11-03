@@ -30,7 +30,7 @@ export const ContentProvider: FC<Props> = ({ children }) => {
   };
 
   const eliminar = async (usuario: any) => {
-    const response: AxiosResponse = await DeleteRoute(`usuario/${usuario.id}`); // Reemplaza DeleteRoute con la función real para eliminar usuarios
+    const response: any = await DeleteRoute(`usuario/${usuario.id}`); // Reemplaza DeleteRoute con la función real para eliminar usuarios
 
     if (response.status === 200) {
       console.log(response.data.message);
