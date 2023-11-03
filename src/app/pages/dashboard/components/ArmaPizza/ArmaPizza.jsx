@@ -57,7 +57,7 @@ export default function ArmaPizza(props) {
     
 
     useEffect(() => {
-        // calcularPrecioTotal()
+        calcularPrecioTotal()
         console.log('Pizza actualizada ', pizzaArmar)
     }, [pizzaArmar])
 
@@ -69,7 +69,7 @@ export default function ArmaPizza(props) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        // setPizzaArmar({ ...pizzaArmar, [name]: value, precio: precioTotal })
+        setPizzaArmar({ ...pizzaArmar, [name]: value, precio: precioTotal })
         // calcularPrecioTotal()
     };
 
@@ -83,12 +83,12 @@ export default function ArmaPizza(props) {
             pizzaArmar[name].splice(index, 1)
         }
         console.log(pizzaArmar)
+        setPizzaArmar({ ...pizzaArmar })
         // calcularPrecioTotal()
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPizzaArmar([...pizzaArmar, {items, total: grandTotal}]);
 
         closeDrawer()
         addPizzaArmar()
@@ -119,74 +119,57 @@ export default function ArmaPizza(props) {
         })
     }
 
-    // const calcularPrecioTotal = () => {
+    const calcularPrecioTotal = () => {
 
-    //     let [precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes] = [0, 0, 0, 0, 0, 0]
+        let [precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes] = [0, 0, 0, 0, 0, 0]
 
-    //     if (pizzaArmar.tamanio !== '') {
-    //         precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizzaArmar.tamanio)
-    //     }
+        if (pizzaArmar.tamanio !== '') {
+            precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizzaArmar.tamanio)
+        }
 
-    //     if (pizzaArmar.masa !== '') precioMasa = getPrecioCatalogo(CATTIPOMASACATALOGO, pizzaArmar.masa)
+        if (pizzaArmar.masa !== '') precioMasa = getPrecioCatalogo(CATTIPOMASACATALOGO, pizzaArmar.masa)
 
-    //     if (pizzaArmar.queso !== '') precioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaArmar.queso)
+        if (pizzaArmar.queso !== '') precioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaArmar.queso)
 
-    //     if (pizzaArmar.salsa !== '') precioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaArmar.salsa)
+        if (pizzaArmar.salsa !== '') precioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaArmar.salsa)
 
-    //     if (pizzaArmar.vegetales.length > 0) {
-    //         pizzaArmar.vegetales.forEach((vegetal) => {
-    //             precioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
-    //         })
-    //     }
+        if (pizzaArmar.vegetales.length > 0) {
+            pizzaArmar.vegetales.forEach((vegetal) => {
+                precioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
+            })
+        }
 
-    //     if (pizzaArmar.carnes.length > 0) {
-    //         pizzaArmar.carnes.forEach((carne) => {
-    //             precioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
-    //         })
-    //     }
-    //     console.log('Precios', precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes)
-    //     setPrecioTotal(precioTamanio + precioMasa + precioQueso + precioSalsa + precioVegetales + precioCarnes)
+        if (pizzaArmar.carnes.length > 0) {
+            pizzaArmar.carnes.forEach((carne) => {
+                precioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
+                console.log('Entro carne ', precioCarnes)
+            })
+        }
+        console.log('Precios', precioTamanio, precioMasa, precioQueso, precioSalsa, precioVegetales, precioCarnes)
+        let total = precioTamanio + precioMasa + precioQueso + precioSalsa + precioVegetales + precioCarnes
+        pizzaArmar.precio = total
+        setPrecioTotal(total)
 
-    // }
-    const [grandTotal, setGrandTotal] = useState(0);
-    const [items, setItems] = useState([]);
-    const seleccionUnica = ['Tamaño', 'Masa', 'Salsa', 'Queso'];
-    
+    }
+    const [grandTotal, setGrandTotal] = useState(0)
+    const [items, setItems] = useState([])
     const calcularPrecio = (data) => {
-      // Verificar si es un catálogo de selección única
-      if (seleccionUnica.includes(data.tipo)) {
-        // Filtrar elementos previos del mismo tipo
-        const elementosPrevios = items.filter((item) => item.tipo !== data.tipo);
-        setItems([...elementosPrevios, data]);
-      } else {
-        // Catálogo de selección múltiple
-        const itemIndex = items.findIndex((item) => item.nombre === data.nombre);
-        if (itemIndex !== -1) {
-          const updatedItems = [...items];
-          updatedItems[itemIndex] = {
-            ...data,
-            cantidad: updatedItems[itemIndex].cantidad + 1,
-          };
-          setItems(updatedItems);
+        if(items.filter((item) => item.tipo === data.tipo).length > 0) {
+            const element = items.map((u) => (u.tipo !== data.tipo ? u : data))
+            setItems(element)
         } else {
-          setItems([...items, { ...data, cantidad: 1 }]);
+            setItems([...items, data])
         }
-      }
-    };
-    
+    }
     useEffect(() => {
-      let total = 0;
-      items.forEach((item) => {
-        if (item.tipo === 'Vegetales' || item.tipo === 'Carnes') {
-          // Si es un elemento de Vegetales o Carnes, multiplica su precio por la cantidad
-          total += item.precio * item.cantidad;
-        } else {
-          total += item.precio;
+        if(items.length > 0) {
+            const total = items.reduce((suma, item) => suma + item.precio, 0);
+            setGrandTotal(total);
         }
-      });
-      setGrandTotal(total);
+        
     }, [items]);
     
+
     
 
     const getPrecioCatalogo = (catalogo, nombre) => {
@@ -250,8 +233,8 @@ export default function ArmaPizza(props) {
                                             id={'tamanio' + index}
                                             value={tamanio.nombre}
                                             onChange={(e) => {
-                                                // handleInputChange(e)
-                                                calcularPrecio({...tamanio, tipo: 1})
+                                                handleInputChange(e)
+                                                //calcularPrecio({...tamanio, tipo: 1})
                                                 agregarSeleccionBotones(e, 'tamanio')
 
                                             }}
@@ -279,8 +262,8 @@ export default function ArmaPizza(props) {
                                             id={'masa' + index}
                                             value={masa.nombre}
                                             onChange={(e) => {
-                                                calcularPrecio({...masa, tipo: 2})
-                                                // handleInputChange(e)
+                                                //calcularPrecio({...masa, tipo: 2})
+                                                handleInputChange(e)
                                                 agregarSeleccionBotones(e, 'masa')
                                             }}
                                             required={true}
@@ -307,8 +290,8 @@ export default function ArmaPizza(props) {
                                             id={'salsa' + index}
                                             value={salsa.nombre}
                                             onChange={(e) => {
-                                                //handleInputChange(e)
-                                                calcularPrecio({...salsa, tipo: 3})
+                                                handleInputChange(e)
+                                                //calcularPrecio({...salsa, tipo: 3})
                                                 agregarSeleccionBotones(e, 'salsa')
                                             }}
                                             // required={true}
@@ -334,8 +317,8 @@ export default function ArmaPizza(props) {
                                             id={'queso' + index}
                                             value={queso.nombre}
                                             onChange={(e) => {
-                                                //handleInputChange(e)
-                                                calcularPrecio({...queso, tipo: 4})
+                                                handleInputChange(e)
+                                                //calcularPrecio({...queso, tipo: 4})
                                                 agregarSeleccionBotones(e, 'queso')
                                             }}
                                             // required={true}
@@ -361,8 +344,8 @@ export default function ArmaPizza(props) {
                                             id={'vegetales' + index}
                                             value={vegetal.nombre}
                                             onChange={(e) => {
-                                                //handleMultipleInputChange(e)
-                                                calcularPrecio({...vegetal, tipo: 5})
+                                                handleMultipleInputChange(e)
+                                                //calcularPrecio({...vegetal, tipo: 5})
                                                 agregarSeleccionBotones(e, 'vegetales')
                                             }}
                                         />
@@ -387,7 +370,7 @@ export default function ArmaPizza(props) {
                                             id={'carnes' + index}
                                             value={carne.nombre}
                                             onChange={(e) => {
-                                                calcularPrecio({...carne, tipo: 6})
+                                                handleMultipleInputChange(e)
                                                 agregarSeleccionBotones(e, 'carnes')
                                             }}
                                         />
@@ -407,7 +390,7 @@ export default function ArmaPizza(props) {
                                 </span>
                             </div>
                             <div className="">
-                                <Button className='w-100' type="submit"> <i className="bi bi-plus fs-2" />AÑADIR AL PEDIDO <span className='min-price'>Q. {grandTotal}</span></Button>
+                                <Button className='w-100' type="submit"> <i className="bi bi-plus fs-2" />AÑADIR AL PEDIDO <span className='min-price'>Q. {precioTotal}</span></Button>
                                 
                             </div>
                         </div>

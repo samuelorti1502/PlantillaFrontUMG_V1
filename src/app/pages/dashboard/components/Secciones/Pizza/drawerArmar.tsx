@@ -7,7 +7,7 @@ import CrearPizza from '../../CrearPizza/CrearPizza'
 
 const DrawerArmar = (props: any) => {
 
-    let { tipo, pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitadesToOrden, pizzaArmar, setPizzaArmar, addPizzaArmar } = props
+    let { tipo, pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitades, pizzaArmar, setPizzaArmar, addPizzaArmar } = props
 
     const recibirOrden = (orden: any) => {
         console.log('Orden recibida de ArmarPizza ', orden)
@@ -64,7 +64,7 @@ const DrawerArmar = (props: any) => {
                         <CrearPizza 
                                 pizzaPorMitades={pizzaPorMitades} 
                                 setPizzaPorMitades={setPizzaPorMitades} 
-                                addPizzaPorMitadesToOrden={addPizzaPorMitadesToOrden}/>}
+                                addPizzaPorMitades={addPizzaPorMitades}/>}
                         </div>
                     {/* end::Content */}
                 </div>

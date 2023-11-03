@@ -20,7 +20,7 @@ const pizzas = [
 
 export default function Pizza(props) {
 
-    const { pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitadesToOrden, pizzaArmar, setPizzaArmar, addPizzaArmar } = props
+    const { pizzaPorMitades, setPizzaPorMitades, addPizzaPorMitades, pizzaArmar, setPizzaArmar, addPizzaArmar } = props
 
     const [stateModalPizzaMitades, setStateModalPizzaMitades] = useState(false)
     const [stateModalArmaPizza, setStateModalArmaPizza] = useState(false)
@@ -109,7 +109,7 @@ export default function Pizza(props) {
                     setPizzaArmar={setPizzaArmar}
                     pizzaPorMitades={pizzaPorMitades} 
                     setPizzaPorMitades={setPizzaPorMitades}
-                    addPizzaPorMitadesToOrden={addPizzaPorMitadesToOrden}
+                    addPizzaPorMitades={addPizzaPorMitades}
                     addPizzaArmar={addPizzaArmar}/>
             
 

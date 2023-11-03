@@ -23,7 +23,7 @@ export default function CrearPizza(props) {
   const [vegetalesCatalogo, setVegetalesCatalogo] = useState([]);
   const [carnesCatalogo, setCarnesCatalogo] = useState([]);
   const [salsasCatalogo, setSalsasCatalogo] = useState([]);
-  const [precioTotal, setPrecioTotal] = useState(0);
+  const [ precioTotal, setPrecioTotal ] = useState(0)
 
   useEffect(
     () => {
@@ -32,11 +32,15 @@ export default function CrearPizza(props) {
   )
 
   useEffect(() => {
+      calcularPrecioTotal()
+      console.log('Actualizando pizza jaja ', pizzaPorMitades)
   }, [pizzaPorMitades])
+
+  useEffect(() => {
+  }, [precioTotal])
 
   const agregarSeleccionBotones = (e, nombre) => {
     const div = document.querySelectorAll(`input[name="${nombre}"]`)
-    console.log('Div clic ', div)
     div.forEach(inputHijo => {
         if (inputHijo.checked) {
             document.getElementById(`div-${inputHijo.id}`).classList.add('item-focus')
@@ -60,7 +64,7 @@ export default function CrearPizza(props) {
         .catch((error) => {
             console.error('Error al cargar el catálogo: ' + nombreCatalogo, error);
         });
-};
+  };
 
   const cargarCatalogos = () => {
       consumirCatalogos('Masas', setMasasCatalogo);
@@ -88,9 +92,10 @@ export default function CrearPizza(props) {
   const handleInputChange = (e) => {
     
     const { name, value } = e.target;
-
-    setPizzaPorMitades({ ...pizzaPorMitades, [name]: value })
-    console.log('handleInputChange ', pizzaPorMitades)
+    setPizzaPorMitades({...pizzaPorMitades, [name]: value, precio: precioTotal })
+    console.log('----------------')
+    console.log(pizzaPorMitades)
+    console.log('----------------')
   };
 
   const handleInputChangeMitad1 = e => {
@@ -132,29 +137,27 @@ export default function CrearPizza(props) {
 
 const handleSubmit = (e) => {
     e.preventDefault();
-    setPizzaPorMitades([...pizzaPorMitades, {items, total: grandTotal}]);
     
     addPizzaPorMitades()
     console.log('Pizza mitad:', pizzaPorMitades);
     closeDrawer()
-    //document.getElementById('formPizzaMitades').reset()
     setStepPhase(1)
 };
 
-const closeDrawer = () => {
-  // Obtener el elemento por su ID
-  let elemento = document.getElementById("kt_help_close");
-  // Crear un nuevo evento click
-  let eventoClick = new MouseEvent("click", {
-      bubbles: true,
-      cancelable: true,
-      view: window
-  });
-  // Disparar el evento click en el elemento
-  elemento.dispatchEvent(eventoClick);
-}
+  const closeDrawer = () => {
+    // Obtener el elemento por su ID
+    let elemento = document.getElementById("kt_help_close");
+    // Crear un nuevo evento click
+    let eventoClick = new MouseEvent("click", {
+        bubbles: true,
+        cancelable: true,
+        view: window
+    });
+    // Disparar el evento click en el elemento
+    elemento.dispatchEvent(eventoClick);
+  }
 
-const [grandTotal, setGrandTotal] = useState(0);
+    const [grandTotal, setGrandTotal] = useState(0);
     const [items, setItems] = useState([]);
     const seleccionUnica = ['Tamaño', 'Masa', 'Salsa', 'Queso'];
     
@@ -192,6 +195,87 @@ const [grandTotal, setGrandTotal] = useState(0);
       });
       setGrandTotal(total);
     }, [items]);
+
+    const calcularPrecioTotal = () => {
+
+      let [ precioTamanio, precioMasa, mitad1PrecioQueso, mitad1PrecioSalsa, mitad1PrecioVegetales, mitad1PrecioCarnes,
+          mitad2PrecioSalsa, mitad2PrecioQueso, mitad2PrecioVegetales, mitad2PrecioCarnes] = Array(10).fill(0)
+
+      if (pizzaPorMitades.tamanio !== '') {
+          precioTamanio = getPrecioCatalogo(CATTAMANIOSCATALOGO, pizzaPorMitades.tamanio)
+          console.log('Entro ', precioTamanio)
+      }
+
+      if (pizzaPorMitades.masa !== '') precioMasa = getPrecioCatalogo(CATTIPOMASACATALOGO, pizzaPorMitades.masa)
+
+      if (pizzaPorMitades.mitad1.queso !== '') mitad1PrecioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaPorMitades.mitad1.queso)
+
+      if (pizzaPorMitades.mitad1.salsa !== '') mitad1PrecioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaPorMitades.mitad1.salsa)
+
+      if (pizzaPorMitades.mitad1.vegetales.length > 0) {
+          pizzaPorMitades.mitad1.vegetales.forEach((vegetal) => {
+              mitad1PrecioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
+          })
+      }
+
+      if (pizzaPorMitades.mitad1.carnes.length > 0) {
+          pizzaPorMitades.mitad1.carnes.forEach((carne) => {
+              mitad1PrecioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
+          })
+      }
+
+      if (pizzaPorMitades.mitad2.queso !== '') mitad2PrecioQueso = getPrecioCatalogo(CATTIPOQUESOCATALOGO, pizzaPorMitades.mitad2.queso)
+
+      if (pizzaPorMitades.mitad2.salsa !== '') mitad2PrecioSalsa = getPrecioCatalogo(CATTIPOSSALSACATALOGO, pizzaPorMitades.mitad2.salsa)
+
+      if (pizzaPorMitades.mitad2.vegetales.length > 0) {
+          pizzaPorMitades.mitad2.vegetales.forEach((vegetal) => {
+              mitad2PrecioVegetales += getPrecioCatalogo(CATTIPOVEGETALESCATALOGO, vegetal)
+          })
+      }
+
+      if (pizzaPorMitades.mitad2.carnes.length > 0) {
+          pizzaPorMitades.mitad2.carnes.forEach((carne) => {
+              mitad2PrecioCarnes += getPrecioCatalogo(CATTIPOCARNECATALOGO, carne)
+          })
+      }
+
+
+      /* console.log('Precios', precioTamanio, precioMasa, mitad1PrecioQueso, mitad1PrecioSalsa, mitad1PrecioVegetales, mitad1PrecioCarnes,
+                      mitad2PrecioSalsa, mitad2PrecioQueso, mitad2PrecioVegetales, mitad2PrecioCarnes) */
+      let total = (precioTamanio + precioMasa + mitad1PrecioQueso + mitad1PrecioSalsa + mitad1PrecioVegetales + mitad1PrecioCarnes +
+          mitad2PrecioSalsa + mitad2PrecioQueso + mitad2PrecioVegetales + mitad2PrecioCarnes)
+
+      console.log('Total pizza por mitades ', precioTotal)
+      pizzaPorMitades.precio = total
+      setPrecioTotal(total)
+  
+    }
+
+    const getValue = (value) => {
+      return value == null ? 0 : value
+    }
+
+    const getPrecioCatalogo = (catalogo, nombre) => {
+
+      switch (catalogo) {
+          case 'TAMANIOSCATALOGO':
+              return getValue(tamaniosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+          case 'TIPOMASACATALOGO':
+              return getValue(masasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+          case 'TIPOQUESOCATALOGO':
+              return getValue(quesosCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+          case 'TIPOVEGETALESCATALOGO':
+              return getValue(vegetalesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+          case 'TIPOCARNECATALOGO':
+              return getValue(carnesCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+          case 'TIPOSSALSACATALOGO':
+              return getValue(salsasCatalogo.find((elemento) => elemento.nombre === nombre).precio);
+          default:
+              return 'NA';
+      }
+
+  }
     
   
   return (
@@ -248,8 +332,7 @@ const [grandTotal, setGrandTotal] = useState(0);
                                   id={'tamanio' + index}
                                   value={tamanio.nombre}
                                   onChange={(e) => {
-                                      //handleInputChange(e)
-                                      calcularPrecio({...tamanio, tipo: 1})
+                                      handleInputChange(e)
                                       agregarSeleccionBotones(e, 'tamanio')
 
                                   }}
@@ -277,8 +360,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                   id={'masa' + index}
                                   value={masa.nombre}
                                   onChange={(e) => {
-                                      //handleInputChange(e)
-                                      calcularPrecio({...masa, tipo: 2})
+                                      handleInputChange(e)
+                                      //calcularPrecio({...masa, tipo: 2})
                                       agregarSeleccionBotones(e, 'masa')
                                   }}
                                   required={true}
@@ -312,8 +395,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'salsa' + index}
                                     value={salsa.nombre}
                                     onChange={(e) => {
-                                        //handleInputChangeMitad1(e)
-                                        calcularPrecio({...salsa, tipo: 3})
+                                        handleInputChangeMitad1(e)
+                                        //calcularPrecio({...salsa, tipo: 3})
                                         agregarSeleccionBotones(e, 'salsa')
                                     }}
                                     required={true}
@@ -338,8 +421,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'queso' + index}
                                     value={queso.nombre}
                                     onChange={(e) => {
-                                        //handleInputChangeMitad1(e)
-                                        calcularPrecio({...queso, tipo: 4})
+                                        handleInputChangeMitad1(e)
+                                        //calcularPrecio({...queso, tipo: 4})
                                         agregarSeleccionBotones(e, 'queso')
                                     }}
                                     required={true}
@@ -365,8 +448,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'vegetales' + index}
                                     value={vegetal.nombre}
                                     onChange={(e) => {
-                                        //handleMultipleInputChangeMitad1(e)
-                                        calcularPrecio({...vegetal, tipo: 5})
+                                        handleMultipleInputChangeMitad1(e)
+                                        //calcularPrecio({...vegetal, tipo: 5})
                                         agregarSeleccionBotones(e, 'vegetales')
                                     }}
                                 />
@@ -391,8 +474,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'carnes' + index}
                                     value={carne.nombre}
                                     onChange={(e) => {
-                                        //handleMultipleInputChangeMitad1(e)
-                                        calcularPrecio({...carne, tipo: 6})
+                                        handleMultipleInputChangeMitad1(e)
+                                        //calcularPrecio({...carne, tipo: 6})
                                         agregarSeleccionBotones(e, 'carnes')
                                     }}
                                 />
@@ -424,8 +507,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'salsa' + index}
                                     value={salsa.nombre}
                                     onChange={(e) => {
-                                        //handleInputChangeMitad2(e)
-                                        calcularPrecio({...salsa, tipo: 7})
+                                        handleInputChangeMitad2(e)
+                                        //calcularPrecio({...salsa, tipo: 7})
                                         agregarSeleccionBotones(e, 'salsa')
                                     }}
                                     required={true}
@@ -450,8 +533,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'queso' + index}
                                     value={queso.nombre}
                                     onChange={(e) => {
-                                        //handleInputChangeMitad2(e)
-                                        calcularPrecio({...queso, tipo: 8})
+                                        handleInputChangeMitad2(e)
+                                        //calcularPrecio({...queso, tipo: 8})
                                         agregarSeleccionBotones(e, 'queso')
                                     }}
                                     required={true}
@@ -477,8 +560,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'vegetales' + index}
                                     value={vegetal.nombre}
                                     onChange={(e) => {
-                                        //handleMultipleInputChangeMitad2(e)
-                                        calcularPrecio({...vegetal, tipo: 9})
+                                        handleMultipleInputChangeMitad2(e)
+                                        //calcularPrecio({...vegetal, tipo: 9})
                                         agregarSeleccionBotones(e, 'vegetales')
                                     }}
                                 />
@@ -503,8 +586,8 @@ const [grandTotal, setGrandTotal] = useState(0);
                                     id={'carnes' + index}
                                     value={carne.nombre}
                                     onChange={(e) => {
-                                        //handleMultipleInputChangeMitad2(e)
-                                        calcularPrecio({...carne, tipo: 10})
+                                        handleMultipleInputChangeMitad2(e)
+                                        //calcularPrecio({...carne, tipo: 10})
                                         agregarSeleccionBotones(e, 'carnes')
                                     }}
                                 />
@@ -520,12 +603,12 @@ const [grandTotal, setGrandTotal] = useState(0);
             {stepPhase === 1 || stepPhase === 2 ? (
               <button type="button" onClick={changeUpStepPhase} className="button-next">
                 <span>SIGUIENTE PASO</span>
-                <span className='min-price'>Q. {grandTotal}</span>
+                <span className='min-price'>Q. {precioTotal}</span>
               </button>
             ) : (
               <button type="submit" className="button-next">
                 <span>AGREGAR A LA ORDEN</span>
-                <span className='min-price'>Q. {grandTotal}</span>
+                <span className='min-price'>Q. {precioTotal}</span>
               </button>
             )}
           </div>

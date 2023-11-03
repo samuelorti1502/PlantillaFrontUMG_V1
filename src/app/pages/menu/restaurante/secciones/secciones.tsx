@@ -7,37 +7,37 @@ import Bebida from '../../../dashboard/components/Secciones/Bebida/Bebida'
 export default function Secciones() {
   const [informacionSeleccionada, setInformacionSeleccionada] = useState(null);
   const [precioTotal, setPrecioTotal] = useState(0);
-  const [pizzaArmar, setPizzaArmar] = useState([])
-  const [pizzaPorMitades, setPizzaPorMitades] = useState([])
+  //const [pizzaArmar, setPizzaArmar] = useState([])
+  //const [pizzaPorMitades, setPizzaPorMitades] = useState([])
   const [gaseosasSeleccionadas, setGaseosasSeleccionadas] = useState([]);
   const [bebidasSeleccionadas, setBebidasSeleccionadas] = useState([]);
-  // const [pizzaArmar, setPizzaArmar] = useState({
-  //   tamanio: '',
-  //   masa: '',
-  //   salsa: '',
-  //   queso: '',
-  //   vegetales: [],
-  //   carnes: [],
-  //   precio: 0,
-  // })
+  const [pizzaArmar, setPizzaArmar] = useState({
+    tamanio: '',
+    masa: '',
+    salsa: '',
+    queso: '',
+    vegetales: [],
+    carnes: [],
+    precio: 0,
+  })
 
-  //const [ pizzaPorMitades, setPizzaPorMitades ] = useState({
-   // tamanio: '',
-   // masa: '',
-   // mitad1: {
-    //  salsa: '',
-    //  queso: '',
-    //  vegetales: [],
-    //  carnes: []
-    //},
-    //mitad2: {
-    //  salsa: '',
-    //  queso: '',
-    //  vegetales: [],
-    //  carnes: []
-    //},
-    //precio: 0
-  //})
+  const [ pizzaPorMitades, setPizzaPorMitades ] = useState({
+   tamanio: '',
+   masa: '',
+   mitad1: {
+     salsa: '',
+     queso: '',
+     vegetales: [],
+     carnes: []
+    },
+    mitad2: {
+     salsa: '',
+     queso: '',
+     vegetales: [],
+     carnes: []
+    },
+    precio: 0
+  })
 
 
   const [ orden, setOrden ] = useState({
@@ -50,14 +50,16 @@ export default function Secciones() {
   
   useEffect(() => {
     calcularPrecioTotal();
-  }, [pizzaArmar, gaseosasSeleccionadas, bebidasSeleccionadas]);
+    console.log('Actualizando -----')
+    console.log(orden)
+  }, [pizzaArmar, gaseosasSeleccionadas, bebidasSeleccionadas, pizzaPorMitades]);
   
   const calcularPrecioTotal = () => {
+    console.log('Precio total')
     let total = 0;
-    
-    // Sumar el precio de las pizzas armadas
-    for (const pizza of pizzaArmar) {
-      total += pizza.total;
+
+    for (const pizza of orden.listPizzaPorMitades) {
+      total += pizza.precio;
     }
   
     // Sumar el precio de las gaseosas seleccionadas
@@ -70,13 +72,13 @@ export default function Secciones() {
       total += bebida.precio;
     }
   
-    setPrecioTotal(total);
+    setPrecioTotal(total); 
   };
 
   const handleAddPizzaArmar= () => {
   
     setOrden({...orden, listArmaPizza: [...orden.listArmaPizza, {...pizzaArmar}]})
-    // setPizzaArmar({...getEmptyValuesPizzaArmar()})
+    setPizzaArmar({...getEmptyValuesPizzaArmar()})
     console.log(orden)
   
   }
@@ -84,8 +86,8 @@ export default function Secciones() {
   const handleAddPizzaPorMitades= () => {
   
     setOrden({...orden, listPizzaPorMitades: [...orden.listPizzaPorMitades, {...pizzaPorMitades}]})
-    // setPizzaArmar({...getEmptyValuesPizzaArmar()})
-    console.log(orden)
+    setPizzaPorMitades({ ...getEmptyValuesPizzaPorMitades() })
+    console.log('Orden ', orden)
   
   }
 
@@ -132,7 +134,7 @@ export default function Secciones() {
           <div className="cuerpo-orden">
             <br />
             <div>
-              {/* {orden.listArmaPizza.map((pizza, index) => (
+              {orden.listArmaPizza.map((pizza, index) => (
                 <div key={index}>
                 <h3>ARMA PIZZA</h3>
                 <span className="pedido">{pizza.tamanio}{pizza.tamanio && ','}</span>
@@ -146,15 +148,9 @@ export default function Secciones() {
                 <br />
                 <br />
                 </div>
-              ))} */}
-              
-                {pizzaArmar.map((pizza, index) => (
-                <div key={index}>
-                  <h3>ARMA PIZZA</h3>
-                  {pizza.items.map((item, index) => ( <span key={index} className="pedido">{item.nombre}, </span> ) ) }
-                  <p className="precio mt-5">{`Q${pizza.total}`}</p>
-                </div>
               ))}
+              
+                
             </div>
             <div>
             <div className="linea-horizontal"></div>
@@ -200,11 +196,16 @@ export default function Secciones() {
                 <br />
                 </div>
               ))*/}
-              {pizzaPorMitades.map((pizzaMitad, index) => (
+              {orden.listPizzaPorMitades.map((pizzaMitad, index) => (
                 <div key={index}>
                   <h3>PIZZA POR MITADES</h3>
-                  {pizzaMitad.items.map((item, index) => ( <span key={index} className="pedido">{item.nombre}, </span> ) ) }
-                  <p className="precio mt-5">{`Q${pizzaMitad.total}`}</p>
+                  <span>{pizzaMitad.tamanio}, {pizzaMitad.masa}</span>
+                  <br />
+                  <span><b>Mitad 1: </b>{pizzaMitad.mitad1.queso}, {pizzaMitad.mitad1.salsa}, {pizzaMitad.mitad1.carnes.join(', ')}, {pizzaMitad.mitad1.vegetales.join(', ')}</span>
+                  <br />
+                  <span><b>Mitad 2: </b>{pizzaMitad.mitad2.queso}, {pizzaMitad.mitad2.salsa}, {pizzaMitad.mitad2.carnes.join(', ')}, {pizzaMitad.mitad2.vegetales.join(', ')}</span>
+                  {/* pizzaMitad.map((item, index) => ( <span key={index} className="pedido">{item.nombre}, </span> ) )  */}
+                  <p className="precio mt-5">{`Q${pizzaMitad.precio}`}</p>
                 </div>
               ))}
             </div>
