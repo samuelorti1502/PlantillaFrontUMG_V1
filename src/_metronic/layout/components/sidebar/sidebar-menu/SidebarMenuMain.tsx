@@ -1,10 +1,15 @@
 /* eslint-disable react/jsx-no-target-blank */
-import { useIntl } from 'react-intl'
-import { SidebarMenuItemWithSub } from './SidebarMenuItemWithSub'
-import { SidebarMenuItem } from './SidebarMenuItem'
+import {useIntl} from 'react-intl'
+import {SidebarMenuItemWithSub} from './SidebarMenuItemWithSub'
+import {SidebarMenuItem} from './SidebarMenuItem'
+import {useAuth} from '../../../../../app/modules/auth'
 
 const SidebarMenuMain = () => {
   const intl = useIntl()
+  const {currentUser} = useAuth()
+
+  const isAdmin = currentUser && currentUser.rol === 'Administrador'
+  const rol = currentUser.rol
 
   return (
     <>
@@ -32,45 +37,49 @@ const SidebarMenuMain = () => {
         title='Rol'
         fontIcon='bi-layers'
       /> */}
-      <div className='menu-item'>
-        <div className='menu-content pt-8 pb-2'>
-          <span className='menu-section text-muted text-uppercase fs-8 ls-1'>Administracion</span>
-        </div>
-      </div>
-      <SidebarMenuItemWithSub
-        to='/administracion/usuarios'
-        title='Usuarios'
-        icon='/media/icons/duotune/communication/com006.svg'
-        fontIcon='bi-person'
-      >
-        <SidebarMenuItem to='/administracion/usuarios/nuevo' title='Listado' hasBullet={true} />
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to='/administracion/categorias'
-        title='Categorias'
-        icon='/media/icons/duotune/communication/com006.svg'
-        fontIcon='bi-layers'
-      >
-        <SidebarMenuItem
-          to='/administracion/categorias/listado'
-          title='Listado'
-          fontIcon='bi-archive'
-          icon='/media/icons/duotune/general/gen022.svg'
-        />
-      </SidebarMenuItemWithSub>
-      <SidebarMenuItemWithSub
-        to='/administracion/productos'
-        title='Productos'
-        icon='/media/icons/duotune/communication/com006.svg'
-        fontIcon='bi-layers'
-      >
-        <SidebarMenuItem
-          to='/administracion/productos/listado'
-          title='Listado'
-          fontIcon='bi-archive'
-          icon='/media/icons/duotune/general/gen022.svg'
-        />
-      </SidebarMenuItemWithSub>
+      {isAdmin && (
+        <>
+          <div className='menu-item'>
+            <div className='menu-content pt-8 pb-2'>
+              <span className='menu-section text-muted text-uppercase fs-8 ls-1'>{`Administracion`}</span>
+            </div>
+          </div>
+          <SidebarMenuItemWithSub
+            to='/administracion/usuarios'
+            title='Usuarios'
+            icon='/media/icons/duotune/communication/com006.svg'
+            fontIcon='bi-person'
+          >
+            <SidebarMenuItem to='/administracion/usuarios/nuevo' title='Listado' hasBullet={true} />
+          </SidebarMenuItemWithSub>
+          <SidebarMenuItemWithSub
+            to='/administracion/categorias'
+            title='Categorias'
+            icon='/media/icons/duotune/communication/com006.svg'
+            fontIcon='bi-layers'
+          >
+            <SidebarMenuItem
+              to='/administracion/categorias/listado'
+              title='Listado'
+              fontIcon='bi-archive'
+              icon='/media/icons/duotune/general/gen022.svg'
+            />
+          </SidebarMenuItemWithSub>
+          <SidebarMenuItemWithSub
+            to='/administracion/productos'
+            title='Productos'
+            icon='/media/icons/duotune/communication/com006.svg'
+            fontIcon='bi-layers'
+          >
+            <SidebarMenuItem
+              to='/administracion/productos/listado'
+              title='Listado'
+              fontIcon='bi-archive'
+              icon='/media/icons/duotune/general/gen022.svg'
+            />
+          </SidebarMenuItemWithSub>
+        </>
+      )}
       {/* <SidebarMenuItem
         to='/proveedores'
         title='Proveedores'
@@ -94,4 +103,4 @@ const SidebarMenuMain = () => {
   )
 }
 
-export { SidebarMenuMain }
+export {SidebarMenuMain}
