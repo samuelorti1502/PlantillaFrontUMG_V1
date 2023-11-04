@@ -22,10 +22,19 @@ export const ContentProvider: FC<Props> = ({ children }) => {
   const handleShow = () => setShow(true)
 
   const creaetUpdate = async (data: any) => {
-    const response = await PutRoute(`categorias/${!data?.id ? 'store' : 'update'}`, data)
+    const response = await PutRoute(`menu/${!data?.id ? 'store' : 'update'}`, data)
     all()
     handleClose()
     console.log(response.message)
+  }
+
+  const inactivar = async (data: any) => {
+    console.log(`menu/inactivar/${data}`)
+    const response = await PutRoute(`menu/inactivar/${data}`)
+    console.log(response)
+    all()
+    handleClose()
+
   }
 
   const eliminar = async (data: any) => {
@@ -69,7 +78,8 @@ export const ContentProvider: FC<Props> = ({ children }) => {
     state,
     one,
     eliminar,
-    roles
+    roles,
+    inactivar
   }
 
   useEffect(() => {

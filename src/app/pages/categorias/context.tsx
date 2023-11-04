@@ -28,6 +28,15 @@ export const ContentProvider: FC<Props> = ({ children }) => {
     console.log(response)
   }
 
+  const inactivar = async (data: any) => {
+    console.log(`data ${data}`)
+    const response = await PutRoute(`categorias/inactivar/${data}`)
+
+    all()
+    handleClose()
+
+  }
+
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -39,6 +48,8 @@ export const ContentProvider: FC<Props> = ({ children }) => {
     handleClose,
     handleShow,
     catUpdate,
+    inactivar,
+    modificarCategoria
   }
 
   useEffect(() => {

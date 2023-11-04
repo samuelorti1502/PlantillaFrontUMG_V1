@@ -1,12 +1,12 @@
-import {useContext, useState} from 'react'
-import {Button} from 'react-bootstrap'
-import {ContentContext} from './context'
+import { useContext, useState } from 'react'
+import { Button } from 'react-bootstrap'
+import { ContentContext } from './context'
 import DataTable from 'react-data-table-component'
-import {FormProd} from './form'
+import { FormProd } from './form'
 import EliminarCategoria from './EliminarCategoria'
 
 const Index = () => {
-  const {allData} = useContext(ContentContext)
+  const { allData } = useContext(ContentContext)
 
   const [mostrar, setMostrar] = useState(false)
   const [tipo, setTipo] = useState(0)
@@ -14,27 +14,23 @@ const Index = () => {
   const [nombre, setNombre] = useState()
   const [estatusCat, setEstatusCat] = useState()
 
- //d
- const [showDelete, setShowDelete] = useState(false)
- const [selectedUser, setSelectedUser] = useState(null);
+  //d
+  const [showDelete, setShowDelete] = useState(false)
+  const [selectedUser, setSelectedUser] = useState(null);
 
 
- const handleShowEliminar = (row) => {
-   setSelectedUser(row);
-   setShowDelete(true);
-   
- }
- 
- 
- const handleCloseModalEliminar = () => {
-   setSelectedUser(null);
-   setShowDelete(false);
- }
-//d
+  const handleShowEliminar = (row) => {
+    setSelectedUser(row);
+    setShowDelete(true);
 
+  }
 
+  const handleCloseModalEliminar = () => {
+    setSelectedUser(null);
+    setShowDelete(false);
+  }
+  //d
 
-  
   const handleShowM = () => {
     setMostrar(true)
   }
@@ -58,7 +54,7 @@ const Index = () => {
       name: 'Imagen',
       cell: (row: any) => (
         // row.imagen,
-        <img src={row.imagen} alt='Imagen' style={{width: '50px', height: '50px'}} />
+        <img src={row.imagen} alt='Imagen' style={{ width: '50px', height: '50px' }} />
       ),
     },
     {
@@ -87,7 +83,7 @@ const Index = () => {
             variant={'danger'}
             className='btn-sm btn-icon'
             onClick={() => handleShowEliminar(row)}
-            // onClick={() => handleDelete(row.usuario)}
+          // onClick={() => handleDelete(row.usuario)}
           >
             <i className='bi bi-trash' />
           </Button>
@@ -104,7 +100,7 @@ const Index = () => {
           >
             <i className='bi bi-pencil' />
           </Button>
-          
+
         </div>
       ),
     },
@@ -153,23 +149,23 @@ const Index = () => {
         customStyles={tableCustomStyles}
       />
       <FormProd
-            mostrar={mostrar}
-            setMostrar={setMostrar}
-            tipo={tipo}
-            id_cat={id_cat}
-            nombre={nombre}
-            estatusCat={estatusCat}
-          />
+        mostrar={mostrar}
+        setMostrar={setMostrar}
+        tipo={tipo}
+        id_cat={id_cat}
+        nombre={nombre}
+        estatusCat={estatusCat}
+      />
 
-{showDelete && (
-    <EliminarCategoria
-      modalTitle={'Eliminar Categoria'}
-      show={showDelete}
-      handleClose={handleCloseModalEliminar}
-      selectedUser={selectedUser}
+      {showDelete && (
+        <EliminarCategoria
+          modalTitle={'Eliminar Categoria'}
+          show={showDelete}
+          handleClose={handleCloseModalEliminar}
+          selectedUser={selectedUser}
 
-    />
-  )}
+        />
+      )}
 
 
     </div>

@@ -13,20 +13,17 @@ const Index = () => {
   const [showDelete, setShowDelete] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null);
 
-
   const handleShowEliminar = (row) => {
     setSelectedUser(row);
     setShowDelete(true);
-    
+
   }
-  
-  
+
   const handleCloseModalEliminar = () => {
     setSelectedUser(null);
     setShowDelete(false);
   }
-//d
-
+  //d
 
   const handleDelete = (usuario: any) => {
     eliminar(usuario)
@@ -79,7 +76,6 @@ const Index = () => {
             padding: '5px 10px',
           }}
         >
-
           {/* {row.id_status === 1 ? 'Activo' : row.id_status === 4 ? 'Inactivo' : 'Otro'} */}
           {row.estatus}
         </div>
@@ -119,7 +115,7 @@ const Index = () => {
           >
             <i className='bi bi-pencil' />
           </Button>
-         
+
         </div>
       ),
     },
@@ -169,16 +165,16 @@ const Index = () => {
         pagination
         customStyles={tableCustomStyles}
       />
-       <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} datos={datosFila} />
-       {showDelete && (
-    <EliminarProducto
-      modalTitle={'Eliminar Producto'}
-      show={showDelete}
-      handleClose={handleCloseModalEliminar}
-      selectedUser={selectedUser}
+      <FormProd mostrar={mostrar} setMostrar={setMostrar} tipo={tipo} datos={datosFila} />
+      {showDelete && (
+        <EliminarProducto
+          modalTitle={'Eliminar Producto'}
+          show={showDelete}
+          handleClose={handleCloseModalEliminar}
+          selectedUser={selectedUser}
 
-    />
-  )}
+        />
+      )}
     </div>
   )
 }

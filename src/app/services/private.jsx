@@ -9,7 +9,7 @@ export async function GetRoute(url) {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-    //  Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY))._token}`,
+      //  Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY))._token}`,
     },
   })
     .then((data) => data.json())
@@ -87,4 +87,5 @@ export async function DeleteRoute(url, id) {
 export default {
   GetRoute,
   PostRoute,
+  PutRoute,
 }
