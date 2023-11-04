@@ -9,7 +9,7 @@ export async function GetRoute(url) {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).token}`,
+      //  Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY))._token}`,
     },
   })
     .then((data) => data.json())
@@ -33,7 +33,7 @@ export async function PostRoute(url, form) {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).token}`,
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY))._token}`,
     },
     body: data,
   })
@@ -56,7 +56,7 @@ export async function PutRoute(url, form) {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).token}`,
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY))._token}`,
     },
     body: data,
   })
@@ -74,7 +74,7 @@ export async function DeleteRoute(url, id) {
       'Access-Control-Allow-Origin': '*',
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY)).token}`,
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem(AUTH_LOCAL_STORAGE_KEY))._token}`,
     },
   })
     .then((data) => data.json())
@@ -87,4 +87,5 @@ export async function DeleteRoute(url, id) {
 export default {
   GetRoute,
   PostRoute,
+  PutRoute,
 }

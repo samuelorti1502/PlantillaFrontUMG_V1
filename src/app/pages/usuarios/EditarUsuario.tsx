@@ -68,7 +68,15 @@ const EditarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, sel
   //const {show} = useContext(ContentContext)
 
 
+  const {ActualizarTabla} = useContext(ContentContext);
 
+  const handleActualizarTabla = async () => {
+    // Eliminar el usuario aquí
+    await ActualizarTabla();
+    // Luego, carga los datos actualizados después de eliminar
+   
+
+  };
 
     initialValues.nombres = selectedUser.nombres
     initialValues.apellidos = selectedUser.apellidos
@@ -76,7 +84,7 @@ const EditarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, sel
     initialValues.usuario = selectedUser.usuario
     initialValues.Usuario_Angiguo = selectedUser.usuario
 
-   
+
     useEffect(() => {
         // Este efecto se ejecutará cada vez que 'selectedUser.rol' cambie
         setRol(selectedUser.rol); // Actualizamos el estado 'rol' con el valor de 'selectedUser.rol'
@@ -128,9 +136,11 @@ const EditarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, sel
           initialValues.usuario_creacion,
           initialValues.Usuario_Angiguo,
         )
-
+        handleActualizarTabla();
         //const {data: user} = await getUserByToken(auth.api_token)
         console.log(auth.mensaje)
+
+       
         if (
           auth.mensaje ===
           'El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.'
@@ -144,15 +154,19 @@ const EditarUsuario: React.FC<FormProps> = ({ modalTitle, show, handleClose, sel
           Mensaje = auth.mensaje
         }
         setStatus(auth.mensaje)
-        saveAuth(undefined)
+      
         setHasErrors(false)
         setLoading(false)
+        
+
         //setCurrentUser(user)
+
+        setTimeout(() => {
+        handleClose()},2000)
       } catch (error) {
         console.error(error)
         setHasErrors(true)
         Mensaje = 'Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.'
-        saveAuth(undefined)
         setStatus('Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.')
         setSubmitting(false)
         setLoading(false)

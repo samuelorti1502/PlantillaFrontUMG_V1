@@ -3,9 +3,9 @@ import {FC} from 'react'
 import {useIntl} from 'react-intl'
 import {toAbsoluteUrl} from '../../../_metronic/helpers'
 import {PageTitle} from '../../../_metronic/layout/core'
-import Fondo1 from './Fondo1.png';
-import './ComerOLlevar.css';
-import { FaArrowRight } from 'react-icons/fa';
+import Fondo1 from './Fondo1.png'
+import './ComerOLlevar.css'
+import {FaArrowRight} from 'react-icons/fa'
 import {Link} from 'react-router-dom'
 
 import {
@@ -24,36 +24,29 @@ import {
 } from '../../../_metronic/partials/widgets'
 
 const DashboardPage: FC = () => (
-  
-    <div className="banner-container">
-      <div className="background-image">
-        <img
-          src={Fondo1}
-          alt="Pizza"
-          className="banner-image"
-        />
-      </div>
-      <div className="content">
-        <h1 className="banner-title">
-          FRESH & <span>TASTY</span>
-        </h1>
-        <div className="button-container">
-        <Link to="/asignar-mesa">
-          <button className="banner-button">
+  <div className='banner-container'>
+    <div className='background-image'>
+      <img src={Fondo1} alt='Pizza' className='banner-image' />
+    </div>
+    <div className='content'>
+      <h1 className='banner-title'>
+        FRESH & <span>TASTY</span>
+      </h1>
+      <div className='button-container'>
+        <Link to='/asignar-mesa'>
+          <button className='banner-button'>
             Restaurante <FaArrowRight />
           </button>
-          </Link>
-          <Link to="/comer-restaurante">
-          <button className="banner-button">
+        </Link>
+        <Link to='/comer-restaurante'>
+          <button className='banner-button'>
             Llevar <FaArrowRight />
           </button>
-          </Link>
-        </div>
+        </Link>
       </div>
     </div>
-  );
-
-
+  </div>
+)
 
 const DashboardWrapper: FC = () => {
   const intl = useIntl()

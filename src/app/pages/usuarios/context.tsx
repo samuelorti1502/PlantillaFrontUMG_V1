@@ -36,6 +36,12 @@ export const ContentProvider: FC<Props> = ({children}) => {
     handleShow()
   }
 
+  const ActualizarTabla = async (data: any) => {
+    //console.log(data);
+    all()
+    handleShow()
+  }
+
   const one = async (data: any) => {
     const response = await PostRoute(`rol/one`, data)
     setOneData(response.length > 0 ? response[0] : [])
@@ -69,7 +75,8 @@ export const ContentProvider: FC<Props> = ({children}) => {
     state,
     one,
     eliminar,
-    roles
+    roles,
+    ActualizarTabla
   }
 
   useEffect(() => {
