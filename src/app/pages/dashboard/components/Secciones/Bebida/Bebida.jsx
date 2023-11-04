@@ -15,7 +15,6 @@ export default function Bebida({enviarBebida}) {
               const bebidasData = data.map((item) => ({
                 nombre: item.nombre,
                 precio: item.precio || 0,
-                imagen: item.imagen,
               }));
     
               setBebidas(bebidasData);
@@ -46,9 +45,9 @@ export default function Bebida({enviarBebida}) {
                 {bebidas.map((bebida, index) => (
                 <div key={index} className="bebida-item">
                     <img
-                        src={`http://3.22.100.138/images/${bebida.imagen}`}
+                        src={Horchata}
                         alt={bebida.nombre}
-                        style={{ width: '100px', height: '100px' }}
+                        style={{ width: '250px', height: '200px' }}
                         onError={() => {
                             console.error(`No se pudo cargar la imagen para ${bebida.nombre}`);
                         }}
@@ -69,3 +68,4 @@ export default function Bebida({enviarBebida}) {
 }
 
 //CREADO POR LAS AGUILAS 
+

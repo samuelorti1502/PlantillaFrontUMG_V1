@@ -3,6 +3,7 @@ import Pizza from '../../../dashboard/components/Secciones/Pizza/Pizza'
 import './Secciones.css'
 import Gaseosa from '../../../dashboard/components/Secciones/Gaseosa/Gaseosa'
 import Bebida from '../../../dashboard/components/Secciones/Bebida/Bebida'
+import {Link} from 'react-router-dom'
 
 export default function Secciones() {
   const [informacionSeleccionada, setInformacionSeleccionada] = useState(null);
@@ -54,12 +55,30 @@ export default function Secciones() {
     console.log(orden)
   }, [pizzaArmar, gaseosasSeleccionadas, bebidasSeleccionadas, pizzaPorMitades]);
   
+  const cancelarOrden = () => {
+    setOrden({
+      listPizzaPorMitades: [],
+      listArmaPizza: [],
+      total: 0,
+      mesa: 0,
+    });
+    setPrecioTotal(0);
+  
+    // También debes reiniciar las listas de gaseosas y bebidas seleccionadas
+    setGaseosasSeleccionadas([]);
+    setBebidasSeleccionadas([]);
+  };
+
   const calcularPrecioTotal = () => {
     console.log('Precio total')
     let total = 0;
 
     for (const pizza of orden.listPizzaPorMitades) {
       total += pizza.precio;
+    }
+
+    for (const pizzaArmar of orden.listArmaPizza) {
+      total += pizzaArmar.precio;
     }
   
     // Sumar el precio de las gaseosas seleccionadas
@@ -83,6 +102,22 @@ export default function Secciones() {
   
   }
 
+  const cancelarPedido = (tipo, index) => {
+    const newOrden = { ...orden };
+  
+    if (tipo === 'arma') {
+      const newArmaPizza = [...newOrden.listArmaPizza];
+      newArmaPizza.splice(index, 1);
+      newOrden.listArmaPizza = newArmaPizza;
+    } else if (tipo === 'mitad') {
+      const newPizzaPorMitades = [...newOrden.listPizzaPorMitades];
+      newPizzaPorMitades.splice(index, 1);
+      newOrden.listPizzaPorMitades = newPizzaPorMitades;
+    }
+  
+    setOrden(newOrden);
+  };
+
   const handleAddPizzaPorMitades= () => {
   
     setOrden({...orden, listPizzaPorMitades: [...orden.listPizzaPorMitades, {...pizzaPorMitades}]})
@@ -99,6 +134,20 @@ export default function Secciones() {
   const showBebida = (bebidaChild) => {
     setBebidasSeleccionadas([...bebidasSeleccionadas, bebidaChild]);
     setPrecioTotal((prevPrecioTotal) => prevPrecioTotal + bebidaChild.precio);
+  };
+
+  const cancelarGaseosa = (index) => {
+    const newGaseosasSeleccionadas = [...gaseosasSeleccionadas];
+    const gaseosaEliminada = newGaseosasSeleccionadas.splice(index, 1)[0]; // Extrae la gaseosa eliminada
+    setGaseosasSeleccionadas(newGaseosasSeleccionadas);
+    setPrecioTotal((prevPrecioTotal) => prevPrecioTotal - gaseosaEliminada.precio);
+  };
+  
+  const cancelarBebida = (index) => {
+    const newBebidasSeleccionadas = [...bebidasSeleccionadas];
+    const bebidaEliminada = newBebidasSeleccionadas.splice(index, 1)[0]; // Extrae la bebida eliminada
+    setBebidasSeleccionadas(newBebidasSeleccionadas);
+    setPrecioTotal((prevPrecioTotal) => prevPrecioTotal - bebidaEliminada.precio);
   };
  
   return (
@@ -123,10 +172,12 @@ export default function Secciones() {
         </div>
         <div className="tu-orden-container">
           <div className="boton-container">
-            <button className="boton-continuar-pago" onClick={calcularPrecioTotal}>
+          <Link to="/forma-pago">
+            <button type="submit" className="boton-continuar-pago" onClick={calcularPrecioTotal}>
               CONTINUAR AL PAGO
               <span className="precio-total">{precioTotal > 0 && `Q${precioTotal}`}</span>
             </button>
+          </Link>
           </div>
           <div className="titulo-orden">
             <h1 className="tu-orden">TU ORDEN</h1>
@@ -137,6 +188,9 @@ export default function Secciones() {
               {orden.listArmaPizza.map((pizza, index) => (
                 <div key={index}>
                 <h3>ARMA PIZZA</h3>
+                <button type="button" onClick={() => cancelarPedido('arma',index)}>
+                    -
+                </button>
                 <span className="pedido">{pizza.tamanio}{pizza.tamanio && ','}</span>
                 <span className="pedido">{pizza.masa}{pizza.masa && ','}</span>
                 <span className="pedido">{pizza.salsa}{pizza.salsa && ','}</span>
@@ -145,7 +199,6 @@ export default function Secciones() {
                 <span className="pedido">{pizza.carnes.join(', ')}</span>
                 <br />
                 <span className="precio">{pizza.precio > 0 && `Q${pizza.precio}`}</span>
-                <br />
                 <br />
                 </div>
               ))}
@@ -157,20 +210,29 @@ export default function Secciones() {
             <br />
               {gaseosasSeleccionadas.map((gaseosa, index) => (
                   <h3 className="gaseosa">
+                  <button type="button" onClick={() => cancelarGaseosa(index)}>
+                    -
+                  </button> 
                     {`${gaseosa.nombre} Q${gaseosa.precio}`}
                   </h3>
+                  
               ))}
+              
             </div>
-            <br />
+            
             <div>
             <div className="linea-horizontal"></div>
             <br />
               {bebidasSeleccionadas.map((bebida, index) => (
                   <h3 className="bebida">
+                  <button type="button" onClick={() => cancelarBebida(index)}>
+                    -
+                  </button> 
                     {`${bebida.nombre} Q${bebida.precio}`}
                   </h3>
               ))}
           </div>
+          
             <div>
               {/* orden.listPizzaPorMitades.map((pizza, index) => (
                 <div key={index}>
@@ -196,9 +258,15 @@ export default function Secciones() {
                 <br />
                 </div>
               ))*/}
+              
+              <div className="linea-horizontal"></div>
+              <br />
               {orden.listPizzaPorMitades.map((pizzaMitad, index) => (
                 <div key={index}>
                   <h3>PIZZA POR MITADES</h3>
+                  <button type="button" onClick={() => cancelarPedido('mitad',index)}>
+                    -
+                  </button>
                   <span>{pizzaMitad.tamanio}, {pizzaMitad.masa}</span>
                   <br />
                   <span><b>Mitad 1: </b>{pizzaMitad.mitad1.queso}, {pizzaMitad.mitad1.salsa}, {pizzaMitad.mitad1.carnes.join(', ')}, {pizzaMitad.mitad1.vegetales.join(', ')}</span>
@@ -210,7 +278,9 @@ export default function Secciones() {
               ))}
             </div>
           </div>
-          
+          <button type="button" className="boton-cancelar-orden" onClick={cancelarOrden}>
+              CANCELAR ORDEN
+          </button>
         </div>
       </div>
     </div>

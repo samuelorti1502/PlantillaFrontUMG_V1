@@ -9,6 +9,7 @@ import { WithChildren } from '../../_metronic/helpers'
 // import BuilderPageWrapper from '../pages/layout-builder/BuilderPageWrapper'
 import ComerRestaurante from '../pages/menu/restaurante/ComerRestaurane'
 import MesaAsignacion from '../pages/dashboard/components/MesaAsignacion/MesaAsignacion'
+import FormaDePago from '../pages/dashboard/components/FormaDePago/FormaDePago'
 import Rol from '../pages/rol/'
 import Usuarios from '../pages/usuarios/'
 import Menu from '../pages/menu'
@@ -34,7 +35,7 @@ const PrivateRoutes = () => {
         <Route path='rol' element={<Rol />} />
         <Route path='asignar-mesa' element={<MesaAsignacion />} />
         <Route path='comer-restaurante' element={<ComerRestaurante />} />
-
+        <Route path='forma-pago' element={<FormaDePago />} />
         {/* Lazy Modules */}
         <Route
           path='administracion/usuarios/*'

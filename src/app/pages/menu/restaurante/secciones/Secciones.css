@@ -44,6 +44,19 @@
     transition: background-color 0.3s;
     width: 100%;
   }
+
+  .boton-cancelar-orden{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f28a2e;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    
+  }
   
   .boton-container {
     text-align: center;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Gaseosa.css'
-import Horchata from '../../../ImagenesMenu/Horchata.jpg'
+import Coca from '../../../ImagenesMenu/Coca.jpg'
 
 export default function Gaseosa({enviarGaseosa}) {
     const [gaseosas, setGaseosas] = useState([]);
@@ -15,7 +15,6 @@ export default function Gaseosa({enviarGaseosa}) {
               const gaseosasData = data.map((item) => ({
                 nombre: item.nombre,
                 precio: item.precio || 0,
-                imagen: item.imagen,
               }));
     
               setGaseosas(gaseosasData);
@@ -46,9 +45,9 @@ export default function Gaseosa({enviarGaseosa}) {
                 {gaseosas.map((gaseosa, index) => (
                 <div key={index} className="gaseosa-item">
                     <img
-                        src={`http://3.22.100.138/images/${gaseosa.imagen}`}
+                        src={Coca}
                         alt={gaseosa.nombre}
-                        style={{ width: '100px', height: '100px' }}
+                        style={{ width: '250px', height: '200px' }}
                         onError={() => {
                             console.error(`No se pudo cargar la imagen para ${gaseosa.nombre}`);
                         }}
