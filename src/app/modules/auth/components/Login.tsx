@@ -42,7 +42,8 @@ export function Login() {
       setLoading(true)
       try {
         const {data: auth}: any = await login(values.username, values.password)
-        if(auth.success) {
+        if(auth) {
+          console.log('1')
           saveAuth(auth)
           setCurrentUser(auth)
         } else {
@@ -50,12 +51,15 @@ export function Login() {
           setStatus(auth.mensaje)
           setSubmitting(false)
           setLoading(false)
+            console.log('2')
         }
-      } catch (error: any) {
+      } catch (error) {
+        console.error(error)
         saveAuth(undefined)
-        setStatus(error.error.mensaje)
+        setStatus('Los datos de inicio de sesión son incorrectos.')
         setSubmitting(false)
         setLoading(false)
+        
       }
     },
   })

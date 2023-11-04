@@ -4,18 +4,15 @@ import EditarUsuario from './EditarUsuario'
 import Lista from './list'
 import { ContentProvider } from './context'
 import { useState } from 'react'
-import InvoiceModal from './botonTest'
-
 const Index = () => {
 
   const [modalTitle] = useState('Registrar un nuevo usuario');
 
-
   return (
     <ContentProvider>
-      <Formulario modalTitle={modalTitle} />   
-      <Lista />
-    </ContentProvider>
+      <Formulario modalTitle={modalTitle} />  
+      <Lista />   
+   </ContentProvider>
   )
 }
 export default Index

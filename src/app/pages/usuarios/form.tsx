@@ -48,19 +48,28 @@ const registrationSchema = Yup.object().shape({
     .max(50, 'Maximum 50 symbols')
     .required('Usuario es requerido'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Contraseña es requerida'),
+,
   changepassword: Yup.string()
-    .required('Confirmación de contraseña es reaquerida')
-    .when('password', {
-      is: (val: string) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf([Yup.ref('password')], 'Las contraseñas no coinciden'),
-    }),
+,
 })
 let Mensaje = ''
 const Example: React.FC<FormProps> = ({modalTitle}) => {
   //const {show} = useContext(ContentContext)
+
+  const {ActualizarTabla} = useContext(ContentContext);
+
+  const handleActualizarTabla = async () => {
+    // Eliminar el usuario aquí
+    await ActualizarTabla();
+    // Luego, carga los datos actualizados después de eliminar
+   
+
+  };
+
+
+
+
+
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined)
   const [show, setShow] = useState(false)
 
@@ -112,7 +121,7 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
           initialValues.rol,
           initialValues.usuario_creacion
         )
-
+        handleActualizarTabla();
         //const {data: user} = await getUserByToken(auth.api_token)
         console.log(auth.mensaje)
         if (
@@ -120,7 +129,7 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
           'El usuario ha sido creado con éxito, revisa tu correo para confirmar tu cuenta.'
         ) {
           Mensaje = auth.mensaje
-          console.log(CorreoConfirmarCuenta(values.email))
+         // console.log(CorreoConfirmarCuenta(values.email))
 
           resetForm()
         } else {
@@ -128,15 +137,17 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
           Mensaje = auth.mensaje
         }
         setStatus(auth.mensaje)
-        saveAuth(undefined)
+
         setHasErrors(false)
         setLoading(false)
         //setCurrentUser(user)
+        setTimeout(() => {
+          handleClose()},2000)
       } catch (error) {
         console.error(error)
         setHasErrors(true)
         Mensaje = 'Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.'
-        saveAuth(undefined)
+  
         setStatus('Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.')
         setSubmitting(false)
         setLoading(false)
@@ -303,76 +314,8 @@ const Example: React.FC<FormProps> = ({modalTitle}) => {
             </div>
           </div>
 
-          {/* begin::Form group Password */}
-          <div className='fv-row mb-8' data-kt-password-meter='true'>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div style={{flex: 1}}>
-                <label className='form-label fw-bolder text-dark fs-6'>Contraseña</label>
-                <div className='position-relative mb-3'>
-                  <input
-                    type='password'
-                    placeholder='Contraseña'
-                    autoComplete='off'
-                    {...formik.getFieldProps('password')}
-                    className={clsx(
-                      'form-control bg-transparent',
-                      {
-                        'is-invalid': formik.touched.password && formik.errors.password,
-                      },
-                      {
-                        'is-valid': formik.touched.password && !formik.errors.password,
-                      }
-                    )}
-                  />
-                  {formik.touched.password && formik.errors.password && (
-                    <div className='fv-plugins-message-container'>
-                      <div className='fv-help-block'>
-                        <span role='alert'>{formik.errors.password}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* begin::Meter */}
-                <div
-                  className='d-flex align-items-center mb-3'
-                  data-kt-password-meter-control='highlight'
-                >
-                  <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-                  <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-                  <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px me-2'></div>
-                  <div className='flex-grow-1 bg-secondary bg-active-success rounded h-5px'></div>
-                </div>
-                {/* end::Meter */}
-              </div>
-              <div style={{flex: 1, marginLeft: '10px'}}>
-                <label className='form-label fw-bolder text-dark fs-6'>Confirmar contraseña</label>
-                <input
-                  type='password'
-                  placeholder='Confirmación de contraseña'
-                  autoComplete='off'
-                  {...formik.getFieldProps('changepassword')}
-                  className={clsx(
-                    'form-control bg-transparent',
-                    {
-                      'is-invalid': formik.touched.changepassword && formik.errors.changepassword,
-                    },
-                    {
-                      'is-valid': formik.touched.changepassword && !formik.errors.changepassword,
-                    }
-                  )}
-                />
-                <div className='text-muted'>{'-----------------------------------'}</div>
-                {formik.touched.changepassword && formik.errors.changepassword && (
-                  <div className='fv-plugins-message-container'>
-                    <div className='fv-help-block'>
-                      <span role='alert'>{formik.errors.changepassword}</span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+        
+              
 
           {/* begin::Form group Rol */}
           <div className='fv-row mb-8'>
